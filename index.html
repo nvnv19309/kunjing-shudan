@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>困境书单 — 从你当下的难题，找到真正适合的书</title>
+  <meta name="description" content="根据你遇到的焦虑、迷茫、拖延、职业困惑等问题，推荐经典书与近年热门书，并标注阅读难度。">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 头部 -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo">困境书单</a>
+      <span class="tagline">从你当下的难题，找到真正适合的书</span>
+    </div>
+  </header>
+
+  <!-- 主内容区 -->
+  <main class="container">
+
+    <!-- 第一步：描述困境 -->
+    <section id="step-input" class="step active">
+      <div class="step-card">
+        <h1 class="step-title">你遇到了什么问题？</h1>
+        <p class="step-sub">用一句话描述你当下的困境，或者直接选择一个主题。</p>
+
+        <div class="input-area">
+          <input type="text" id="user-input" placeholder="例如：我最近总是拖延，明知道有deadline但还是刷手机……" autocomplete="off">
+          <button id="btn-search" class="btn-primary">找书</button>
+        </div>
+
+        <div class="divider"><span>或者选择一个主题</span></div>
+
+        <div class="topic-grid" id="topic-grid">
+          <!-- 主题卡片由 JS 动态生成 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 第二步：补充问题 -->
+    <section id="step-question" class="step">
+      <div class="step-card">
+        <div class="step-back">
+          <button class="btn-back" onclick="goBack('input')">← 返回</button>
+        </div>
+        <h2 class="step-title" id="question-title">补充一下</h2>
+        <p class="step-sub">这会帮助推荐更精准的书。</p>
+        <div id="question-list"></div>
+        <button id="btn-to-result" class="btn-primary" disabled>查看推荐</button>
+      </div>
+    </section>
+
+    <!-- 第三步：书单结果 -->
+    <section id="step-result" class="step">
+      <div class="step-card">
+        <div class="step-back">
+          <button class="btn-back" onclick="goBack('input')">← 重新搜索</button>
+        </div>
+
+        <!-- 风险提示 -->
+        <div id="warning-box" class="warning-box" style="display:none;">
+          <strong>如果你正在经历较严重的困扰</strong>
+          <p>书籍可以帮助你理解问题，但不能替代专业帮助。如果你长期失眠、情绪持续低落、或有自伤念头，请优先联系心理援助热线（全国24小时：400-161-9995）或前往医院精神科/心理科就诊。</p>
+        </div>
+
+        <h2 class="result-title" id="result-title">为你推荐的书</h2>
+
+        <!-- 经典书 -->
+        <div class="book-section">
+          <h3 class="section-label classic">经典书 <span class="section-hint">提供更深、更稳定的理解框架</span></h3>
+          <div class="book-list" id="classic-list"></div>
+        </div>
+
+        <!-- 近年热门书 -->
+        <div class="book-section">
+          <h3 class="section-label popular">近年热门 <span class="section-hint">降低阅读门槛，适合入门</span></h3>
+          <div class="book-list" id="popular-list"></div>
+        </div>
+
+        <!-- 阅读难度说明 -->
+        <div class="difficulty-legend">
+          <span class="legend-title">阅读难度说明</span>
+          <div class="legend-items">
+            <span class="badge badge-easy">入门</span> 通俗易读，不需要专业背景
+            <span class="badge badge-mid">进阶</span> 需要一定阅读耐心，有深度
+            <span class="badge badge-hard">较难</span> 理论性强，适合系统学习
+          </div>
+        </div>
+
+        <button class="btn-primary btn-restart" onclick="goBack('input')">换一个问题</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="site-footer">
+    <p>困境书单 · 书籍不能替代专业帮助 · 严重困扰请寻求医生或心理咨询师</p>
+  </footer>
+
+  <script src="books-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
