@@ -1,23 +1,47 @@
 /* === 困境书单 — 样式 === */
+/* 设计理念：温暖、安全、被理解 — 像走进一间灯光柔和的旧书房 */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap');
 
 :root {
-  --bg: #faf9f7;
-  --surface: #ffffff;
-  --ink: #1a1a1a;
-  --muted: #6b7280;
-  --border: #e5e7eb;
-  --brand: #4b3fe3;
-  --brand-soft: #f2f7ff;
-  --brand-soft-strong: #e5eaff;
-  --accent: #27d2bf;
-  --accent-soft: #eafbf8;
-  --warning: #efaa17;
-  --danger: #e8463a;
-  --danger-soft: #fef2f2;
-  --radius: 8px;
-  --radius-card: 12px;
+  /* 色彩系统：暖色调为主，传达安全与包容 */
+  --bg: #f5f1eb;
+  --bg-deep: #ede7de;
+  --surface: #fffdf8;
+  --ink: #3a3530;
+  --ink-soft: #5c544a;
+  --muted: #968d80;
+  --border: #e5ddd0;
+  --border-soft: #efe9df;
+
+  /* 主色：鼠尾草绿 — 传递平静、疗愈、成长 */
+  --brand: #6b8e7f;
+  --brand-hover: #5a7d6e;
+  --brand-soft: #eef4f0;
+  --brand-soft-strong: #dfe9e3;
+
+  /* 强调色：暖琥珀 — 像阅读灯的光，传递温暖与希望 */
+  --accent: #c4956a;
+  --accent-soft: #faf3eb;
+
+  /* 功能色：降低饱和度，避免刺激 */
+  --warning: #d4a843;
+  --danger: #c97064;
+  --danger-soft: #faf0ee;
+
+  /* 圆角：稍大，传递友好 */
+  --radius: 10px;
+  --radius-card: 16px;
   --radius-full: 999px;
+
+  /* 字体：标题用衬线体（书卷气），正文用无衬线体（可读性） */
   --font: "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+  --font-serif: "Noto Serif SC", "Songti SC", "STSong", serif;
+
+  /* 阴影：柔和、温暖 */
+  --shadow-sm: 0 1px 3px rgba(122, 100, 80, 0.06);
+  --shadow-md: 0 4px 16px rgba(122, 100, 80, 0.08);
+  --shadow-lg: 0 8px 32px rgba(122, 100, 80, 0.1);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,7 +50,7 @@ body {
   font-family: var(--font);
   background: var(--bg);
   color: var(--ink);
-  line-height: 1.6;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -34,7 +58,8 @@ body {
 .site-header {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
-  padding: 16px 0;
+  padding: 20px 0;
+  box-shadow: var(--shadow-sm);
 }
 .header-inner {
   max-width: 720px;
@@ -45,10 +70,11 @@ body {
   gap: 12px;
 }
 .logo {
-  font-size: 20px;
+  font-family: var(--font-serif);
+  font-size: 22px;
   font-weight: 700;
-  color: var(--ink);
-  text-decoration: none;
+  color: var(--brand);
+  letter-spacing: 0.05em;
 }
 .tagline {
   font-size: 13px;
@@ -59,7 +85,7 @@ body {
 .container {
   max-width: 720px;
   margin: 0 auto;
-  padding: 32px 20px 64px;
+  padding: 40px 20px 64px;
 }
 
 /* === 步骤切换 === */
@@ -70,45 +96,54 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
-  padding: 32px;
+  padding: 36px;
+  box-shadow: var(--shadow-md);
 }
 
 .step-title {
-  font-size: 22px;
+  font-family: var(--font-serif);
+  font-size: 24px;
   font-weight: 600;
   margin-bottom: 8px;
+  color: var(--ink);
+  letter-spacing: 0.02em;
 }
 .step-sub {
   font-size: 14px;
   color: var(--muted);
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 /* === 输入区 === */
 .input-area {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   margin-bottom: 24px;
 }
 .input-area input {
   flex: 1;
-  padding: 12px 16px;
+  padding: 14px 18px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   font-size: 15px;
   font-family: var(--font);
   color: var(--ink);
   background: var(--bg);
-  transition: border-color 0.15s;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.input-area input::placeholder {
+  color: var(--muted);
+  opacity: 0.7;
 }
 .input-area input:focus {
   outline: none;
   border-color: var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-soft);
 }
 
 /* === 按钮 === */
 .btn-primary {
-  padding: 12px 24px;
+  padding: 14px 28px;
   background: var(--brand);
   color: #fff;
   border: none;
@@ -117,13 +152,18 @@ body {
   font-family: var(--font);
   font-weight: 500;
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition: background 0.25s, transform 0.15s;
+  white-space: nowrap;
 }
-.btn-primary:hover { opacity: 0.88; }
+.btn-primary:hover {
+  background: var(--brand-hover);
+}
+.btn-primary:active {
+  transform: scale(0.98);
+}
 .btn-primary:disabled {
   background: var(--border);
   cursor: not-allowed;
-  opacity: 1;
 }
 
 .btn-back {
@@ -135,8 +175,9 @@ body {
   cursor: pointer;
   padding: 0;
   margin-bottom: 16px;
+  transition: color 0.25s;
 }
-.btn-back:hover { color: var(--ink); }
+.btn-back:hover { color: var(--brand); }
 
 .btn-restart {
   margin-top: 8px;
@@ -145,11 +186,14 @@ body {
   color: var(--brand);
   border: 1px solid var(--brand);
 }
+.btn-restart:hover {
+  background: var(--brand-soft);
+}
 
 /* === 分割线 === */
 .divider {
   text-align: center;
-  margin: 20px 0;
+  margin: 24px 0;
   position: relative;
 }
 .divider::before {
@@ -164,7 +208,7 @@ body {
 .divider span {
   position: relative;
   background: var(--surface);
-  padding: 0 12px;
+  padding: 0 14px;
   font-size: 13px;
   color: var(--muted);
 }
@@ -179,31 +223,37 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 16px;
+  padding: 18px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   cursor: pointer;
   background: var(--surface);
-  transition: border-color 0.15s, background 0.15s;
+  transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
 }
 .topic-card:hover {
   border-color: var(--brand);
   background: var(--brand-soft);
+  box-shadow: var(--shadow-sm);
 }
 .topic-icon { font-size: 24px; }
-.topic-name { font-size: 15px; font-weight: 500; }
+.topic-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+}
 
 /* === 补充问题 === */
 #question-list {
   margin-bottom: 24px;
 }
 .question-item {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 .question-text {
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 12px;
+  color: var(--ink);
 }
 .option-list {
   display: flex;
@@ -211,18 +261,21 @@ body {
   gap: 8px;
 }
 .option-item {
-  padding: 10px 16px;
+  padding: 10px 18px;
   border: 1px solid var(--border);
   border-radius: var(--radius-full);
   font-size: 14px;
   font-family: var(--font);
   cursor: pointer;
   background: var(--surface);
-  color: var(--ink);
+  color: var(--ink-soft);
   display: inline-block;
-  transition: all 0.15s;
+  transition: all 0.25s;
 }
-.option-item:hover { border-color: var(--brand); }
+.option-item:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
 .option-item.selected {
   background: var(--brand);
   color: #fff;
@@ -233,37 +286,41 @@ body {
 .warning-box {
   background: var(--danger-soft);
   border: 1px solid var(--danger);
+  border-left: 4px solid var(--danger);
   border-radius: var(--radius);
-  padding: 16px;
+  padding: 18px 20px;
   margin-bottom: 24px;
 }
 .warning-box strong {
   display: block;
   font-size: 15px;
   color: var(--danger);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 .warning-box p {
   font-size: 13px;
-  color: var(--ink);
-  line-height: 1.7;
+  color: var(--ink-soft);
+  line-height: 1.8;
 }
 
 /* === 结果标题 === */
 .result-title {
-  font-size: 22px;
+  font-family: var(--font-serif);
+  font-size: 24px;
   font-weight: 600;
   margin-bottom: 24px;
+  color: var(--ink);
 }
 
 /* === 书籍分区 === */
-.book-section { margin-bottom: 28px; }
+.book-section { margin-bottom: 32px; }
 .section-label {
   font-size: 16px;
   font-weight: 600;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
   border-bottom: 2px solid var(--border);
+  color: var(--ink);
 }
 .section-label.classic { border-bottom-color: var(--brand); }
 .section-label.popular { border-bottom-color: var(--accent); }
@@ -271,33 +328,37 @@ body {
   font-size: 12px;
   font-weight: 400;
   color: var(--muted);
-  margin-left: 4px;
+  margin-left: 6px;
 }
 
 /* === 书籍卡片 === */
 .book-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 .book-card {
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
+  border-radius: var(--radius-card);
+  padding: 24px;
   background: var(--surface);
-  transition: border-color 0.15s;
+  transition: border-color 0.25s, box-shadow 0.25s;
 }
-.book-card:hover { border-color: var(--muted); }
+.book-card:hover {
+  border-color: var(--brand);
+  box-shadow: var(--shadow-sm);
+}
 
 .book-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 .book-title {
-  font-size: 16px;
+  font-family: var(--font-serif);
+  font-size: 17px;
   font-weight: 600;
   color: var(--ink);
 }
@@ -311,83 +372,88 @@ body {
 .book-ratings {
   display: flex;
   gap: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   flex-wrap: wrap;
 }
 .rating-tag {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 6px;
   font-size: 12px;
   font-weight: 500;
 }
 .rating-douban {
-  background: #e8f5e9;
-  color: #2e7d32;
+  background: #eef4f0;
+  color: #4a7c64;
 }
 .rating-goodreads {
-  background: #fff3e0;
-  color: #e65100;
+  background: #faf3eb;
+  color: #a47550;
 }
 
 .book-desc {
   font-size: 14px;
-  color: var(--ink);
-  margin-bottom: 10px;
-  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+  line-height: 1.8;
 }
 .book-reason {
   font-size: 13px;
-  color: var(--muted);
-  padding: 10px 12px;
+  color: var(--ink-soft);
+  padding: 14px 16px;
   background: var(--bg);
   border-radius: var(--radius);
-  line-height: 1.6;
+  line-height: 1.8;
+  border-left: 3px solid var(--brand);
 }
 
 /* === 微信读书按钮 === */
 .weread-btn {
   display: inline-block;
-  margin-top: 12px;
-  padding: 8px 16px;
+  margin-top: 14px;
+  padding: 9px 18px;
   background: #07c160;
   color: #fff !important;
   font-size: 13px;
   font-weight: 500;
   border-radius: var(--radius);
   text-decoration: none;
-  transition: background 0.15s;
+  transition: background 0.25s, transform 0.15s;
 }
 .weread-btn:hover {
   background: #06ad56;
+}
+.weread-btn:active {
+  transform: scale(0.98);
 }
 
 /* === 难度标签 === */
 .badge {
   display: inline-block;
-  padding: 3px 10px;
+  padding: 3px 12px;
   border-radius: var(--radius-full);
   font-size: 12px;
   font-weight: 500;
   white-space: nowrap;
 }
 .badge-easy {
-  background: var(--accent-soft);
-  color: #0f766e;
+  background: var(--brand-soft);
+  color: #4a7c64;
 }
 .badge-mid {
-  background: var(--brand-soft-strong);
-  color: var(--brand);
+  background: #faf3eb;
+  color: #a47550;
 }
 .badge-hard {
-  background: #fff7ed;
-  color: #c2410c;
+  background: #f5eee8;
+  color: #8c6b50;
 }
 
 /* === 难度说明 === */
 .difficulty-legend {
-  margin-top: 24px;
-  padding: 16px;
+  margin-top: 28px;
+  padding: 18px;
   background: var(--bg);
   border-radius: var(--radius);
 }
@@ -396,32 +462,36 @@ body {
   font-size: 13px;
   font-weight: 600;
   color: var(--muted);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 .legend-items {
   font-size: 13px;
   color: var(--muted);
-  line-height: 2;
+  line-height: 2.2;
 }
-.legend-items .badge { margin-right: 4px; }
+.legend-items .badge { margin-right: 6px; }
 
 /* === 页脚 === */
 .site-footer {
   text-align: center;
-  padding: 24px 20px;
+  padding: 32px 20px;
   font-size: 13px;
   color: var(--muted);
   border-top: 1px solid var(--border);
+  background: var(--surface);
 }
 
 /* === 响应式 === */
 @media (max-width: 600px) {
-  .step-card { padding: 20px; }
+  .step-card { padding: 24px 20px; }
   .topic-grid { grid-template-columns: 1fr; }
   .input-area { flex-direction: column; }
   .input-area input { width: 100%; }
   .header-inner { flex-direction: column; gap: 4px; }
-  .step-title { font-size: 19px; }
+  .step-title { font-size: 20px; }
+  .result-title { font-size: 20px; }
+  .book-card { padding: 18px; }
+  .book-title { font-size: 16px; }
 }
 
 /* === 动画 === */
@@ -429,4 +499,13 @@ body {
   0% { transform: scale(1); }
   50% { transform: scale(1.02); }
   100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.step.active .step-card {
+  animation: fadeIn 0.4s ease;
 }
