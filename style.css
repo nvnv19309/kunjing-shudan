@@ -6,26 +6,21 @@
 :root {
   /* 色彩系统：暖色调为主，传达安全与包容 */
   --bg: #f5f1eb;              /* 暖米色背景，像旧纸 */
-  --bg-deep: #ede7de;          /* 稍深的暖色，用于分区 */
   --surface: #fffdf8;          /* 奶油白卡片，比纯白温暖 */
   --ink: #3a3530;              /* 暖深棕，比纯黑柔和 */
   --ink-soft: #5c544a;         /* 次要文字 */
   --muted: #968d80;            /* 辅助文字，暖灰 */
   --border: #e5ddd0;           /* 暖边框 */
-  --border-soft: #efe9df;      /* 更淡的边框 */
 
   /* 主色：鼠尾草绿 — 传递平静、疗愈、成长 */
   --brand: #6b8e7f;
   --brand-hover: #5a7d6e;
   --brand-soft: #eef4f0;
-  --brand-soft-strong: #dfe9e3;
 
   /* 强调色：暖琥珀 — 像阅读灯的光，传递温暖与希望 */
   --accent: #c4956a;
-  --accent-soft: #faf3eb;
 
   /* 功能色：降低饱和度，避免刺激 */
-  --warning: #d4a843;
   --danger: #c97064;
   --danger-soft: #faf0ee;
 
@@ -41,7 +36,6 @@
   /* 阴影：柔和、温暖 */
   --shadow-sm: 0 1px 3px rgba(122, 100, 80, 0.06);
   --shadow-md: 0 4px 16px rgba(122, 100, 80, 0.08);
-  --shadow-lg: 0 8px 32px rgba(122, 100, 80, 0.1);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
