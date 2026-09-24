@@ -5,14 +5,14 @@
 
 :root {
   /* 色彩系统：暖色调为主，传达安全与包容 */
-  --bg: #f5f1eb;
-  --bg-deep: #ede7de;
-  --surface: #fffdf8;
-  --ink: #3a3530;
-  --ink-soft: #5c544a;
-  --muted: #968d80;
-  --border: #e5ddd0;
-  --border-soft: #efe9df;
+  --bg: #f5f1eb;              /* 暖米色背景，像旧纸 */
+  --bg-deep: #ede7de;          /* 稍深的暖色，用于分区 */
+  --surface: #fffdf8;          /* 奶油白卡片，比纯白温暖 */
+  --ink: #3a3530;              /* 暖深棕，比纯黑柔和 */
+  --ink-soft: #5c544a;         /* 次要文字 */
+  --muted: #968d80;            /* 辅助文字，暖灰 */
+  --border: #e5ddd0;           /* 暖边框 */
+  --border-soft: #efe9df;      /* 更淡的边框 */
 
   /* 主色：鼠尾草绿 — 传递平静、疗愈、成长 */
   --brand: #6b8e7f;
