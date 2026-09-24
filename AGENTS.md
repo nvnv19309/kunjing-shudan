@@ -40,6 +40,7 @@
 | `books-data.js` | 831 | **核心数据库**：14 个主题、62 本书、`TOPIC_LIST` 生成 |
 | `app.js` | 248 | 交互逻辑：主题卡片渲染、关键词匹配、问答流程、书卡渲染、步骤切换 |
 | `style.css` | 511 | 视觉系统：暖色系（暖米色背景 + 奶油白卡片 + 鼠尾草绿主色 + 暖琥珀强调），衬线标题 |
+| `.gitattributes` | 3 | 换行符规范：`* text=auto eol=lf`，仓库与检出统一 LF。**不要删**，删了会重新出现 CRLF 幽灵 diff |
 
 ### 3.2 参赛展示页（一般不用动）
 
@@ -151,6 +152,8 @@ git -C "$env:TEMP\kunjing-sync" rev-list --left-right --count HEAD...origin/main
 
 **发版前自查**：
 - 推送前用 `Compare-Object` 或去空白后比对，确认工作区与仓库内容一致（历史上踩过"以为没推，其实只是行尾 CRLF 差异"的坑）。
+  仓库已加 `.gitattributes`（`* text=auto eol=lf`），git 会自动把 CRLF 归一化为 LF 后入库，这类幽灵 diff 已从根源消除；
+  如果 `git status` 又出现莫名其妙的整文件修改，先检查 `.gitattributes` 是否还在。
 - 推送后等约 1 分钟，再开线上地址确认。
 - `books-data.js` 是纯数据文件，语法错误会导致整个页面白屏——改完用 node 加载一次验证：
   ```powershell
