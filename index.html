@@ -6,6 +6,8 @@
   <title>困境书单 — 从你当下的难题，找到真正适合的书</title>
   <meta name="description" content="根据你遇到的焦虑、迷茫、拖延、职业困惑等问题，推荐经典书与近年热门书，并标注阅读难度。">
   <link rel="stylesheet" href="style.css">
+  <!-- 内联空图标：避免浏览器请求 /favicon.ico 得到 404（控制台噪音，不影响功能） -->
+  <link rel="icon" href="data:,">
 </head>
 <body>
 
@@ -30,6 +32,9 @@
           <input type="text" id="user-input" placeholder="例如：我最近总是拖延，明知道有deadline但还是刷手机……" autocomplete="off">
           <button id="btn-search" class="btn-primary">找书</button>
         </div>
+
+        <!-- 未命中时的候选主题（由 JS 填充；命中时留空隐藏） -->
+        <div id="match-hint" class="match-hint" style="display:none;"></div>
 
         <div class="divider"><span>或者选择一个主题</span></div>
 
@@ -63,18 +68,26 @@
         <div id="warning-box" class="warning-box" style="display:none;">
           <strong>如果你正在经历较严重的困扰</strong>
           <p>书籍可以帮助你理解问题，但不能替代专业帮助。如果你长期失眠、情绪持续低落、或有自伤念头，请优先联系心理援助热线（全国24小时：400-161-9995）或前往医院精神科/心理科就诊。</p>
+          <!-- 用户答案命中 escalateFrom 时显示：把求助引导再往前推一步 -->
+          <p id="warning-extra" class="warning-extra" style="display:none;">
+            你刚才选的那一项，比书单更需要先处理。不必等看完书再去——建议这个月内找医生或心理咨询师谈一次，
+            也可以先拨打全国 24 小时心理援助热线 400-161-9995 说说。
+          </p>
         </div>
 
         <h2 class="result-title" id="result-title">为你推荐的书</h2>
 
+        <!-- 回显用户刚才的补充回答，让提问不是单向的 -->
+        <div id="answer-echo" class="answer-echo" style="display:none;"></div>
+
         <!-- 经典书 -->
-        <div class="book-section">
+        <div class="book-section" id="section-classic">
           <h3 class="section-label classic">经典书 <span class="section-hint">提供更深、更稳定的理解框架</span></h3>
           <div class="book-list" id="classic-list"></div>
         </div>
 
         <!-- 近年热门书 -->
-        <div class="book-section">
+        <div class="book-section" id="section-popular">
           <h3 class="section-label popular">近年热门 <span class="section-hint">降低阅读门槛，适合入门</span></h3>
           <div class="book-list" id="popular-list"></div>
         </div>
@@ -98,6 +111,15 @@
   <!-- 页脚 -->
   <footer class="site-footer">
     <p>困境书单 · 书籍不能替代专业帮助 · 严重困扰请寻求医生或心理咨询师</p>
+    <!-- 使用数据：只存在用户自己的浏览器里（localStorage），不上传任何服务器，可导出可清除 -->
+    <p class="log-line">
+      <a href="#" id="log-toggle" class="log-link">使用数据</a>
+      <span id="log-panel" class="log-panel" style="display:none;">
+        <span id="log-count">0</span> 条 · 只存在你自己的浏览器里，不上传任何服务器
+        <button type="button" id="log-export" class="log-btn">导出</button>
+        <button type="button" id="log-clear" class="log-btn">清除</button>
+      </span>
+    </p>
   </footer>
 
   <script src="books-data.js"></script>

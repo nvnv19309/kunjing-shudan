@@ -475,6 +475,92 @@ body {
   background: var(--surface);
 }
 
+/* === 未命中时的候选主题 === */
+.match-hint {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: -8px 0 20px;
+}
+.hint-label {
+  width: 100%;
+  font-size: 13px;
+  color: var(--muted);
+}
+.hint-chip {
+  padding: 8px 14px;
+  border: 1px solid var(--brand);
+  border-radius: var(--radius-full);
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-size: 14px;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s;
+}
+.hint-chip:hover {
+  background: var(--brand);
+  color: #fff;
+}
+
+/* === 结果页：回显用户刚才的选择 === */
+.answer-echo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: -12px 0 22px;
+  padding: 12px 16px;
+  background: var(--bg);
+  border-radius: var(--radius);
+  font-size: 13px;
+  color: var(--muted);
+}
+.echo-item strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* 风险提示里按用户答案升级的那一段 */
+.warning-box p.warning-extra {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--danger);
+  color: var(--danger);
+  font-weight: 500;
+}
+
+/* === 使用数据（本地日志，不上传）=== */
+.log-line {
+  margin-top: 10px;
+  font-size: 12px;
+}
+.log-link {
+  color: var(--muted);
+  text-decoration: underline;
+}
+.log-panel {
+  display: inline-block;
+  margin-left: 8px;
+  color: var(--muted);
+}
+.log-btn {
+  margin-left: 6px;
+  padding: 3px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: border-color 0.25s, color 0.25s;
+}
+.log-btn:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
 /* === 响应式 === */
 @media (max-width: 600px) {
   .step-card { padding: 24px 20px; }
