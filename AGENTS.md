@@ -386,11 +386,11 @@ git -C "$env:TEMP\kunjing-sync" -c credential.helper= push "https://nvnv19309:${
 
 | 文件 | 原始 | gzip |
 |---|---|---|
-| index.html | 11586 B | 5231 B |
+| index.html | 11604 B | 5246 B |
 | books-data.js | 66503 B | 20526 B |
 | app.js | 21572 B | 7819 B |
 | style.css | 18974 B | 4631 B |
-| 合计 | 118635 B | 38207 B |
+| 合计 | 118653 B | 38222 B |
 
 本次数据包含内容升级与 Edge 装饰兼容修复，均不依赖外部字体；gzip 为本地测量，非线上传输抓包。
 
