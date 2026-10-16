@@ -4,7 +4,7 @@
   "use strict";
 
   // 输入框原始提示语（未命中时会被换掉，返回时要还原）
-  var PLACEHOLDER_DEFAULT = "例如：我最近总是拖延，明知道有deadline但还是刷手机……";
+  var PLACEHOLDER_DEFAULT = "例如：总是拖延，明知道有 deadline 还是刷手机……";
 
   // 当前状态
   var state = {
@@ -74,6 +74,7 @@
       e.preventDefault();
       var open = panel.style.display === "inline-block";
       panel.style.display = open ? "none" : "inline-block";
+      toggle.setAttribute("aria-expanded", String(!open));
       if (!open) refreshLogCount();
     });
     document.getElementById("log-export").addEventListener("click", exportLog);
@@ -92,17 +93,29 @@
     bindQuestionEvents();
     bindHintEvents();
     bindLogPanel();
+    document.querySelector("[data-home-link]").addEventListener("click", function(e) {
+      e.preventDefault();
+      window.goBack("input");
+      document.getElementById("topics").scrollIntoView();
+    });
   }
 
   // === 渲染主题卡片 ===
   function renderTopicGrid() {
     var grid = document.getElementById("topic-grid");
     var html = "";
-    TOPIC_LIST.forEach(function(topic) {
-      html += '<div class="topic-card" data-topic="' + topic.key + '">' +
-        '<span class="topic-icon">' + topic.icon + "</span>" +
-        '<span class="topic-name">' + topic.title + "</span>" +
-        "</div>";
+    TOPIC_GROUPS.forEach(function(group) {
+      html += '<section class="topic-group" aria-labelledby="group-' + group.key + '">' +
+        '<div class="group-heading"><span>' + group.label + '</span><h3 id="group-' + group.key + '">' + group.title +
+        '</h3><p>' + group.desc + '</p></div><div class="topic-cards">';
+      TOPIC_LIST.filter(function(topic) { return BOOKS_DATA[topic.key].group === group.key; }).forEach(function(topic) {
+        html += '<button type="button" class="topic-card" data-topic="' + topic.key + '">' +
+          '<span class="topic-icon" aria-hidden="true">' + topic.icon + '</span><span>' +
+          '<span class="topic-name">' + escapeHtml(topic.title) + '</span>' +
+          '<span class="topic-description">' + escapeHtml(BOOKS_DATA[topic.key].short) + '</span></span>' +
+          '<span class="topic-arrow" aria-hidden="true">↗</span></button>';
+      });
+      html += "</div></section>";
     });
     grid.innerHTML = html;
   }
@@ -124,16 +137,9 @@
   // === 绑定输入搜索 ===
   function bindInputEvents() {
     var input = document.getElementById("user-input");
-    var btn = document.getElementById("btn-search");
-
-    btn.addEventListener("click", function() {
+    document.getElementById("search-form").addEventListener("submit", function(e) {
+      e.preventDefault();
       handleSearch(input.value);
-    });
-
-    input.addEventListener("keydown", function(e) {
-      if (e.key === "Enter") {
-        handleSearch(input.value);
-      }
     });
 
     // 重新开始输入时收起候选提示，把 placeholder 还原
@@ -328,9 +334,9 @@
     topic.questions.forEach(function(q, qi) {
       html += '<div class="question-item">';
       html += '<div class="question-text">' + q.text + "</div>";
-      html += '<div class="option-list">';
+      html += '<div class="option-list" role="group" aria-label="' + escapeHtml(q.text) + '">';
       q.options.forEach(function(opt, oi) {
-        html += '<button type="button" class="option-item" data-q="' + qi + '" data-opt="' + oi + '">' + opt + "</button>";
+        html += '<button type="button" class="option-item" aria-pressed="false" data-q="' + qi + '" data-opt="' + oi + '">' + escapeHtml(opt) + "</button>";
       });
       html += "</div></div>";
     });
@@ -355,8 +361,10 @@
       var sameGroup = this.querySelectorAll('.option-item[data-q="' + qi + '"]');
       for (var i = 0; i < sameGroup.length; i++) {
         sameGroup[i].classList.remove("selected");
+        sameGroup[i].setAttribute("aria-pressed", "false");
       }
       opt.classList.add("selected");
+      opt.setAttribute("aria-pressed", "true");
 
       // 记下标与文字：下标用于查 optionHints / escalateFrom，文字用于结果页回显
       state.answers[qi] = { index: oi, text: opt.textContent };
@@ -379,6 +387,9 @@
     var questions = topic.questions || [];
 
     document.getElementById("result-title").textContent = "关于" + topic.title + "，推荐这些书";
+    document.getElementById("result-intro").textContent = topic.intro;
+    document.getElementById("reading-guide").innerHTML = '<strong>可以这样开始读</strong><p>' +
+      escapeHtml(topic.readingTip) + '</p><p class="guide-boundary">' + escapeHtml(topic.boundary) + '</p>';
 
     // --- ① 回显用户的选择，让补充问题不再是单向输入 ---
     renderAnswerEcho(questions);
@@ -415,8 +426,8 @@
     var html = "";
     questions.forEach(function(q, qi) {
       var answer = state.answers[String(qi)];
-      html += '<span class="echo-item">' + q.text.replace(/[？?]\s*$/, "") + "：" +
-        "<strong>" + (answer ? answer.text : "未选择") + "</strong></span>";
+      html += '<span class="echo-item">' + escapeHtml(q.text.replace(/[？?]\s*$/, "")) + "：" +
+        "<strong>" + escapeHtml(answer ? answer.text : "未选择") + "</strong></span>";
     });
     echo.innerHTML = html;
     echo.style.display = "block";
@@ -451,31 +462,56 @@
   }
 
   // === 渲染书籍卡片 ===
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, function(c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
   function renderBooks(containerId, books) {
     var container = document.getElementById(containerId);
     var html = "";
     books.forEach(function(book) {
       var diffClass = book.difficulty === "入门" ? "badge-easy" :
                       book.difficulty === "进阶" ? "badge-mid" : "badge-hard";
-      html += '<div class="book-card">';
+      html += '<article class="book-card">';
       html += '<div class="book-header">';
       html += '<div>';
-      html += '<div class="book-title">' + book.title + "</div>";
-      html += '<div class="book-author">' + book.author + " · " + book.year + "年</div>";
+      html += '<span class="book-format">' + escapeHtml(book.format) + '</span>';
+      html += '<h4 class="book-title">' + escapeHtml(book.title) + '</h4>';
+      html += '<div class="book-author">' + escapeHtml(book.author) + '</div>';
       html += "</div>";
       html += '<span class="badge ' + diffClass + '">' + book.difficulty + "</span>";
       html += "</div>";
-      // 评分
-      html += '<div class="book-ratings">';
-      html += '<span class="rating-tag rating-douban">豆瓣 ' + (book.douban || "—") + "</span>";
-      html += '<span class="rating-tag rating-goodreads">Goodreads ' + (book.goodreads || "—") + "</span>";
-      html += "</div>";
-      html += '<div class="book-desc">' + book.desc + "</div>";
-      html += '<div class="book-reason">为什么推荐：' + book.reason + "</div>";
+      html += '<p class="book-desc">' + escapeHtml(book.desc) + '</p>';
+      html += '<div class="book-reason"><strong>为什么推荐</strong>' + escapeHtml(book.reason) + '</div>';
+      html += '<div class="book-caveat"><strong>阅读时留意</strong>' + escapeHtml(book.caveat) + '</div>';
+      html += '<details class="book-meta"><summary>书目、评分与来源</summary>';
+      html += '<p>' + escapeHtml(book.edition || "具体版本与出版年份待复核，请以所读版本版权页为准。") + '</p>';
+      if (book.source) {
+        html += '<p><a class="source-link" href="' + escapeHtml(book.source.url) + '" target="_blank" rel="noopener">' + escapeHtml(book.source.label) + ' ↗</a><br>' +
+          escapeHtml(book.source.scope) + ' · 核对于 ' + escapeHtml(book.source.checkedAt) + '</p>';
+      } else {
+        html += '<p>书目版本来源待逐项复核；下方链接用于检索，不代表已核实。</p>';
+      }
+      // 旧分数保留在数据中供复核；只有具备条目链接与日期的分数才展示。
+      html += '<p class="book-ratings">';
+      [["douban", "豆瓣"], ["goodreads", "Goodreads"]].forEach(function(platform) {
+        var proof = (book.ratingSources || {})[platform[0]];
+        var value = book[platform[0]];
+        if (proof && proof.url && proof.checkedAt && value && value !== "—") {
+          html += '<a class="rating-tag rating-' + platform[0] + '" href="' + escapeHtml(proof.url) + '" target="_blank" rel="noopener">' +
+            platform[1] + ' ' + escapeHtml(value) + '</a><span>（' + escapeHtml(proof.checkedAt) + '）</span> ';
+        } else {
+          html += '<span class="rating-tag rating-' + platform[0] + '">' + platform[1] + ' 待核实</span>';
+        }
+      });
+      html += '</p><a class="source-link" href="https://search.douban.com/book/subject_search?search_text=' + encodeURIComponent(book.title + ' ' + book.author) + '" target="_blank" rel="noopener">豆瓣检索 ↗</a>';
+      html += '<a class="source-link" href="https://www.goodreads.com/search?q=' + encodeURIComponent(book.title + ' ' + book.author) + '" target="_blank" rel="noopener">Goodreads 检索 ↗</a></details>';
       // 微信读书链接
       var wereadUrl = "https://weread.qq.com/#search/" + encodeURIComponent(book.title);
-      html += '<a class="weread-btn" href="' + wereadUrl + '" target="_blank" rel="noopener">在微信读书搜索</a>';
-      html += "</div>";
+      html += '<div class="book-links"><a class="weread-btn" href="' + wereadUrl + '" target="_blank" rel="noopener">在微信读书搜索 ↗</a><span>可读版本以平台为准</span></div>';
+      html += '</article>';
     });
     container.innerHTML = html;
   }
@@ -487,7 +523,9 @@
       s.classList.remove("active");
     });
     document.getElementById("step-" + name).classList.add("active");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    var heading = name === "question" ? "question-title" : name === "result" ? "result-title" : "user-input";
+    document.getElementById(heading).focus({ preventScroll: true });
+    window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   }
 
   // === 返回：顺带把状态清干净（原来返回后 answers 还留着上一次的选择）===
