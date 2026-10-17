@@ -398,7 +398,11 @@
       if (closest !== state.bookIndex) { state.bookIndex = closest; updateBookNavigation(); }
     });
     resultList.addEventListener('keydown', function(e) {
-      if (!carouselMedia.matches || e.target !== resultList) return;
+      if (!carouselMedia.matches || e.target !== resultList || e.altKey || e.ctrlKey || e.metaKey) return;
+      if (e.key === 'Tab' && !e.shiftKey) {
+        var firstLink = resultList.children[state.bookIndex].querySelector('a');
+        e.preventDefault(); firstLink.focus(); return;
+      }
       var index = e.key === 'ArrowLeft' ? state.bookIndex - 1 : e.key === 'ArrowRight' ? state.bookIndex + 1 : e.key === 'Home' ? 0 : e.key === 'End' ? resultList.children.length - 1 : null;
       if (index !== null) { e.preventDefault(); moveBook(index, true); }
     });
