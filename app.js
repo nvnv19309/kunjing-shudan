@@ -243,7 +243,7 @@
   function renderClinicalNotice(containerId, references) {
     var notice = document.getElementById(containerId);
     notice.hidden = !references.some(function(r) { return BOOK_CATALOG[r.bookId].clinicalContext; });
-    if (!notice.hidden) notice.innerHTML = '<strong>阅读中的共鸣，不等于诊断。</strong><p>人格障碍等诊断需要由具备相应诊断资质的专业人员综合评估，请不要凭书中描述、关键词或自测给自己或他人下结论。诊断也不能定义一个人的全部。</p>' + link('https://www.nimh.nih.gov/health/publications/borderline-personality-disorder', 'NIMH：诊断需要专业评估');
+    if (!notice.hidden) notice.innerHTML = '<strong>阅读中的共鸣，不等于诊断。</strong><p>人格障碍等诊断需要由具备相应诊断资质的专业人员综合评估，请不要凭书中描述、关键词或自测给自己或他人下结论。诊断也不能定义一个人的全部。</p>';
   }
   function showResult(key, origin) {
     state.currentTopic = key; state.preference = 'all'; state.origin = origin || 'catalog';
@@ -306,7 +306,7 @@
       if (b.clinicalContext) html += '<p class="clinical-label">涉及诊断概念 · 不用于自我诊断</p>';
       html += '<p class="book-author">' + escapeHtml(b.author) + '</p><span class="badge">' + escapeHtml(b.difficulty) + '</span><p class="book-edition">' + escapeHtml([edition.publisher, edition.publishedAt].filter(Boolean).join(' · ')) + '</p></div></div>';
       html += '<div class="book-ratings">' + ratingHtml('douban', b.ratings.douban) + ratingHtml('goodreads', b.ratings.goodreads) + '</div>';
-      html += '<div class="book-desc"><strong>原书简介节选</strong><p>' + (b.synopsis.text ? '“' + escapeHtml(b.synopsis.text) + '”' : '暂未取得可核对的简介原文。') + '</p>' + link(b.synopsis.url, '阅读完整简介') + '</div>';
+      html += '<div class="book-desc"><strong>一句话介绍</strong><p>' + escapeHtml(b.summary) + '</p>' + link(b.synopsis.url, '内容来源') + '</div>';
       html += '<div class="book-reason"><strong>为什么推荐</strong>' + escapeHtml(reason) + '</div><div class="book-caveat"><strong>阅读局限</strong>' + escapeHtml(b.caveat);
       (b.caveatSources || []).forEach(function(s) { html += link(s.url, s.label); });
       html += '</div><p class="book-topics">适合的处境：' + b.topics.map(function(k) { return '<button type="button" class="topic-link" data-topic="' + k + '">' + escapeHtml(BOOKS_DATA[k].title) + '</button>'; }).join('、') + '</p>';

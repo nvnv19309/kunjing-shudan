@@ -9,23 +9,24 @@
 本节、当前源码及更新记录优先于下文历史章节。§4中的旧书目字段及补充问题流程是历史记录，不再作为现行新增模板。
 
 - 应用唯一编辑入口为kunjing-shudan-app/；发布到仓库根目录，不能再套一层。维持原生HTML/CSS/JS，不新增框架、后端、账号或线上API。
-- 保留15主题、398关键词和6个warning主题，现有66条日常推荐。匹配算法、词表和键顺序未改。TOPIC_GROUPS用于目录主题分组。
-- books-data.js的BOOK_CATALOG共54部作品：52部日常阅读、2部专业参考。主题classic/popular只存{bookId,reason}，仅引用日常阅读作品；前台合并展示。共享资料包含title、originalTitle、aliases、author、format、difficulty、reason、caveat、goals、topics、edition、cover、synopsis、ratings、audience及clinicalContext。
+- 保留15主题、398关键词和6个warning主题，现有68条日常推荐。匹配算法、词表和键顺序未改。TOPIC_GROUPS用于目录主题分组。
+- books-data.js的BOOK_CATALOG共56部作品：54部日常阅读、2部专业参考。主题classic/popular只存{bookId,reason}，仅引用日常阅读作品；前台合并展示。共享资料包含title、originalTitle、aliases、author、format、difficulty、reason、caveat、goals、topics、edition、cover、summary、synopsis、ratings、audience及clinicalContext。
 - 本轮经用户确认退出b02/b08/b10/b11/b25/b30/b37/b44/b53/b55/b59；新增b60—b65，旧ID不可复用。b31 DSM-5、b33萦绕不安的自我设audience=professional，仅在专业参考入口展示；其余为general。clinicalContext为布尔值，控制列表前的专业评估提醒及书名旁的不可自诊标注，不参与匹配。
+- 后续已确认退出b09你的降落伞是什么颜色、b46错把妻子当帽子及封面；新增b66你要如何衡量你的人生、b67医生，你在想什么（王兴）、b68认知心理学及其启示（Anderson，第7版）、b69健康心理学（Brannon/Feist/Updegraff，第8版），旧ID不复用。b68/b69为general且较难，在普通学习/健康主题可选；四组的实际教材覆盖为b28/self、b13/relationship、b68/learning、b69/health。b43仍为哲学，不计作教材；不得靠改难度标签凑覆盖。
 - 新增书目时，在BOOK_CATALOG加入唯一ID，再在对应主题引用；goals只用understand/practice/story，书卡的具体排序依赖显式用途标签。
 - edition保存title/language/publisher/publishedAt/isbn/url/checkedAt/selectionNote。优先中文，在本次可查且确认同作品的候选中选豆瓣评价人数最多的版本，不宣称穷尽全平台版本。排除同名异书、续集和改编。
-- cover.src指向assets/covers/的本地SVG，内部只嵌入未改动的原始JPEG；cover.source及cover.url记录图片和版本来源。54张均为中文封面，不使用外部热链或重绘书封。图片失败显示“封面暂缺”。退出作品的11张封面一并退出发布。
-- synopsis保存原文短摘录及url/label/checkedAt，默认24字符加省略号；不能把重写文案、读者评论或整篇转载标为原书简介。b32使用同ISBN的出版社供稿。
-- ratings分别按douban/goodreads保存status/value/count/url/checkedAt/method。status为verified/unavailable/not_found/unverified；只有verified显示数值。其余分别显示暂无评分、未找到对应条目、尚未核实。所有分数是页面快照，非实时API。现有54个豆瓣分和53个Goodreads分；b58未找到对应Goodreads条目。前台移除反复的“核对于”日期，checkedAt及来源记录保留，列表统一说明快照口径。
+- cover.src指向assets/covers/的本地SVG，内部只嵌入未改动的原始JPEG；cover.source及cover.url记录图片和版本来源。56张均为中文封面，不使用外部热链或重绘书封。图片失败显示“封面暂缺”。累计退出作品的13张封面一并退出发布。
+- summary为每部作品必填的编辑概括：一个完整句子、含标点不超过100个Unicode字符，通常50—80字；根据所选版本介绍、目录等资料准确说明类型与内容，不重复推荐理由、不承诺疗效。前台显示“一句话介绍”及“内容来源”，完整展开、不加原文引号和截断省略号。synopsis继续保存24字符以内原文短摘录及url/label/checkedAt作来源记录，前台用其url；b32为同ISBN出版社供稿。不能将编辑概括称为原书原文。
+- ratings分别按douban/goodreads保存status/value/count/url/checkedAt/method。status为verified/unavailable/not_found/unverified；只有verified显示数值。其余分别显示暂无评分、未找到对应条目、尚未核实。所有分数是页面快照，非实时API。现有56个豆瓣分和55个Goodreads分；b58未找到对应Goodreads条目。前台移除反复的“核对于”日期，checkedAt及来源记录保留，列表统一说明快照口径。
 - 豆瓣评分对应所选ISBN版本，Goodreads注明对应作品页面且可能汇总多个版本；分制为10分和5分。封面、评分、简介、为什么推荐、阅读局限和来源默认可见，不折叠评分。
-- b36为“与内心的恐惧对话”；b54原作是The Gifts of Imperfection，不能再配Daring Greatly的评分。新增b61采用评价更多的2018版，b65为2018版，不能混用较新版本资料。最新去留、14部旧书评分例外及54部来源见docs/audits/2026-10-17-reading-boundaries-sources.md；此前59部的报告保留为历史记录。
-- 首页只突出困境输入及次级“先逛书单”；检索命中立即给书，可选偏好只调整单本书顺序。失败进入默认52部日常目录，保留输入并让用户确认候选；目录去重并支持15主题筛选。专业参考单独切换，不提供无意义的主题筛选；结果页可进入该分区，返回保留输入、偏好、原推荐及原主题筛选。
-- 阅读共鸣不是诊断，相关列表前的完整提醒和书名附近标注不能只放到页脚。提醒来源为NIMH，诊断需要有相应资质的专业人员综合评估；不增加自测确诊功能。推荐理由和阅读局限分别用绿色、暖砂色区块强调，始终展开并自然撑高。
+- b36为“与内心的恐惧对话”；b54原作是The Gifts of Imperfection，不能再配Daring Greatly的评分。b61与b65为2018版，b68为第7版，b69为第8版，不能混用较新版本资料。最新替换、两部教材评分例外及56条介绍来源见docs/audits/2026-10-17-summaries-sources.md；此前54/59部及14部旧书评分例外报告保留为历史记录，其中b09、b46现已退出。
+- 首页只突出困境输入及次级“先逛书单”；检索命中立即给书，可选偏好只调整单本书顺序。失败进入默认54部日常目录，保留输入并让用户确认候选；目录去重并支持15主题筛选。专业参考单独切换，不提供无意义的主题筛选；结果页可进入该分区，返回保留输入、偏好、原推荐及原主题筛选。
+- 阅读共鸣不是诊断，相关列表前的完整提醒和书名附近标注不能只放到页脚。前台已移除指定NIMH链接，其依据只保存在维护报告；诊断需要有相应资质的专业人员综合评估，不增加自测确诊功能。推荐理由和阅读局限分别用绿色、暖砂色区块强调，始终展开并自然撑高。
 - 已移除必答问题及问题依赖提示。6个warning主题的求助说明直接显示在结果页，筛选相关目录时也显示。保留免责声明和本地记录导出清除，不上传输入或读取用户浏览器配置。
 - 所有文字自然撑高，不在固定高度书封内放DOM文字；装饰SVG不能含text/foreignObject。保留本机字体、原生按钮、焦点和减少动态效果支持，不添加外部字体。
 - 回归：node verify/verify-kunjing.js；node verify/matching-baseline.js；设置NODE_PATH指向已有Playwright后运行node verify/serve-and-test.js及node verify/e2e-art-compat.js。新浏览器检查替代旧问答流程断言，不能沿用旧124/28 PASS数字。截图在output/playwright/，不发布。
 - 验证与研究脚本保存在维护工作区verify/。本轮同步Pages应用、封面及两份核对报告；不公开上传原始页面、读者评论或验收题句。
-- 当前回归通过：15主题66日常推荐、60组可选偏好、54封面解码、21组屏宽页面布局，以及专业分区的提醒、键盘、往返状态和4种屏宽检查；Edge/Chrome84组字体/字号/屏宽组合涵盖首页、目录、结果和专业参考，CSS200%缩放通过。未测Firefox、Safari或手机硬件，不能冒称实机全浏览器验证。
+- 当前回归通过：15主题68日常推荐、60组可选偏好、56条完整介绍、四组教材覆盖、56封面解码、21组屏宽页面布局，以及专业分区的提醒、键盘、往返状态和4种屏宽检查；Edge/Chrome84组字体/字号/屏宽组合涵盖首页、全目录全部书卡、结果和专业参考，CSS200%缩放通过。未测Firefox、Safari或手机硬件，不能冒称实机全浏览器验证。
 - 实际匹配基线保持：v3=31/70，v4=10/10，负例A误命中0/12、B=3/8；不要查看验收失败句再调词。
 - 中文更新记录在CHANGELOG.md，README链接需保留。远端已有人手新增README，发布时保留其现有内容。gh凭据不可用，使用GitHub连接器；先读最新main并核对基线，更新必须非强推且检查预期旧SHA。
 
@@ -34,7 +35,7 @@
 ## 1. 这是什么
 
 **困境书单**：用户用一句话描述当下的困境，按主题匹配后直接展示书单，再按需选择阅读偏好调整单本书顺序。
-没有想法或检索失败时进入全部书籍目录，支持按主题筛选。书卡直接展示所选版本的封面、评分、简介原文节选、推荐理由和阅读局限，附来源及微信读书搜索链接。
+没有想法或检索失败时进入全部书籍目录，支持按主题筛选。书卡直接展示所选版本的封面、评分、编辑概括的一句话介绍、推荐理由和阅读局限，附来源及微信读书搜索链接。
 
 定位：**TRAE AI 创造力大赛参赛作品**。纯前端、无后端、无账号、无数据库，静态托管。
 
@@ -63,10 +64,10 @@
 | 文件 | 行数 | 职责 |
 |---|---|---|
 | `index.html` | 95 | 输入、目录和结果三个页面区域，阅读偏好、求助提示、免责声明及本地记录入口 |
-| `books-data.js` | 4146 | 15主题、398关键词、66条日常引用及54条共享书目；版本、封面来源、评分、简介节选和阅读局限 |
+| `books-data.js` | 4349 | 15主题、398关键词、68条日常引用及56条共享书目；版本、封面来源、评分、一句话介绍、简介来源记录和阅读局限 |
 | `app.js` | 366 | 保留的关键词匹配、目录筛选、书籍用途排序、书卡渲染、返回及本地日志 |
 | `style.css` | 257 | 视觉系统：暖色系（暖米色背景 + 奶油白卡片 + 鼠尾草绿主色 + 暖琥珀强调），衬线标题 |
-| `assets/covers/` | 54个文件 | 同版本中文封面，本地SVG内嵌原始JPEG，独立懒加载 |
+| `assets/covers/` | 56个文件 | 同版本中文封面，本地SVG内嵌原始JPEG，独立懒加载 |
 | `.gitattributes` | 3 | 换行符规范：`* text=auto eol=lf`，仓库与检出统一 LF。**不要删**，删了会重新出现 CRLF 幽灵 diff |
 
 ### 3.2 参赛展示页（一般不用动）
@@ -384,18 +385,18 @@ git -C "$env:TEMP\kunjing-sync" -c credential.helper= push "https://nvnv19309:${
 
 ## 9. 代码整洁度与体积基线
 
-### 9.1 体积基线（2026-10-17 阅读边界与书卡改版）
+### 9.1 体积基线（2026-10-17 一句话介绍与教材覆盖）
 
 | 文件 | 原始 | gzip |
 |---|---|---|
-| index.html | 13445 B | 5765 B |
-| books-data.js | 146664 B | 32791 B |
-| app.js | 20700 B | 7219 B |
+| index.html | 13517 B | 5797 B |
+| books-data.js | 164528 B | 38761 B |
+| app.js | 20483 B | 7104 B |
 | style.css | 18753 B | 4660 B |
 
 此表为2026-10-17应用代码快照，封面独立懒加载，体积不计入此表。
 
-本次数据包含阅读边界、书目调整与书卡优化，均不依赖外部字体；gzip 为本地测量，非线上传输抓包。
+本次数据包含56条一句话介绍及四组教材覆盖，均不依赖外部字体；gzip 为本地测量，非线上传输抓包。
 
 **体积变化史**（gzip 口径）：
 

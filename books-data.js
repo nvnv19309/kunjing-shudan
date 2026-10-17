@@ -1,6 +1,6 @@
 // 困境书单：主题与书目均可直接编辑，无构建或线上API。
 // classic / popular 只保留历史分组兼容；前台合并展示并按可选阅读用途排序。
-// 评分为所列日期核对的页面快照，不能当作实时分数；原文简介仅短摘录。
+// 评分为所列日期核对的页面快照，不能当作实时分数；summary为编辑概括；synopsis仅保留原文短摘录作为来源记录。
 const TOPIC_GROUPS = [
   {
     "key": "emotion",
@@ -172,8 +172,8 @@ const BOOKS_DATA = {
     ],
     "classic": [
       {
-        "bookId": "b09",
-        "reason": "如果你不知道如何比较工作方向，可以先选一组练习梳理自己在意的条件。"
+        "bookId": "b66",
+        "reason": "如果你纠结的不只是做什么工作，还有什么值得长期投入，可以借书中的问题梳理满意感、重要关系与日常取舍。"
       }
     ],
     "popular": [
@@ -269,6 +269,10 @@ const BOOKS_DATA = {
       {
         "bookId": "b18",
         "reason": "如果你常用重读检查自己学会没有，可以试着合上材料回忆，再用反馈纠正。"
+      },
+      {
+        "bookId": "b68",
+        "reason": "如果你想了解注意、记忆和技能学习的研究依据，而不仅是收集学习技巧，可以选读相应章节，并留意实验任务与真实学习情境的差别。"
       }
     ],
     "popular": [
@@ -663,8 +667,12 @@ const BOOKS_DATA = {
         "reason": "如果你希望理解医疗决策中的价值取舍，可以留意人物如何表达自己在意的事。"
       },
       {
-        "bookId": "b46",
-        "reason": "如果你对医学与人的处境感兴趣，可以从病例叙事看到诊断之外的生活。"
+        "bookId": "b67",
+        "reason": "如果你不知道就诊时该怎么描述症状、询问检查或讨论方案，可以从书中的就医情境了解医生如何思考，再准备自己的问题。"
+      },
+      {
+        "bookId": "b69",
+        "reason": "如果你想系统理解压力、健康行为和求医过程之间的联系，可以从研究方法、医疗服务或慢性疾病适应章节开始，而不必从头通读。"
       }
     ],
     "popular": [
@@ -981,7 +989,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "罗洛·梅结合哲学、心理学与临床案例，梳理不同焦虑理论，讨论焦虑与自由、文化和创造的关系，以及正常焦虑与神经症性焦虑的区别。"
   },
   "b03": {
     "title": "静观自我关怀:勇敢爱自己的51项练习",
@@ -1042,7 +1051,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "这本练习手册以正念、自我友善和共同人性为基础，通过分章说明、冥想与日常练习，介绍如何回应痛苦、内在批评和人际关系中的困难。"
   },
   "b04": {
     "title": "焦虑的人",
@@ -1100,7 +1110,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "一场失败的银行抢劫把劫匪与一群看房者困在公寓，这部小说借警察讯问和人物交错的经历，写出普通人在婚姻、家庭与生活压力中的脆弱和牵挂。"
   },
   "b05": {
     "title": "搞定",
@@ -1160,7 +1171,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "戴维·艾伦介绍收集、明确、组织、回顾与行动的事务管理流程，通过清单、项目和下一步行动的安排，说明如何整理工作与生活中的待办事项。"
   },
   "b06": {
     "title": "拖延心理学",
@@ -1219,7 +1231,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "两位心理学家结合咨询和工作坊经验，讨论拖延与失败恐惧、控制感、时间观念及关系的联系，并提供观察拖延模式和安排任务的练习。"
   },
   "b07": {
     "title": "掌控习惯",
@@ -1277,66 +1290,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
-  },
-  "b09": {
-    "title": "你的降落伞是什么颜色",
-    "originalTitle": "",
-    "aliases": [],
-    "author": "理查德·尼尔森·鲍利斯",
-    "format": "职业探索",
-    "difficulty": "入门",
-    "reason": "如果你不知道如何比较工作方向，可以先选一组练习梳理自己在意的条件。",
-    "goals": [
-      "practice",
-      "understand"
-    ],
-    "caveat": "所选版本的招聘渠道与就业案例已有年代和美国背景；行业准入、签证、招聘规则及劳动力市场须按所在地现状另查。",
-    "topics": [
-      "career"
-    ],
-    "edition": {
-      "title": "你的降落伞是什么颜色",
-      "language": "zh",
-      "publisher": "中国华侨出版社",
-      "publishedAt": "2014-11",
-      "isbn": "9787511346544",
-      "url": "https://book.douban.com/subject/26126225/",
-      "checkedAt": "2026-10-17",
-      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
-    },
-    "cover": {
-      "src": "assets/covers/b09.svg",
-      "source": "https://img3.doubanio.com/view/subject/l/public/s27614099.jpg",
-      "url": "https://book.douban.com/subject/26126225/"
-    },
-    "synopsis": {
-      "text": "如果你正在求职或者打算跳槽，或是对自己的职业生涯…",
-      "url": "https://book.douban.com/subject/26126225/",
-      "label": "所选版本内容简介原文节选",
-      "checkedAt": "2026-10-17"
-    },
-    "ratings": {
-      "douban": {
-        "status": "verified",
-        "value": "7.3",
-        "count": 979,
-        "url": "https://book.douban.com/subject/26126225/",
-        "checkedAt": "2026-10-17",
-        "method": "public-book-page"
-      },
-      "goodreads": {
-        "title": "What Color is Your Parachute?: A Practical Manual for Job-hunters and Career Changers by Richard Nelson Bolles | Goodreads",
-        "url": "https://www.goodreads.com/book/show/130721288",
-        "value": "3.71",
-        "count": 17370,
-        "checkedAt": "2026-10-17",
-        "status": "verified",
-        "method": "public-page-snapshot"
-      }
-    },
-    "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "作者以提示、渴求、反应和奖赏解释习惯循环，结合个人故事与行为研究，介绍通过调整环境、行动门槛和反馈来建立或改变日常习惯的方法。"
   },
   "b12": {
     "title": "斯坦福大学人生设计课",
@@ -1397,7 +1352,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "两位人生设计课程教师把设计思维用于生活与职业探索，以工作观、生活观、多个未来方案及原型访谈等练习，介绍在尝试中修订方向的过程。"
   },
   "b13": {
     "title": "亲密关系（第6版）",
@@ -1459,7 +1415,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "这部社会心理学教材综合亲密关系研究，围绕吸引、依恋、沟通、权力、冲突与关系变化展开，结合实验、调查和生活实例解释人与人如何相处。"
   },
   "b14": {
     "title": "非暴力沟通",
@@ -1518,7 +1475,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "马歇尔·卢森堡结合沟通案例，介绍区分观察与评价、表达感受和需要、提出具体请求的方式，并讨论倾听、愤怒及冲突中的相互理解。"
   },
   "b15": {
     "title": "被讨厌的勇气",
@@ -1578,7 +1536,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "本书以哲人与青年的对话介绍阿德勒心理学，围绕自卑、人际关系、课题分离与共同体感觉，讨论个人怎样理解过去、选择行动和面对他人评价。"
   },
   "b16": {
     "title": "也许你该找个人聊聊",
@@ -1638,7 +1597,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "一位心理治疗师交织书写来访者的咨询经历与自己接受治疗的过程，以回忆录呈现失落、亲密、疾病和改变，也记录治疗关系中的困惑与觉察。"
   },
   "b17": {
     "title": "如何阅读一本书",
@@ -1697,7 +1657,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "本书把阅读分为基础、检视、分析和主题阅读，说明如何辨认一本书的结构、论点与论证，并讨论文学、历史、科学及哲学作品的不同读法。"
   },
   "b18": {
     "title": "认知天性",
@@ -1756,7 +1717,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "三位作者结合认知心理学研究和学习案例，讨论检索练习、间隔学习、交错练习与知识迁移，解释熟悉感为何可能与真正掌握知识并不一致。"
   },
   "b19": {
     "title": "学习之道",
@@ -1815,7 +1777,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "芭芭拉·奥克利结合自身学习经历与认知研究，介绍专注和发散思考、分块、回忆与练习等方法，重点讨论数学和科学学习中的理解与记忆。"
   },
   "b20": {
     "title": "卡片笔记写作法",
@@ -1873,7 +1836,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "作者介绍以卢曼笔记实践为参照的卡片笔记法，说明如何记录阅读、用自己的话形成永久笔记并建立连接，把知识积累与论证写作结合起来。"
   },
   "b21": {
     "title": "伯恩斯新情绪疗法",
@@ -1932,7 +1896,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": true
+    "clinicalContext": true,
+    "summary": "戴维·伯恩斯以认知疗法为框架，结合案例、情绪记录和练习，讨论负性思维、自我评价及拖延等问题，并介绍检视想法与安排活动的方法。"
   },
   "b22": {
     "title": "我们为什么要睡觉？",
@@ -1992,7 +1957,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "马修·沃克以睡眠研究和案例介绍睡眠阶段、昼夜节律与梦，讨论睡眠同记忆、情绪及身体健康的联系，以及咖啡因、作息和社会环境的影响。"
   },
   "b23": {
     "title": "改善情绪的正念疗法",
@@ -2051,7 +2017,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": true
+    "clinicalContext": true,
+    "summary": "这本正念练习读物讨论低落情绪、反刍与抑郁复发的联系，以身体觉察、呼吸和日常活动练习，介绍观察想法与感受而不急于作出反应的方式。"
   },
   "b24": {
     "title": "蛤蟆先生去看心理医生",
@@ -2111,7 +2078,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "这部寓言式心理咨询故事借蛤蟆与苍鹭的十次会谈，介绍沟通分析中的自我状态和人生脚本，讲述蛤蟆如何回顾童年、理解情绪与人际互动。"
   },
   "b26": {
     "title": "情绪",
@@ -2169,7 +2137,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "莉莎·费尔德曼·巴瑞特以实验、脑科学研究和生活案例阐述情绪建构理论，讨论身体感觉、概念、预测与文化如何参与形成不同的情绪体验。"
   },
   "b27": {
     "title": "自卑与超越",
@@ -2227,7 +2196,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "阿德勒从个体心理学出发，借案例讨论自卑感、生活风格、童年经验与社会兴趣，并把职业、友谊和爱情作为理解个人生活方式的重要问题。"
   },
   "b28": {
     "title": "人格心理学",
@@ -2285,7 +2255,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": true
+    "clinicalContext": true,
+    "summary": "这部人格心理学教材系统介绍精神分析、特质、生物学、行为主义、人本主义和认知等取向，结合研究与案例比较它们对人格差异的解释。"
   },
   "b29": {
     "title": "突破天性",
@@ -2343,7 +2314,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "人格心理学家布赖恩·利特尔结合研究、案例和个人项目，讨论稳定特质与情境、自由特质的关系，呈现人在性格倾向之外行动和改变的可能。"
   },
   "b31": {
     "title": "精神障碍诊断与统计手册(第5版)(DSM-5)",
@@ -2409,7 +2381,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "professional",
-    "clinicalContext": true
+    "clinicalContext": true,
+    "summary": "这是美国精神医学学会第五版精神障碍分类与诊断参考手册，按类别列出诊断标准、相关特征及鉴别要点，主要面向受过专业训练的临床人员。"
   },
   "b32": {
     "title": "边缘型人格障碍生存指南",
@@ -2468,7 +2441,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": true
+    "clinicalContext": true,
+    "summary": "这本面向边缘型人格障碍相关读者的心理教育读物，介绍诊断概念、可能的形成因素、治疗选择和情绪应对，并讨论寻求支持与维持关系的问题。"
   },
   "b33": {
     "title": "萦绕不安的自我",
@@ -2526,7 +2500,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "professional",
-    "clinicalContext": true
+    "clinicalContext": true,
+    "summary": "这部临床专著阐述作者提出的人格结构解离理论，结合创伤文献与治疗经验，介绍长期创伤相关问题的概念化及分阶段治疗，面向专业读者。"
   },
   "b34": {
     "title": "身体从未忘记",
@@ -2584,7 +2559,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": true
+    "clinicalContext": true,
+    "summary": "贝塞尔·范德考克结合临床经历、创伤研究与个案，讨论创伤对身体、记忆和关系的影响，并介绍心理、药物及身体取向等不同干预思路。"
   },
   "b35": {
     "title": "不原谅也没关系",
@@ -2643,7 +2619,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": true
+    "clinicalContext": true,
+    "summary": "皮特·沃克结合临床经验与个人经历讨论复杂性创伤，介绍情绪闪回、内在批评、哀悼及关系困难，并提出面向日常生活的自我照顾思路。"
   },
   "b36": {
     "title": "与内心的恐惧对话",
@@ -2704,7 +2681,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": true
+    "clinicalContext": true,
+    "summary": "这本面向边缘型人格障碍者亲友的读物，结合案例介绍相关行为和关系困境，讨论沟通、界限与支持，也关注亲友自身的需要及安全。"
   },
   "b38": {
     "title": "富爸爸，穷爸爸",
@@ -2764,7 +2742,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "作者以两位父亲对金钱的不同看法组织个人叙事，介绍他对资产、负债、现金流和财务教育的理解，并以创业与投资故事阐述其财富观。"
   },
   "b39": {
     "title": "邻家的百万富翁",
@@ -2822,7 +2801,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "两位作者根据对美国富裕家庭的调查与访谈，以案例和统计描述其消费、储蓄、职业与家庭安排，讨论财富积累与外在富裕形象的差别。"
   },
   "b40": {
     "title": "金钱心理学",
@@ -2880,7 +2860,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "摩根·豪泽尔通过历史轶事和人物故事，讨论运气、风险、时间、欲望与个人经历如何影响金钱决策，以及财富积累和守成中的行为差异。"
   },
   "b41": {
     "title": "小狗钱钱",
@@ -2939,7 +2920,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "这部理财童话讲述女孩吉娅与会说话的小狗钱钱的故事，通过她赚钱、储蓄及学习投资的经历，把目标、预算与金钱观融入儿童可读的情节。"
   },
   "b42": {
     "title": "活出生命的意义",
@@ -2998,7 +2980,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "维克多·弗兰克尔以集中营幸存经历为叙事起点，介绍意义疗法对自由、责任与生活意义的理解，讨论人在极端处境中如何回应自身的存在。"
   },
   "b43": {
     "title": "西西弗神话",
@@ -3056,7 +3039,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "加缪以西西弗的神话形象探讨人的意义诉求与世界沉默之间的荒诞，通过哲学论辩和文学分析，讨论反抗、自由及在有限生命中生活的态度。"
   },
   "b45": {
     "title": "最好的告别",
@@ -3115,66 +3099,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
-  },
-  "b46": {
-    "title": "错把妻子当帽子",
-    "originalTitle": "The Man Who Mistook His Wife for A Hat",
-    "aliases": [],
-    "author": "奥利弗·萨克斯",
-    "format": "神经医学叙事",
-    "difficulty": "进阶",
-    "reason": "如果你对医学与人的处境感兴趣，可以从病例叙事看到诊断之外的生活。",
-    "goals": [
-      "story",
-      "understand"
-    ],
-    "caveat": "收录较早时期的神经科个案，部分诊断措辞与解释有时代背景；罕见病例具有叙事吸引力，但不代表常见症状的概率或你的就医结论。",
-    "topics": [
-      "health"
-    ],
-    "edition": {
-      "title": "错把妻子当帽子",
-      "language": "zh",
-      "publisher": "中信出版社",
-      "publishedAt": "2010-5",
-      "isbn": "9787508619910",
-      "url": "https://book.douban.com/subject/4742971/",
-      "checkedAt": "2026-10-17",
-      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
-    },
-    "cover": {
-      "src": "assets/covers/b46.svg",
-      "source": "https://img2.doubanio.com/view/subject/l/public/s6160751.jpg",
-      "url": "https://book.douban.com/subject/4742971/"
-    },
-    "synopsis": {
-      "text": "本书诉说了24个神经失序患者神奇的遭遇和经历。他…",
-      "url": "https://book.douban.com/subject/4742971/",
-      "label": "所选版本内容简介原文节选",
-      "checkedAt": "2026-10-17"
-    },
-    "ratings": {
-      "douban": {
-        "status": "verified",
-        "value": "7.9",
-        "count": 2201,
-        "url": "https://book.douban.com/subject/4742971/",
-        "checkedAt": "2026-10-17",
-        "method": "public-book-page"
-      },
-      "goodreads": {
-        "title": "The Man Who Mistook His Wife for a Hat by Oliver Sacks | Goodreads",
-        "url": "https://www.goodreads.com/book/show/897651",
-        "value": "4.04",
-        "count": 254547,
-        "checkedAt": "2026-10-17",
-        "status": "verified",
-        "method": "public-page-snapshot"
-      }
-    },
-    "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "外科医生阿图·葛文德结合病人故事、家庭经历与养老调查，讨论衰老、失能和临终医疗，追问医学选择怎样容纳患者对尊严、关系与生活的重视。"
   },
   "b47": {
     "title": "当呼吸化为空气",
@@ -3232,7 +3158,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "神经外科医生保罗·卡拉尼什在确诊晚期肺癌后书写这部回忆录，以医生和患者的双重经历回望医学训练、家庭与死亡，思考有限生命中的价值。"
   },
   "b48": {
     "title": "医生的修炼",
@@ -3291,7 +3218,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "阿图·葛文德通过外科行医经历、病例与医学调查，描写医生面对错误、复杂判断和无法解释的病情时的处境，讨论医疗的不确定性与职业责任。"
   },
   "b49": {
     "title": "原生家庭",
@@ -3352,7 +3280,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "苏珊·福沃德结合咨询案例讨论控制、羞辱、忽视与暴力等家庭互动，分析它们同成年生活的联系，并介绍表达感受、辨认责任和设立界限的思路。"
   },
   "b50": {
     "title": "为何家会伤人",
@@ -3410,7 +3339,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "武志红围绕家庭教育和个人成长汇集心理随笔，以咨询及生活案例讨论亲子互动、情感需要与关系模式，呈现其对中国家庭问题的理解。"
   },
   "b51": {
     "title": "情感勒索",
@@ -3470,7 +3400,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "苏珊·福沃德与唐娜·弗雷泽借家庭、伴侣和职场案例，分析以恐惧、责任及内疚施加压力的互动，介绍识别这种模式、表达立场与设立界限的方法。"
   },
   "b52": {
     "title": "为了你好",
@@ -3528,7 +3459,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "爱丽丝·米勒借历史人物与个案批判以孩子利益为名的压制和暴力教育，从精神分析视角讨论童年经历与成年行为，以及暴力如何在代际间延续。"
   },
   "b54": {
     "title": "脆弱的力量",
@@ -3587,7 +3519,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "布琳·布朗结合访谈研究与个人故事，围绕羞耻、脆弱、归属和不完美提出十项生活指引，讨论自我接纳、创造、休息与日常选择的关系。"
   },
   "b56": {
     "title": "幸福的婚姻",
@@ -3646,7 +3579,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "约翰·戈特曼与娜恩·西尔弗结合伴侣观察研究及案例，提出经营婚姻的七项原则，并以问答和练习讨论友谊、冲突、共同意义与关系修复。"
   },
   "b57": {
     "title": "关系的重建",
@@ -3705,7 +3639,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "两位作者以成人依恋理论解释亲密关系中的焦虑、回避与安全倾向，结合案例和沟通建议，讨论伴侣选择、亲密需求与冲突中的互动模式。"
   },
   "b58": {
     "title": "我们为什么不爱了",
@@ -3760,7 +3695,8 @@ const BOOK_CATALOG = {
       }
     },
     "audience": "general",
-    "clinicalContext": false
+    "clinicalContext": false,
+    "summary": "曹雪敏结合咨询案例、文化故事与自身经历，围绕分手、背叛、性别和权力等议题讨论当代亲密关系，呈现失去关系后理解自己与重建生活的思路。"
   },
   "b60": {
     "title": "理智胜过情感（第二版）",
@@ -3829,7 +3765,8 @@ const BOOK_CATALOG = {
         "method": "public-page-snapshot",
         "title": "Mind Over Mood"
       }
-    }
+    },
+    "summary": "这本认知行为练习手册以案例、引导问题和工作表介绍情境、想法、情绪与行为的联系，逐步说明如何记录体验、检视解释并尝试不同的行动。"
   },
   "b61": {
     "title": "辩证行为疗法",
@@ -3887,7 +3824,8 @@ const BOOK_CATALOG = {
         "method": "public-page-snapshot",
         "title": "The Dialectical Behavior Therapy Skills Workbook"
       }
-    }
+    },
+    "summary": "这本辩证行为疗法技能练习手册围绕正念、痛苦耐受、情绪调节和人际效能展开，配合案例与分步练习，介绍面对强烈情绪和互动困难的技巧。"
   },
   "b62": {
     "title": "克服完美主义",
@@ -3953,7 +3891,8 @@ const BOOK_CATALOG = {
         "method": "public-page-snapshot",
         "title": "Overcoming Perfectionism"
       }
-    }
+    },
+    "summary": "三位作者以认知行为方法讨论完美主义的维持机制，通过自我观察、思维检视与行为实验，介绍如何评估过高标准的代价并制定个人练习计划。"
   },
   "b63": {
     "title": "自尊（原书第4版）",
@@ -4015,7 +3954,8 @@ const BOOK_CATALOG = {
         "method": "public-page-snapshot",
         "title": "Self-Esteem: A Proven Program of Cognitive Techniques for Assessing, Improving, and Maintaining Your Self-Esteem"
       }
-    }
+    },
+    "summary": "这本自尊练习手册以认知方法讨论内在批评、信念与自我评价，结合情境分析和练习介绍表达需要、回应批评，以及与苛刻想法保持距离的方式。"
   },
   "b64": {
     "title": "睡出好情绪",
@@ -4080,7 +4020,8 @@ const BOOK_CATALOG = {
         "method": "public-page-snapshot",
         "title": "Quiet Your Mind and Get to Sleep: Solutions to Insomnia for Those with Depression, Anxiety, or Chronic Pain"
       }
-    }
+    },
+    "summary": "这本失眠认知行为练习读物关注伴随低落、焦虑或慢性疼痛的睡眠困难，通过睡眠日记、作息安排与思维记录，介绍识别和调整失眠维持因素的方法。"
   },
   "b65": {
     "title": "幸福的陷阱",
@@ -4139,7 +4080,269 @@ const BOOK_CATALOG = {
         "method": "public-page-snapshot",
         "title": "The Happiness Trap"
       }
-    }
+    },
+    "summary": "路斯·哈里斯以接纳与承诺疗法为框架，结合比喻、案例和体验练习，介绍觉察想法、容纳感受、澄清价值与承诺行动，讨论追逐快乐带来的困境。"
+  },
+  "b66": {
+    "title": "你要如何衡量你的人生",
+    "aliases": [],
+    "author": "克莱顿·克里斯坦森 / 詹姆斯·奥沃斯 / 凯伦·迪伦",
+    "originalTitle": "How Will You Measure Your Life?",
+    "format": "管理思想与人生选择",
+    "difficulty": "入门",
+    "goals": [
+      "understand"
+    ],
+    "topics": [
+      "career"
+    ],
+    "reason": "如果你纠结的不只是做什么工作，还有什么值得长期投入，可以借书中的问题梳理满意感、重要关系与日常取舍。",
+    "caveat": "这是管理思想与个人经历的延伸，不是系统的求职指南。企业类比、哈佛商学院背景及作者的宗教价值观有适用边界，不能据此预测个人成败，也不能忽略经济条件、照护责任和就业环境。",
+    "audience": "general",
+    "clinicalContext": false,
+    "caveatSources": [
+      {
+        "label": "作者团队：作品与写作背景",
+        "url": "https://www.measureyourlife.com/about/"
+      }
+    ],
+    "edition": {
+      "title": "你要如何衡量你的人生",
+      "language": "zh",
+      "publisher": "吉林出版集团",
+      "publishedAt": "2013-1-1",
+      "isbn": "9787553411217",
+      "url": "https://book.douban.com/subject/20434430/",
+      "checkedAt": "2026-10-17",
+      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
+    },
+    "cover": {
+      "src": "assets/covers/b66.svg",
+      "source": "https://img9.doubanio.com/view/subject/l/public/s24561045.jpg",
+      "url": "https://book.douban.com/subject/20434430/"
+    },
+    "synopsis": {
+      "text": "2010年春，克里斯坦森为哈佛商学院毕业生发表了…",
+      "url": "https://book.douban.com/subject/20434430/",
+      "label": "所选版本内容简介原文节选",
+      "checkedAt": "2026-10-17"
+    },
+    "ratings": {
+      "douban": {
+        "status": "verified",
+        "value": "8.0",
+        "count": 4609,
+        "url": "https://book.douban.com/subject/20434430/",
+        "checkedAt": "2026-10-17",
+        "method": "public-book-page"
+      },
+      "goodreads": {
+        "status": "verified",
+        "value": "4.05",
+        "count": 38921,
+        "url": "https://www.goodreads.com/book/show/13425570",
+        "checkedAt": "2026-10-17",
+        "method": "public-page-snapshot",
+        "title": "How Will You Measure Your Life?"
+      }
+    },
+    "summary": "作者将管理学中的动机、资源分配与战略取舍用于职业、家庭和人生选择，结合个人经历讨论怎样让日常行动与重视的价值保持一致。"
+  },
+  "b67": {
+    "title": "医生，你在想什么",
+    "aliases": [],
+    "author": "王兴",
+    "originalTitle": "",
+    "format": "医疗科普与就医沟通",
+    "difficulty": "入门",
+    "goals": [
+      "understand",
+      "practice"
+    ],
+    "topics": [
+      "health"
+    ],
+    "reason": "如果你不知道就诊时该怎么描述症状、询问检查或讨论方案，可以从书中的就医情境了解医生如何思考，再准备自己的问题。",
+    "caveat": "主要来自医生视角和个案，不能代表所有科室、医院或患者经历，也不能保证避免误诊。书中的检查、治疗和用药讨论不能替代个体评估；遇到疑问应结合自身情况与接诊医生讨论。",
+    "audience": "general",
+    "clinicalContext": false,
+    "caveatSources": [
+      {
+        "label": "上海译文出版社供稿：内容介绍",
+        "url": "https://read.douban.com/ebook/439952366/"
+      }
+    ],
+    "edition": {
+      "title": "医生，你在想什么",
+      "language": "zh",
+      "publisher": "上海译文出版社",
+      "publishedAt": "2023-6-20",
+      "isbn": "9787532793013",
+      "url": "https://book.douban.com/subject/36392716/",
+      "checkedAt": "2026-10-17",
+      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
+    },
+    "cover": {
+      "src": "assets/covers/b67.svg",
+      "source": "https://img9.doubanio.com/view/subject/l/public/s34550176.jpg",
+      "url": "https://book.douban.com/subject/36392716/"
+    },
+    "synopsis": {
+      "text": "《医生，你在想什么》是医生、科普作家王兴继《病人…",
+      "url": "https://book.douban.com/subject/36392716/",
+      "label": "所选版本内容简介原文节选",
+      "checkedAt": "2026-10-17"
+    },
+    "ratings": {
+      "douban": {
+        "status": "verified",
+        "value": "8.2",
+        "count": 1583,
+        "url": "https://book.douban.com/subject/36392716/",
+        "checkedAt": "2026-10-17",
+        "method": "public-book-page"
+      },
+      "goodreads": {
+        "status": "verified",
+        "value": "4.50",
+        "count": 6,
+        "url": "https://www.goodreads.com/book/show/195879492",
+        "checkedAt": "2026-10-17",
+        "method": "public-page-snapshot",
+        "title": "医生，你在想什么"
+      }
+    },
+    "summary": "一位临床医生围绕寻医、问诊、检查和治疗中的常见困惑，以案例解释医学思维、医患沟通与医疗选择，介绍疾病的不确定性和就医过程。"
+  },
+  "b68": {
+    "title": "认知心理学及其启示",
+    "aliases": [],
+    "author": "约翰·R.安德森",
+    "originalTitle": "Cognitive Psychology and Its Implications",
+    "format": "认知心理学教材",
+    "difficulty": "较难",
+    "goals": [
+      "understand"
+    ],
+    "topics": [
+      "learning"
+    ],
+    "reason": "如果你想了解注意、记忆和技能学习的研究依据，而不仅是收集学习技巧，可以选读相应章节，并留意实验任务与真实学习情境的差别。",
+    "caveat": "需要一定心理学与实验研究基础，适合选章深入阅读。所选2012年中文版对应第7版，已有第9版，不能代表此后的全部研究；实验室发现不直接等于个人学习效果，书中内容也不是学习障碍诊断依据。",
+    "audience": "general",
+    "clinicalContext": false,
+    "caveatSources": [
+      {
+        "label": "Macmillan：原作及第9版修订资料",
+        "url": "https://store.macmillanlearning.com/us/product/Cognitive-Psychology-and-Its-Implications/p/1319067115"
+      }
+    ],
+    "edition": {
+      "title": "认知心理学及其启示",
+      "language": "zh",
+      "publisher": "人民邮电出版社",
+      "publishedAt": "2012-1-1",
+      "isbn": "9787115266514",
+      "url": "https://book.douban.com/subject/7067149/",
+      "checkedAt": "2026-10-17",
+      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多 · 第7版，非最新修订"
+    },
+    "cover": {
+      "src": "assets/covers/b68.svg",
+      "source": "https://img3.doubanio.com/view/subject/l/public/s8859498.jpg",
+      "url": "https://book.douban.com/subject/7067149/"
+    },
+    "synopsis": {
+      "text": "《认知心理学及其启示(第7版)》自1980年第一…",
+      "url": "https://book.douban.com/subject/7067149/",
+      "label": "所选版本内容简介原文节选",
+      "checkedAt": "2026-10-17"
+    },
+    "ratings": {
+      "douban": {
+        "status": "verified",
+        "value": "9.0",
+        "count": 624,
+        "url": "https://book.douban.com/subject/7067149/",
+        "checkedAt": "2026-10-17",
+        "method": "public-book-page"
+      },
+      "goodreads": {
+        "status": "verified",
+        "value": "3.81",
+        "count": 238,
+        "url": "https://www.goodreads.com/book/show/26095451",
+        "checkedAt": "2026-10-17",
+        "method": "public-page-snapshot",
+        "title": "Cognitive Psychology and Its Implications"
+      }
+    },
+    "summary": "这部认知心理学教材以实验研究解释知觉、注意、记忆、知识表征、问题解决与决策，并讨论这些机制在技能学习和日常生活中的应用。"
+  },
+  "b69": {
+    "title": "健康心理学（第八版）（万千心理）",
+    "aliases": [],
+    "author": "Linda Brannon / Jess Feist / John A. Updegraff",
+    "originalTitle": "Health Psychology: An Introduction to Behavior and Health",
+    "format": "健康心理学教材",
+    "difficulty": "较难",
+    "goals": [
+      "understand"
+    ],
+    "topics": [
+      "health"
+    ],
+    "reason": "如果你想系统理解压力、健康行为和求医过程之间的联系，可以从研究方法、医疗服务或慢性疾病适应章节开始，而不必从头通读。",
+    "caveat": "需要心理学及生物学基础；所选2016年中文版对应英文第8版，研究与医疗情境已有更新。部分案例及制度背景主要来自美国，相关不等于因果，不能把疾病归咎于患者的心态或生活方式，也不用于自行诊断或调整治疗。",
+    "audience": "general",
+    "clinicalContext": false,
+    "caveatSources": [
+      {
+        "label": "Cengage：原作第8版出版资料",
+        "url": "https://www.cengage.com/c/ebook-health-psychology-an-introduction-to-behavior-and-health-8e-brannon-feist-updegraff/9781285698557/"
+      }
+    ],
+    "edition": {
+      "title": "健康心理学（第八版）（万千心理）",
+      "language": "zh",
+      "publisher": "中国轻工业出版社",
+      "publishedAt": "2016-12",
+      "isbn": "9787518411214",
+      "url": "https://book.douban.com/subject/26926105/",
+      "checkedAt": "2026-10-17",
+      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多 · 第8版，非最新修订"
+    },
+    "cover": {
+      "src": "assets/covers/b69.svg",
+      "source": "https://img3.doubanio.com/view/subject/l/public/s29188348.jpg",
+      "url": "https://book.douban.com/subject/26926105/"
+    },
+    "synopsis": {
+      "text": "健康这个概念在今天已经与一百年前有了很大的不同。…",
+      "url": "https://book.douban.com/subject/26926105/",
+      "label": "所选版本内容简介原文节选",
+      "checkedAt": "2026-10-17"
+    },
+    "ratings": {
+      "douban": {
+        "status": "verified",
+        "value": "7.9",
+        "count": 22,
+        "url": "https://book.douban.com/subject/26926105/",
+        "checkedAt": "2026-10-17",
+        "method": "public-book-page"
+      },
+      "goodreads": {
+        "status": "verified",
+        "value": "3.77",
+        "count": 105,
+        "url": "https://www.goodreads.com/book/show/18099778",
+        "checkedAt": "2026-10-17",
+        "method": "public-page-snapshot",
+        "title": "Health Psychology: An Introduction to Behavior and Health"
+      }
+    },
+    "summary": "这部教材从生物、心理与社会因素出发，介绍健康行为、压力与疼痛、求医和治疗依从性，以研究和案例讨论慢性疾病的心理适应与健康促进。"
   }
 };
 
