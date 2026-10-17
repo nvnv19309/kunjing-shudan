@@ -239,3 +239,8 @@ select { max-width: 100%; min-width: 0; padding: 9px 12px; border: 1px solid var
   .topic-control select { flex: 1; }
   #catalog-filters select { display: block; width: 100%; margin-top: 6px; }
 }
+
+.btn-secondary { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 11px 24px; margin-top: 18px; border: 1px solid var(--green); border-radius: 2px; background: var(--green-pale); color: var(--ink); font: 600 15px/1.8 var(--sans); }
+.btn-secondary:hover { background: #dce4d2; }
+.reference-heading { grid-column: 1 / -1; margin: 12px 0 0; font: 22px/1.7 var(--serif); color: var(--ink); }
+@media (max-width: 600px) { #btn-browse { width: 100%; } }

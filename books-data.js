@@ -197,7 +197,6 @@ const BOOKS_DATA = {
       "沟通",
       "相处",
       "吵架",
-      "孤独",
       "不合群",
       "讨好",
       "配合不来",
@@ -714,7 +713,6 @@ const BOOKS_DATA = {
       "偏心",
       "重男轻女",
       "打骂",
-      "不被爱",
       "父母控制",
       "原生",
       "家人不理解",
@@ -986,6 +984,61 @@ const BOOKS_DATA = {
         "reason": "如果你想理解情绪如何形成，可以把书中的理论与具体经历对照，不把任何一种解释当作定论。"
       }
     ]
+  },
+  "connection": {
+    "group": "relations",
+    "short": "让感受被听见",
+    "title": "孤独与被爱感",
+    "icon": "🫂",
+    "intro": "觉得没人爱自己，可能包含孤独、失落、被忽视或对自身价值的怀疑。这里从理解需要、寻找联结和回应自责出发，不凭一句话推断家庭经历或人格诊断。",
+    "readingTip": "想先得到陪伴，可以从咨询故事读起；想尝试练习，可选自我关怀或自尊。准备深入了解关系时，再选读《亲密关系》的相关章节。",
+    "boundary": "感到不被爱不等于你不值得被爱，也不能仅凭阅读判断他人的心意。阅读不能代替现实中的支持；若关系中存在持续伤害，应同时关注具体行为、处境与安全。",
+    "keywords": [
+      "没人爱我",
+      "没有人爱我",
+      "没人喜欢我",
+      "没有人喜欢我",
+      "没人关心我",
+      "没有人关心我",
+      "没人在乎我",
+      "没有人在乎我",
+      "不值得被爱",
+      "不配被爱",
+      "不被爱",
+      "想被爱",
+      "渴望被爱",
+      "缺少陪伴",
+      "没人陪我",
+      "没有人陪我",
+      "没人需要我",
+      "没有人需要我",
+      "没有归属感",
+      "孤单",
+      "孤独",
+      "孤独感",
+      "被孤立",
+      "被遗忘"
+    ],
+    "classic": [
+      {
+        "bookId": "b16",
+        "reason": "如果你觉得自己的难过无人理解，可以先读人物如何把失落与需要说出来；它提供故事中的陪伴，不替你判断现实中谁爱你。"
+      },
+      {
+        "bookId": "b03",
+        "reason": "如果感到不被爱时又开始责怪自己，可以从一个简短练习尝试回应痛苦；关怀自己不意味着独自承担关系中的所有问题。"
+      }
+    ],
+    "popular": [
+      {
+        "bookId": "b63",
+        "reason": "如果你把别人的疏远理解成“我不值得被爱”，可以观察内在批评，练习区分一次互动与对整个人的评价，同时看见真实的关系处境。"
+      },
+      {
+        "bookId": "b13",
+        "reason": "如果你想更深入理解归属、亲密需求和关系互动，可以选读相关章节；群体研究不能证明某个人是否爱你。"
+      }
+    ]
   }
 };
 
@@ -1066,7 +1119,8 @@ const BOOK_CATALOG = {
     "topics": [
       "anxiety",
       "sensitivity",
-      "emotion_management"
+      "emotion_management",
+      "connection"
     ],
     "edition": {
       "title": "静观自我关怀:勇敢爱自己的51项练习",
@@ -1430,7 +1484,8 @@ const BOOK_CATALOG = {
     "topics": [
       "relationship",
       "couple",
-      "breakup"
+      "breakup",
+      "connection"
     ],
     "edition": {
       "title": "亲密关系（第6版）",
@@ -1612,7 +1667,8 @@ const BOOK_CATALOG = {
     "caveat": "属于治疗师叙事与个人经验，人物经过写作处理；美国心理咨询的流程和资源不等于各地现实，也不能保证你会得到同样的咨询经历。",
     "topics": [
       "relationship",
-      "mood"
+      "mood",
+      "connection"
     ],
     "edition": {
       "title": "也许你该找个人聊聊",
@@ -3970,7 +4026,8 @@ const BOOK_CATALOG = {
     ],
     "topics": [
       "self",
-      "sensitivity"
+      "sensitivity",
+      "connection"
     ],
     "reason": "如果你经常用苛刻的语言评价自己，可以从识别内在批评和表达需要的练习开始，寻找更具体、平衡的自我评价。",
     "caveat": "自尊不是给人分高低的标准，书中练习也不是诊断工具。工作条件、歧视、经济与关系中的伤害会真实影响自我感受；不能仅靠改变解释消除这些处境。",
@@ -4404,7 +4461,231 @@ const BOOK_CATALOG = {
       }
     },
     "summary": "这部教材从生物、心理与社会因素出发，介绍健康行为、压力与疼痛、求医和治疗依从性，以研究和案例讨论慢性疾病的心理适应与健康促进。"
+  },
+  "b70": {
+    "title": "社会心理学（第8版）",
+    "aliases": [
+      "社会心理学"
+    ],
+    "author": "戴维·迈尔斯",
+    "originalTitle": "Social Psychology",
+    "format": "社会心理学教材",
+    "difficulty": "较难",
+    "goals": [
+      "understand"
+    ],
+    "topics": [
+      "relationship",
+      "self",
+      "connection"
+    ],
+    "reason": "如果你想系统理解归因、态度、群体影响和人与人的联结，可以把这部教材作为研究入门，结合原始研究与后续复现资料阅读。",
+    "caveat": "所选为2006年中文版第8版，远早于此后的复现讨论与修订；不能把经典实验都当作已确认的普遍定律。文化与样本限制需要具体辨别，群体结果也不能用来揣测一个人的动机或诊断关系。",
+    "audience": "professional",
+    "clinicalContext": false,
+    "caveatSources": [
+      {
+        "label": "作者：现行修订版本资料",
+        "url": "https://davidmyers.org/textbooks/social-psychology"
+      }
+    ],
+    "edition": {
+      "title": "社会心理学",
+      "language": "zh",
+      "publisher": "人民邮电出版社",
+      "publishedAt": "2006-1",
+      "isbn": "9787115138804",
+      "url": "https://book.douban.com/subject/1476651/",
+      "checkedAt": "2026-10-17",
+      "selectionNote": "优先中文 · 本次可查同作品中文版候选中评价人数最多 · 第8版，非最新修订"
+    },
+    "cover": {
+      "src": "assets/covers/b70.svg",
+      "source": "https://img3.doubanio.com/view/subject/l/public/s1670932.jpg",
+      "url": "https://book.douban.com/subject/1476651/"
+    },
+    "synopsis": {
+      "text": "《社会心理学》这本书被美国700多所大学或学院的…",
+      "url": "https://book.douban.com/subject/1476651/",
+      "label": "所选版本内容简介原文节选",
+      "checkedAt": "2026-10-17"
+    },
+    "ratings": {
+      "douban": {
+        "status": "verified",
+        "value": "9.0",
+        "count": 29444,
+        "url": "https://book.douban.com/subject/1476651/",
+        "checkedAt": "2026-10-17",
+        "method": "public-book-page"
+      },
+      "goodreads": {
+        "url": "https://www.goodreads.com/book/show/740224",
+        "value": "4.02",
+        "count": 1488,
+        "method": "public-page-snapshot",
+        "status": "verified",
+        "checkedAt": "2026-10-17"
+      }
+    },
+    "summary": "这部社会心理学教材结合研究与生活实例，介绍社会认知、态度与行为、群体影响及人际关系，讨论个体如何理解、影响他人并建立联系。"
+  },
+  "b71": {
+    "title": "心理学研究方法（第7版）",
+    "aliases": [
+      "心理学研究方法"
+    ],
+    "author": "约翰·肖内西 / 尤金·泽克迈斯特 / 珍妮·泽克迈斯特",
+    "originalTitle": "Research Methods in Psychology",
+    "format": "研究方法教材",
+    "difficulty": "较难",
+    "goals": [
+      "understand"
+    ],
+    "topics": [
+      "learning"
+    ],
+    "reason": "如果你想判断一项心理学结论怎样得出，可以先学习研究设计、测量、伦理和结果解释，再回到具体论文检查结论的适用范围。",
+    "caveat": "需要基础统计与研究设计知识，适合配合课程和真实论文阅读。所选为第7版旧教材，研究伦理、开放科学、报告规范与统计实践已有更新；Goodreads评分低于本站复核线，依据方法教学用途保留，不代表没有阅读困难。",
+    "audience": "professional",
+    "clinicalContext": false,
+    "caveatSources": [
+      {
+        "label": "出版方供稿：内容与目录",
+        "url": "https://www.dedao.cn/ebook/detail?id=EJmMZXq1b8qOpBlD69XAdP7LEGaKJWE1xBWxRnme5vrVzo4QMZYgNyk2jNA5467K"
+      }
+    ],
+    "edition": {
+      "title": "心理学研究方法",
+      "language": "zh",
+      "publisher": "人民邮电出版社",
+      "publishedAt": "2010-4",
+      "isbn": "9787115223265",
+      "url": "https://book.douban.com/subject/4770564/",
+      "checkedAt": "2026-10-17",
+      "selectionNote": "优先中文 · 本次可查同作品中文版候选中评价人数最多 · 第7版，非最新修订"
+    },
+    "cover": {
+      "src": "assets/covers/b71.svg",
+      "source": "https://img9.doubanio.com/view/subject/l/public/s4571105.jpg",
+      "url": "https://book.douban.com/subject/4770564/"
+    },
+    "synopsis": {
+      "text": "本书有着众多特色：第一，这本书已经出到第七版，从…",
+      "url": "https://book.douban.com/subject/4770564/",
+      "label": "所选版本内容简介原文节选",
+      "checkedAt": "2026-10-17"
+    },
+    "ratings": {
+      "douban": {
+        "status": "verified",
+        "value": "8.8",
+        "count": 190,
+        "url": "https://book.douban.com/subject/4770564/",
+        "checkedAt": "2026-10-17",
+        "method": "public-book-page"
+      },
+      "goodreads": {
+        "url": "https://www.goodreads.com/book/show/3641585",
+        "value": "3.40",
+        "count": 163,
+        "method": "public-page-snapshot",
+        "status": "verified",
+        "checkedAt": "2026-10-17"
+      }
+    },
+    "summary": "这部研究方法教材结合心理学实例，介绍科学方法与研究伦理、观察和调查、实验与准实验设计，以及数据分析、结果解释和研究报告写作。"
+  },
+  "b72": {
+    "title": "认知疗法基础与应用（第2版）",
+    "aliases": [
+      "认知疗法基础与应用"
+    ],
+    "author": "朱迪丝·S.贝克",
+    "originalTitle": "Cognitive Behavior Therapy: Basics and Beyond",
+    "format": "心理治疗专业教材",
+    "difficulty": "较难",
+    "goals": [
+      "understand"
+    ],
+    "topics": [
+      "anxiety",
+      "mood",
+      "emotion_management"
+    ],
+    "reason": "如果你正在接受相关专业训练，可以借会谈示例学习个案概念化、合作关系与治疗结构，并在合格督导和现行专业规范下讨论如何应用。",
+    "caveat": "这是面向专业学习者的治疗教材，不是自行诊断或替他人开展治疗的指南，阅读不能替代资格、训练与督导。所选2013年中文版对应第2版，已有第3版，治疗关系、正念与康复取向等修订须另行核对。",
+    "audience": "professional",
+    "clinicalContext": true,
+    "caveatSources": [
+      {
+        "label": "Guilford：第3版修订边界",
+        "url": "https://www.guilford.com/books/Cognitive-Behavior-Therapy/Judith-Beck/9781462544196/new-to-edition"
+      }
+    ],
+    "edition": {
+      "title": "认知疗法基础与应用",
+      "language": "zh",
+      "publisher": "中国轻工业出版社",
+      "publishedAt": "2013-6",
+      "isbn": "9787501990238",
+      "url": "https://book.douban.com/subject/24532754/",
+      "checkedAt": "2026-10-17",
+      "selectionNote": "优先中文 · 本次可查同作品中文版候选中评价人数最多 · 第2版，非最新修订"
+    },
+    "cover": {
+      "src": "assets/covers/b72.svg",
+      "source": "https://img3.doubanio.com/view/subject/l/public/s26638057.jpg",
+      "url": "https://book.douban.com/subject/24532754/"
+    },
+    "synopsis": {
+      "text": "《认知疗法基础与应用(第2版)》囊括了作者朱迪·…",
+      "url": "https://book.douban.com/subject/24532754/",
+      "label": "所选版本内容简介原文节选",
+      "checkedAt": "2026-10-17"
+    },
+    "ratings": {
+      "douban": {
+        "status": "verified",
+        "value": "9.2",
+        "count": 824,
+        "url": "https://book.douban.com/subject/24532754/",
+        "checkedAt": "2026-10-17",
+        "method": "public-book-page"
+      },
+      "goodreads": {
+        "url": "https://www.goodreads.com/book/show/72777109",
+        "value": "4.22",
+        "count": 3573,
+        "method": "public-page-snapshot",
+        "status": "verified",
+        "checkedAt": "2026-10-17"
+      }
+    },
+    "summary": "这部认知行为治疗教材以会谈示例与图表介绍个案概念化、治疗计划和会谈结构，并讨论自动思维、核心信念、行为激活及治疗中的常见困难。"
   }
 };
+
+const PROFESSIONAL_READING = [
+  {
+    "title": "基础教材与研究方法",
+    "bookIds": [
+      "b28",
+      "b13",
+      "b68",
+      "b69",
+      "b70",
+      "b71"
+    ]
+  },
+  {
+    "title": "临床与治疗参考",
+    "bookIds": [
+      "b72",
+      "b31",
+      "b33"
+    ]
+  }
+];
 
 const TOPIC_LIST = Object.keys(BOOKS_DATA).map(key => ({ key, title: BOOKS_DATA[key].title, icon: BOOKS_DATA[key].icon }));

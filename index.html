@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>困境书单 — 先安顿此刻，再读懂自己</title>
-  <meta name="description" content="从当下的困扰出发，找到理解、方法与陪伴。16个阅读主题，说明推荐理由、阅读门槛与使用边界。">
-  <link rel="stylesheet" href="style.css?v=20261017-slim">
+  <meta name="description" content="从当下的困扰出发，找到理解、方法与陪伴。17个阅读主题，说明推荐理由、阅读门槛与使用边界。">
+  <link rel="stylesheet" href="style.css?v=20261017-connection">
   <link rel="icon" href="data:,">
 </head>
 <body>
@@ -29,7 +29,7 @@
             <button id="btn-search" class="btn-primary" type="submit">找一本书 <span aria-hidden="true">↗</span></button>
           </form>
           <p id="search-help" class="input-help">无需登录，输入不上传；这里不做心理诊断。</p>
-          <p id="search-status" class="notice" role="status"></p><button type="button" class="browse-link" data-catalog-link>先逛书单 →</button>
+          <p id="search-status" class="notice" role="status"></p><button type="button" id="btn-browse" class="btn-secondary" data-catalog-link>先逛书单 →</button>
           <noscript><p class="notice">选题与推荐需要开启 JavaScript。你仍可以阅读下方的编选说明和资料链接。</p></noscript>
         </div>
         <aside class="reading-note" aria-label="给此刻的你">
@@ -48,7 +48,7 @@
       <div class="section-heading"><div><h2 id="catalog-title" tabindex="-1">书籍目录</h2></div><p id="catalog-count" role="status"></p></div>
       <div id="catalog-notice" class="match-hint" hidden><strong>这次没有匹配到主题，先来书架看看。</strong><p>你写下的是：<span id="failed-query"></span></p><p>可以返回修改，或确认一个可能接近的主题：</p><div id="match-hint"></div><button class="btn-back" type="button" onclick="goBack('input')">修改刚才的描述 →</button></div>
       <div id="catalog-audiences" class="audience-options" role="group" aria-label="阅读用途分区"><button type="button" class="filter-chip" data-audience="general" aria-pressed="true">日常阅读</button><button type="button" class="filter-chip" data-audience="professional" aria-pressed="false">专业参考</button></div>
-      <p id="professional-intro" class="professional-intro" hidden>面向相关专业学习与研究，阅读门槛较高。这里的分类与理论资料不是自助诊断工具；旧版诊断手册须对照现行更新资料，单一理论也不代表全部共识。</p>
+      <p id="professional-intro" class="professional-intro" hidden>基础教材与研究方法适合系统学习；临床与治疗参考面向相关专业训练。部分教材也保留在日常主题中。阅读不能替代资质、训练与督导；诊断资料须对照现行更新，不能用于自行诊断。</p>
       <div id="catalog-filters"><label for="catalog-topic-select">阅读主题</label><select id="catalog-topic-select"></select></div>
       <p id="catalog-warning" class="warning-box" hidden>书籍不能替代专业帮助。如果困扰持续影响生活，请联系医生或合格的心理专业人员；无法保证自身安全时，请立即联系所在地急救服务或前往急诊。</p>
       <aside id="catalog-clinical" class="clinical-notice" role="note" hidden></aside>
@@ -91,7 +91,7 @@
     </details>
   </main>
   <footer class="site-footer"><div class="footer-main"><span class="footer-brand">困境书单<span class="footer-dot">.</span></span><p>书籍不能替代专业帮助。<br>严重困扰请寻求医生或合格的心理专业人员。</p></div><div class="footer-bottom"><div class="log-line"><a href="#log-panel" id="log-toggle" class="log-link" aria-expanded="false" aria-controls="log-panel">本地使用记录</a><span id="log-panel" class="log-panel" style="display:none;"><span id="log-count">0</span> 条 · 保存在本浏览器，不上传服务器<button type="button" id="log-export" class="log-btn">导出</button><button type="button" id="log-clear" class="log-btn">清除</button></span></div></div></footer>
-  <script src="books-data.js?v=20261017-slim"></script>
-  <script src="app.js?v=20261017-slim"></script>
+  <script src="books-data.js?v=20261017-connection"></script>
+  <script src="app.js?v=20261017-connection"></script>
 </body>
 </html>

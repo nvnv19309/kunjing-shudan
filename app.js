@@ -228,7 +228,8 @@
     var key = state.catalogTopic;
     var professional = state.catalogAudience === 'professional';
     document.getElementById('catalog-notice').hidden = professional || !state.failedQuery;
-    var ids = Object.keys(BOOK_CATALOG).filter(function(id) {
+    var references = PROFESSIONAL_READING.reduce(function(ids, group) { return ids.concat(group.bookIds); }, []);
+    var ids = professional ? references : Object.keys(BOOK_CATALOG).filter(function(id) {
       var b = BOOK_CATALOG[id];
       return b.audience === state.catalogAudience && (professional || key === 'all' || b.topics.indexOf(key) !== -1);
     });
@@ -241,6 +242,9 @@
     var warning = document.getElementById('catalog-warning');
     warning.hidden = !(professional || key !== 'all' && BOOKS_DATA[key].warning);
     var refs = ids.map(function(id) { return { bookId: id }; });
+    if (professional) PROFESSIONAL_READING.forEach(function(group) {
+      refs.find(function(r) { return r.bookId === group.bookIds[0]; }).groupTitle = group.title;
+    });
     renderClinicalNotice('catalog-clinical', refs);
     renderBooks('catalog-list', refs, professional || key === 'all' ? null : key);
   }
@@ -275,10 +279,10 @@
       return '<button type="button" class="hint-chip" data-result-topic="' + t.key + '">' + escapeHtml(BOOKS_DATA[t.key].title) + '</button>';
     }).join('');
     document.getElementById('direction-status').textContent = '';
-    var professionalCount = Object.keys(BOOK_CATALOG).filter(function(id) { return BOOK_CATALOG[id].audience === 'professional' && BOOK_CATALOG[id].topics.indexOf(key) !== -1; }).length;
+    var professionalCount = PROFESSIONAL_READING.reduce(function(ids, group) { return ids.concat(group.bookIds); }, []).filter(function(id) { return BOOK_CATALOG[id].topics.indexOf(key) !== -1; }).length;
     var professionalLink = document.getElementById('result-professional-link');
     professionalLink.hidden = !professionalCount;
-    professionalLink.textContent = '专业学习参考（' + professionalCount + ' 本）→';
+    professionalLink.textContent = '查看专业书架 →';
     renderResultBooks();
     logEvent({ type: 'result', topic: key, preference: state.preference });
     if (!keepContext) switchStep('result');
@@ -324,6 +328,7 @@
     var html = '';
     references.forEach(function(ref) {
       var b = BOOK_CATALOG[ref.bookId];
+      if (ref.groupTitle) html += '<h3 class="reference-heading">' + escapeHtml(ref.groupTitle) + '</h3>';
       var edition = b.edition;
       var reason = ref.reason || b.reason;
       if (topicKey && !ref.reason) {
@@ -340,7 +345,7 @@
       html += '<div class="book-reason"><strong>为什么推荐</strong>' + escapeHtml(reason) + '</div><div class="book-caveat"><strong>阅读局限</strong>' + escapeHtml(b.caveat);
       (b.caveatSources || []).forEach(function(s) { html += link(s.url, s.label); });
       html += '</div>';
-      if (containerId === 'catalog-list') html += '<p class="book-topics">适合的处境：' + b.topics.map(function(k) { return '<button type="button" class="topic-link" data-topic="' + k + '">' + escapeHtml(BOOKS_DATA[k].title) + '</button>'; }).join('、') + '</p>';
+      if (containerId === 'catalog-list') html += '<p class="book-topics">' + (b.audience === 'professional' ? '相关阅读主题：' : '适合的处境：') + b.topics.map(function(k) { return '<button type="button" class="topic-link" data-topic="' + k + '">' + escapeHtml(BOOKS_DATA[k].title) + '</button>'; }).join('、') + '</p>';
       html += '<div class="book-sources">' + link(b.synopsis.url, '内容来源') + link(edition.url, '版本与封面来源') + '</div>';
       html += '<details class="book-provenance"><summary>版本详情</summary><p>ISBN ' + escapeHtml(edition.isbn || '待核实') + '</p><p>' + escapeHtml(edition.selectionNote) + '</p></details>';
       html += '<div class="book-links">' + link('https://weread.qq.com/#search/' + encodeURIComponent(b.title), '在微信读书搜索', 'weread-btn') + '<span>可读版本以平台为准</span></div></article>';
