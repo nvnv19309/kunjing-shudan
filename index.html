@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>困境书单 — 先安顿此刻，再读懂自己</title>
   <meta name="description" content="从当下的困扰出发，找到理解、方法与陪伴。15个阅读主题，说明推荐理由、阅读门槛与使用边界。">
-  <link rel="stylesheet" href="style.css?v=20261016-artfix">
+  <link rel="stylesheet" href="style.css?v=20261017-catalog">
   <link rel="icon" href="data:,">
 </head>
 <body>
@@ -15,7 +15,7 @@
       <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M20 11C15 7 9 7 4 8v23c6-1 11 0 16 4 5-4 10-5 16-4V8c-5-1-11-1-16 3Z" stroke="currentColor" stroke-width="1.8"/><path d="M20 11v24M9 14c3 0 5 1 7 2M9 20c3 0 5 1 7 2M25 16c2-1 4-2 6-2M25 22c2-1 4-2 6-2" stroke="currentColor" stroke-width="1.4"/></svg>
       <span>困境书单<small>READ YOUR WAY THROUGH</small></span>
     </a>
-    <nav aria-label="页内导航"><a href="#topics" data-home-link>浏览主题</a><a href="#editorial">编选说明 ↗</a></nav>
+    <nav aria-label="页内导航"><a href="#step-catalog" data-catalog-link>书籍目录</a><a href="#editorial">编选说明 ↗</a></nav>
   </header>
   <main id="main" class="container">
     <section id="step-input" class="step active" aria-labelledby="input-title">
@@ -29,8 +29,8 @@
             <input type="text" id="user-input" placeholder="例如：总是拖延，明知道有 deadline 还是刷手机……" autocomplete="off" maxlength="1000" aria-describedby="search-help">
             <button id="btn-search" class="btn-primary" type="submit">找一本书 <span aria-hidden="true">↗</span></button>
           </form>
-          <p id="search-help" class="input-help">根据关键词匹配阅读主题，也可以直接从下方选择。这里不做心理诊断。</p>
-          <div id="match-hint" class="match-hint" role="status" style="display:none;"></div>
+          <p id="search-help" class="input-help">写下困扰，先看相关书籍；阅读偏好可以之后再选。这里不做心理诊断。</p>
+          <p id="search-status" class="notice" role="status"></p><button type="button" class="browse-link" data-catalog-link>还没想好，先逛书单 →</button>
           <noscript><p class="notice">选题与推荐需要开启 JavaScript。你仍可以阅读下方的编选说明和资料链接。</p></noscript>
         </div>
         <aside class="reading-note" aria-label="给此刻的你">
@@ -45,49 +45,44 @@
         </aside>
       </div>
       <div class="trust-strip" aria-label="使用方式"><span><b>01</b> 从处境出发</span><span><b>02</b> 说清推荐理由</span><span><b>03</b> 保留阅读的选择</span><span class="trust-private">无需登录 · 输入不上传</span></div>
-      <section id="topics" class="topics-section" aria-labelledby="topics-title">
-        <div class="section-heading"><div><p class="eyebrow">FIND YOUR STARTING POINT</p><h2 id="topics-title">从你在意的事情开始</h2></div><p>不必给自己贴标签。<br>选择最接近此刻感受的一个就好。</p></div>
-        <div id="topic-grid"></div>
-      </section>
     </section>
-    <section id="step-question" class="step" aria-labelledby="question-title">
-      <div class="flow-card">
-        <div class="flow-top"><button class="btn-back" type="button" onclick="goBack('input')">← 返回选题</button><span class="eyebrow">01 / 02 · 了解阅读偏好</span></div>
-        <h2 class="step-title" id="question-title" tabindex="-1">补充一下</h2>
-        <p class="step-sub">这一题用于调整书区顺序或补充阅读提醒，不是心理测评。同一主题的备选书目保持一致。</p>
-        <div id="question-list"></div>
-        <button id="btn-to-result" class="btn-primary" type="button" disabled>查看推荐 <span aria-hidden="true">↗</span></button>
-      </div>
+    <section id="step-catalog" class="step" aria-labelledby="catalog-title">
+      <div class="flow-top"><button class="btn-back" type="button" onclick="goBack('input')">← 回到困境输入</button><span class="eyebrow">THE READING SHELF</span></div>
+      <div class="section-heading"><div><p class="eyebrow">选一本，慢慢开始</p><h2 id="catalog-title" tabindex="-1">书籍目录</h2></div><p id="catalog-count" role="status"></p></div>
+      <div id="catalog-notice" class="match-hint" hidden><strong>这次没有匹配到主题，先来书架看看。</strong><p>你写下的是：<span id="failed-query"></span></p><p>可以返回修改，或确认一个可能接近的主题：</p><div id="match-hint"></div><button class="btn-back" type="button" onclick="goBack('input')">修改刚才的描述 →</button></div>
+      <div id="catalog-filters" aria-label="按困境主题筛选"></div>
+      <p id="catalog-warning" class="warning-box" hidden>书籍不能替代专业帮助。如果困扰持续影响生活，请联系医生或合格的心理专业人员；无法保证自身安全时，请立即联系所在地急救服务或前往急诊。</p>
+      <div id="catalog-list" class="book-list"></div>
     </section>
     <section id="step-result" class="step" aria-labelledby="result-title">
       <div class="result-wrap">
-        <div class="flow-top"><button class="btn-back" type="button" onclick="goBack('input')">← 重新选题</button><span class="eyebrow">02 / 02 · 你的阅读起点</span></div>
-        <div id="warning-box" class="warning-box" role="note" style="display:none;">
+        <div class="flow-top"><button id="result-back" class="btn-back" type="button">← 返回</button><span class="eyebrow">你的阅读起点</span></div>
+        <div id="warning-box" class="warning-box" role="note" hidden>
           <strong>先照顾自己，再慢慢读</strong>
           <p>书籍不能替代专业帮助。如果困扰持续影响睡眠、学习、工作或关系，可以联系医生或合格的心理专业人员，也可以联系所在地的心理援助热线。如果有自伤念头、正遭受暴力或无法保证自身安全，请立即联系所在地的急救服务或前往急诊，并向可信任的人求助。不要等待阅读后再决定是否求助。</p>
-          <p id="warning-extra" class="warning-extra" style="display:none;">你选择的情况值得与专业人员进一步讨论。这道题不能判断诊断或严重程度，也不应成为推迟求助的理由。</p>
+          <p>若已经持续较久、经历过就医受挫或想知道如何求助，也可以直接向专业人员讨论，不必等看完书。</p>
         </div>
         <div class="result-heading"><p class="eyebrow">A READING PATH, NOT A PRESCRIPTION</p><h2 id="result-title" tabindex="-1">为你推荐的书</h2><p id="result-intro" class="result-intro"></p></div>
-        <div id="answer-echo" class="answer-echo" style="display:none;"></div>
+        <p id="query-echo" class="query-echo"></p>
         <aside id="reading-guide" class="reading-guide"></aside>
-        <div class="book-section" id="section-classic"><div class="book-section-heading"><span class="section-number">A</span><div><h3>理解与思考</h3><p>从概念、研究或经验中，多看清一点处境。</p></div></div><div class="book-list" id="classic-list"></div></div>
-        <div class="book-section" id="section-popular"><div class="book-section-heading"><span class="section-number">B</span><div><h3>方法与陪伴</h3><p>从可尝试的练习，或一个能读进去的故事开始。</p></div></div><div class="book-list" id="popular-list"></div></div>
+        <section class="preference-panel" aria-labelledby="preference-title"><h3 id="preference-title">想换一种读法？</h3><p>不必回答也能选书。选择偏好，只调整下面书籍的先后顺序。</p><div id="reading-preferences" class="preference-options" role="group" aria-label="可选的阅读偏好"><button type="button" class="filter-chip" data-preference="all" aria-pressed="true">全部</button><button type="button" class="filter-chip" data-preference="understand" aria-pressed="false">理解原因</button><button type="button" class="filter-chip" data-preference="practice" aria-pressed="false">尝试方法</button><button type="button" class="filter-chip" data-preference="story" aria-pressed="false">故事陪伴</button></div><p id="preference-status" role="status"></p></section>
+        <div id="result-list" class="book-list"></div>
         <div class="difficulty-legend"><strong>阅读门槛</strong><span><i class="badge badge-easy">入门</i> 通俗叙述，较少术语</span><span><i class="badge badge-mid">进阶</i> 需要耐心或配合练习</span><span><i class="badge badge-hard">较难</i> 理论或专业内容较多</span><p>这是编辑判断，不是能力评级。可以跳读，也可以换一本。</p></div>
-        <div class="restart-row"><p>没有一本书适合所有人。<br>读起来不合适，也是一条有用的线索。</p><button class="btn-primary" type="button" onclick="goBack('input')">换一个阅读主题 <span aria-hidden="true">↗</span></button></div>
+        <div class="restart-row"><p>没有一本书适合所有人。<br>读起来不合适，也是一条有用的线索。</p><button class="btn-primary" type="button" onclick="goBack('input')">重新描述困扰 <span aria-hidden="true">↗</span></button></div>
       </div>
     </section>
     <section id="editorial" class="editorial" aria-labelledby="editorial-title">
-      <div class="section-heading"><div><p class="eyebrow">BEHIND THE SELECTION</p><h2 id="editorial-title">推荐之外，也说清依据</h2></div><span class="edition-date">本次内容修订 · 2026.10.16</span></div>
+      <div class="section-heading"><div><p class="eyebrow">BEHIND THE SELECTION</p><h2 id="editorial-title">推荐之外，也说清依据</h2></div><span class="edition-date">本次内容修订 · 2026.10.17</span></div>
       <div class="editorial-grid">
         <article><span class="editorial-index">01 / 选书</span><h3>处境相关，比“必读”重要</h3><p>按主题关联、表达清晰度和阅读门槛编选。理论、练习、个人经验与小说各有用途；畅销、作者头衔和读者评分不等于临床疗效。</p></article>
-        <article><span class="editorial-index">02 / 推荐</span><h3>解释理由，保留边界</h3><p>文字输入通过关键词寻找主题，补充回答调整阅读顺序或提示。推荐不诊断问题，也不保证阅读效果；涉及创伤和严重困扰，先求助。</p></article>
-        <article><span class="editorial-index">03 / 来源</span><h3>可核实的，才明确展示</h3><p>书卡可展开查看资料来源与核对范围。只有带平台条目和核对日期的评分才展示数值；其余标为待核实。评分是读者评价，不是证据等级。</p></article>
+        <article><span class="editorial-index">02 / 推荐</span><h3>解释理由，保留边界</h3><p>文字输入通过关键词寻找主题，先给书单，再按需选择阅读偏好调整具体书籍顺序。推荐不诊断问题，也不保证阅读效果；涉及创伤和严重困扰，先求助。</p></article>
+        <article><span class="editorial-index">03 / 来源</span><h3>可核实的，才明确展示</h3><p>封面、简介节选与豆瓣评分对应同一版本，优先采用可查候选中评价人数最多的中文版。评分和来源直接展示；缺失与未核实信息分别说明。评分是读者评价，不是证据等级。</p></article>
       </div>
-      <details class="method-details"><summary>进一步了解书目、评分与使用边界 <span aria-hidden="true">＋</span></summary><div class="method-body"><p>这是一份编辑型阅读指南，未经过临床效果验证，也不声称获得专家审核。“理解与思考”“方法与陪伴”是阅读路径，不代表出版年代或学术等级；同一本书可以对应不同处境。</p><p>中文版和原版可能有不同题名、作者译名、出版年与评分条目。页面只在核对范围内说明版本；没有确认具体版本的年份暂不展示。检索链接用于查找条目，不代表已经核实该平台的信息。旧版未附来源的评分暂不作为当前评分展示。</p><p>专业参考：<a href="https://www.psychiatry.org/patients-families/what-is-the-dsm" target="_blank" rel="noopener">APA：DSM 的用途与专业评估</a>；<a href="https://www.nhsinform.scot/illnesses-and-conditions/sleep-problems-and-insomnia-self-help-guide/" target="_blank" rel="noopener">NHS inform：睡眠问题自助指南</a>。这些资料帮助说明阅读边界，不构成对本站全部书目的背书。</p><p>本次完成推荐文案与边界审查，并为部分书目补充可追溯来源；全量版本和平台评分仍待逐项复核。你可以先核对题名与作者，再决定是否阅读。</p></div></details>
+      <details class="method-details"><summary>进一步了解书目、评分与使用边界 <span aria-hidden="true">＋</span></summary><div class="method-body"><p>这是一份编辑型阅读指南，未经过临床效果验证，也不声称获得专家审核。“理解原因”“尝试方法”“故事陪伴”是阅读用途，不代表证据等级；同一本书可以对应不同处境。</p><p>中文版和原版可能有不同题名、作者译名、出版年与评分条目。页面只在核对范围内说明版本；没有确认具体版本的年份暂不展示。检索链接用于查找条目，不代表已经核实该平台的信息。旧版未附来源的评分暂不作为当前评分展示。</p><p>专业参考：<a href="https://www.psychiatry.org/patients-families/what-is-the-dsm" target="_blank" rel="noopener">APA：DSM 的用途与专业评估</a>；<a href="https://www.nhsinform.scot/illnesses-and-conditions/sleep-problems-and-insomnia-self-help-guide/" target="_blank" rel="noopener">NHS inform：睡眠问题自助指南</a>。这些资料帮助说明阅读边界，不构成对本站全部书目的背书。</p><p>版本选择依据是本次可访问并核对的候选条目，不宣称穷尽平台所有版本。评分为核对时的页面快照，并非实时数据；Goodreads 页面可能汇总多个语言或版本。简介仅作原文短摘录，完整内容请阅读来源。你可以先核对题名与作者，再决定是否阅读。</p></div></details>
     </section>
   </main>
   <footer class="site-footer"><div class="footer-main"><span class="footer-brand">困境书单<span class="footer-dot">.</span></span><p>书籍不能替代专业帮助。<br>严重困扰请寻求医生或合格的心理专业人员。</p><span class="footer-note">愿阅读给你一点理解，<br>也给你一点余地。</span></div><div class="footer-bottom"><span>一份阅读指南，一种开始的可能。</span><div class="log-line"><a href="#log-panel" id="log-toggle" class="log-link" aria-expanded="false" aria-controls="log-panel">本地使用记录</a><span id="log-panel" class="log-panel" style="display:none;"><span id="log-count">0</span> 条 · 保存在本浏览器，不上传服务器<button type="button" id="log-export" class="log-btn">导出</button><button type="button" id="log-clear" class="log-btn">清除</button></span></div></div></footer>
-  <script src="books-data.js"></script>
-  <script src="app.js"></script>
+  <script src="books-data.js?v=20261017-catalog"></script>
+  <script src="app.js?v=20261017-catalog"></script>
 </body>
 </html>

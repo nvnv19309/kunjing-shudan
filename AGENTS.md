@@ -4,36 +4,35 @@
 
 ---
 
-## 0. 当前维护基线（2026-10-16）
+## 0. 当前维护基线（2026-10-17）
 
-本节是内容与视觉升级后的当前约定。后续章节保留早期实现与实验历史；若有冲突，以本节、更新记录及当前源码为准。
+本节、当前源码及更新记录优先于下文历史章节。§4中的旧书目字段及补充问题流程是历史记录，不再作为现行新增模板。
 
-- 源码仍只在 kunjing-shudan-app/ 中编辑；参赛展示页不变。发布到仓库根目录，不增加目录层级。
-- 保留 15 个主题、67 条书目记录、398 个关键词，分类函数和词表未改。前台按 TOPIC_GROUPS 分为情绪、关系、成长、现实四组；卡片顺序不再直接等于 BOOKS_DATA 的键顺序。
-- mood 的前台标题为“情绪低落与睡眠困扰”；personality 为“情绪波动与关系困扰”。英文键保持兼容。meaning 新增 warning: true，共 6 个提示主题。
-- classic / popular 仅为兼容键，前台分别叫“理解与思考”“方法与陪伴”；不是年代、热门度或证据等级。
-- 主题新增 group、short、intro、readingTip、boundary。新增主题必须填写这些字段，并属于 TOPIC_GROUPS 中的一个分组。
-- 每本书新增 format（内容类型）、caveat（阅读边界）；可选 edition（明确核实范围的版本说明）、source（url / label / scope / checkedAt）、ratingSources（按 douban / goodreads 存 url / checkedAt）。
-- 年份只在经过核对的 edition 文案中展示。旧 year、douban、goodreads 保留用于复核，不代表当前已验证。只有具备具体平台条目与核对日期的分数才对外展示数值，否则显示“待核实”；检索链接不是核实证据。
-- 目前 14 条书目记录附资料来源（11 本不同的书）；5 条评分记录附核对依据（3 本不同的书，均为豆瓣）。其余平台版本与评分仍待逐项复核，不能宣传为全量核实。
-- 旧数据实际有 9 条 Goodreads 占位记录，涉及 8 本不同的书；跨主题复用为 6 本。总量 67 按书目记录计，去重后为 59 本不同的书。
-- 保留求助提示、免责声明、记录导出与清除。未核实的旧热线号码不继续展示，不把某个地区号码写成全国号码；危急情况引导立即联系所在地急救服务或急诊。
-- 不用补充回答推断诊断，也不暗示每个答案会筛出不同书目。回答仍影响书区顺序、回显与额外提示。
-- 页面全部使用本地字体；书页装饰使用不含 text 或 foreignObject 的 SVG。不要在固定高度的书封里重新添加文字、小字脚注或绝对定位说明；Edge 最小字号放大可导致溢出。寄语保持自然文档流。原生按钮、焦点样式、步骤焦点和减少动态效果支持需保留，不重新添加外部字体请求。
-- 中文更新记录在 CHANGELOG.md。设计文档见 docs/superpowers/specs/2026-10-16-content-visual-upgrade-design.md；升级前审查见 docs/audits/2026-10-16-upgrade-review.md。
-- 新回归入口：设置 NODE_PATH 指向已有 Playwright 后，运行 node verify/serve-and-test.js。它提供临时 localhost 服务，并依次跑三套浏览器检查；复用本机浏览器，不安装依赖。
-- 修改首页装饰后再运行 node verify/e2e-art-compat.js：实际 Edge / Chrome、最小字号 0/18/24、两组字体、7种屏宽共84组布局及200%页面缩放；临时配置不读取用户浏览器设置。该检查不能冒称 Safari 或 Firefox 实机测试。
-- 运行 node verify/matching-baseline.js 可直接检查实际应用函数（不输出验收题句子）：v3=31/70，v4=10/10，负例A=0/12、B=3/8。本轮与远端旧版在既有测试句上的结果逐条一致。
-- 浏览器回归基线：核心 124 PASS / 0 FAIL，交互 28 PASS / 0 FAIL；升级专项覆盖15个导读、67条书目、来源展开、键盘、5种屏宽与无上传。截图位于 output/playwright/，不得复制到应用同步源。
-- 本机 gh 登录凭据当前失效；GitHub 连接器已验证可访问仓库。发布必须先读取最新 main 并核对基线，使用不强推且带旧 SHA 检查的更新，避免覆盖其他提交。
+- 应用唯一编辑入口为kunjing-shudan-app/；发布到仓库根目录，不能再套一层。维持原生HTML/CSS/JS，不新增框架、后端、账号或线上API。
+- 保留15主题、67条推荐、398关键词和6个warning主题。匹配算法、词表和键顺序未改。TOPIC_GROUPS用于目录主题分组。
+- books-data.js新增BOOK_CATALOG，共59个稳定ID（b01—b59）。主题classic/popular只存{bookId,reason}；前台合并展示，不再分两个固定书区。共享资料包含title、originalTitle、aliases、author、format、difficulty、reason、caveat、goals、topics、edition、cover、synopsis、ratings。
+- 新增书目时，在BOOK_CATALOG加入唯一ID，再在对应主题引用；goals只用understand/practice/story，书卡的具体排序依赖显式用途标签。
+- edition保存title/language/publisher/publishedAt/isbn/url/checkedAt/selectionNote。优先中文，在本次可查且确认同作品的候选中选豆瓣评价人数最多的版本，不宣称穷尽全平台版本。排除同名异书、续集和改编。
+- cover.src指向assets/covers/的本地SVG，内部只嵌入未改动的原始JPEG；cover.source及cover.url记录图片和版本来源。59张均为中文封面，不使用外部热链或重绘书封。图片失败显示“封面暂缺”。
+- synopsis保存原文短摘录及url/label/checkedAt，默认24字符加省略号；不能把重写文案、读者评论或整篇转载标为原书简介。b32使用同ISBN的出版社供稿。
+- ratings分别按douban/goodreads保存status/value/count/url/checkedAt/method。status为verified/unavailable/not_found/unverified；只有verified显示数值。其余分别显示暂无评分、未找到对应条目、尚未核实。所有分数是页面快照，非实时API。现有59个豆瓣分和58个Goodreads分；b58未找到对应Goodreads条目。
+- 豆瓣评分对应所选ISBN版本，Goodreads注明对应作品页面且可能汇总多个版本；分制为10分和5分。封面、评分、简介、为什么推荐、阅读局限和来源默认可见，不折叠评分。
+- b30所选正式中文题名为“边缘型人格障碍”（旧列表“我恨你，别离开我”）；b36为“与内心的恐惧对话”；b54原作是The Gifts of Imperfection，不能再配Daring Greatly的评分。完整核对见docs/audits/2026-10-17-catalog-sources.md。
+- 首页只突出困境输入及次级“先逛书单”；检索命中立即给书，结果中的可选偏好只调整单本书顺序，不删推荐。失败进入全部目录，保留输入并让用户确认候选；目录去重并支持15主题筛选。
+- 已移除必答问题及问题依赖提示。6个warning主题的求助说明直接显示在结果页，筛选相关目录时也显示。保留免责声明和本地记录导出清除，不上传输入或读取用户浏览器配置。
+- 所有文字自然撑高，不在固定高度书封内放DOM文字；装饰SVG不能含text/foreignObject。保留本机字体、原生按钮、焦点和减少动态效果支持，不添加外部字体。
+- 回归：node verify/verify-kunjing.js；node verify/matching-baseline.js；设置NODE_PATH指向已有Playwright后运行node verify/serve-and-test.js及node verify/e2e-art-compat.js。新浏览器检查替代旧问答流程断言，不能沿用旧124/28 PASS数字。截图在output/playwright/，不发布。
+- 验证与研究脚本保存在维护工作区verify/。本轮同步Pages应用、封面及两份核对报告；不公开上传原始页面、读者评论或验收题句。
+- 当前回归通过：15主题67推荐、60组可选偏好、59封面解码、21组屏宽页面布局、Edge/Chrome84组字体/字号/屏宽组合及CSS200%缩放。未测Firefox、Safari或手机硬件，不能冒称实机全浏览器验证。
+- 实际匹配基线保持：v3=31/70，v4=10/10，负例A误命中0/12、B=3/8；不要查看验收失败句再调词。
+- 中文更新记录在CHANGELOG.md，README链接需保留。远端已有人手新增README，发布时保留其现有内容。gh凭据不可用，使用GitHub连接器；先读最新main并核对基线，更新必须非强推且检查预期旧SHA。
 
 ---
 
 ## 1. 这是什么
 
-**困境书单**：用户用一句话描述自己当下的困境（焦虑、拖延、职业迷茫、原生家庭创伤……），
-产品匹配到对应主题，先问 1 个补充问题，再给出书单——**经典书**（提供深层理解框架）+ **近年热门书**（低门槛入门），
-每本书标注阅读难度、豆瓣评分、Goodreads 评分、推荐理由，并附微信读书搜索链接。
+**困境书单**：用户用一句话描述当下的困境，按主题匹配后直接展示书单，再按需选择阅读偏好调整单本书顺序。
+没有想法或检索失败时进入全部书籍目录，支持按主题筛选。书卡直接展示所选版本的封面、评分、简介原文节选、推荐理由和阅读局限，附来源及微信读书搜索链接。
 
 定位：**TRAE AI 创造力大赛参赛作品**。纯前端、无后端、无账号、无数据库，静态托管。
 
@@ -61,10 +60,11 @@
 
 | 文件 | 行数 | 职责 |
 |---|---|---|
-| `index.html` | 93 | 页面骨架：三个步骤（输入 → 补充问题 → 结果）、未命中候选区、风险提示框、选择回显、难度图例、页脚免责声明 + 使用数据入口 |
-| `books-data.js` | 1257 | **核心数据库**：15 个主题（6 个预警）、67 本书、398 关键词、15 组补充问题（含选项语义标签）、`TOPIC_LIST` 生成 |
-| `app.js` | 554 | 交互逻辑：主题卡片渲染、关键词匹配（大小写归一 + 去冗余 + 并列判定）、未命中候选、问答流程、按答案排序书区、**本地使用日志**、书卡渲染、步骤切换 |
-| `style.css` | 260 | 视觉系统：暖色系（暖米色背景 + 奶油白卡片 + 鼠尾草绿主色 + 暖琥珀强调），衬线标题 |
+| `index.html` | 88 | 输入、目录和结果三个页面区域，阅读偏好、求助提示、免责声明及本地记录入口 |
+| `books-data.js` | 4309 | 15主题、398关键词、67条主题引用及59条共享书目；版本、封面来源、评分、简介节选和阅读局限 |
+| `app.js` | 321 | 保留的关键词匹配、目录筛选、书籍用途排序、书卡渲染、返回及本地日志 |
+| `style.css` | 248 | 视觉系统：暖色系（暖米色背景 + 奶油白卡片 + 鼠尾草绿主色 + 暖琥珀强调），衬线标题 |
+| `assets/covers/` | 59个文件 | 同版本中文封面，本地SVG内嵌原始JPEG，独立懒加载 |
 | `.gitattributes` | 3 | 换行符规范：`* text=auto eol=lf`，仓库与检出统一 LF。**不要删**，删了会重新出现 CRLF 幽灵 diff |
 
 ### 3.2 参赛展示页（一般不用动）
@@ -78,7 +78,7 @@
 
 ---
 
-## 4. 数据 Schema（改内容必读）
+## 4. 数据 Schema（历史设计，当前结构与新增规则见§0）
 
 `books-data.js` 结构：
 
@@ -166,7 +166,7 @@ const TOPIC_LIST = Object.keys(BOOKS_DATA).map(key => ({
 
 ---
 
-## 6. 推荐逻辑（`app.js`）
+## 6. 推荐逻辑历史与保留的匹配算法（当前交互见§0）
 
 1. **主题卡片点击** → `selectTopic(key)`
 2. **文字输入** → `matchTopic(text)`：先做大小写归一与去重，再逐主题 `indexOf` 命中、**去冗余后计分**，
@@ -279,7 +279,7 @@ const TOPIC_LIST = Object.keys(BOOKS_DATA).map(key => ({
 
 ---
 
-## 7. 怎么改、怎么发版
+## 7. 怎么改、怎么发版（以下CLI流程为历史，当前方式见§0）
 
 工作区目录**不是** git 仓库，线上内容在 GitHub。标准流程：
 
@@ -382,15 +382,16 @@ git -C "$env:TEMP\kunjing-sync" -c credential.helper= push "https://nvnv19309:${
 
 ## 9. 代码整洁度与体积基线
 
-### 9.1 体积基线（2026-10-16 内容与视觉升级）
+### 9.1 体积基线（2026-10-17 封面与目录改版）
 
 | 文件 | 原始 | gzip |
 |---|---|---|
-| index.html | 11604 B | 5246 B |
-| books-data.js | 66503 B | 20526 B |
-| app.js | 21572 B | 7819 B |
-| style.css | 18974 B | 4631 B |
-| 合计 | 118653 B | 38222 B |
+| index.html | 12207 B | 5433 B |
+| books-data.js | 152597 B | 34003 B |
+| app.js | 17397 B | 6421 B |
+| style.css | 17727 B | 4461 B |
+
+此表为2026-10-17应用代码快照，封面独立懒加载，体积不计入此表。
 
 本次数据包含内容升级与 Edge 装饰兼容修复，均不依赖外部字体；gzip 为本地测量，非线上传输抓包。
 
@@ -430,15 +431,15 @@ git -C "$env:TEMP\kunjing-sync" -c credential.helper= push "https://nvnv19309:${
 `books-data.js` 独占 61% 传输量，拆成 14 个主题文件后，首屏只需加载主题列表（约 1 KB），
 点选主题时再异步加载该主题数据。代价是要改架构、维护 14+ 个数据文件。
 
-### 9.3 代码引用扫描（2026-10-16）
+### 9.3 代码引用扫描（2026-10-17）
 
 | 类别 | 数量 | 状态 |
 |---|---|---|
-| CSS class | 93 | 现状扫描未发现无引用项 |
+| CSS class | 85 | 现状扫描未发现无引用项 |
 | CSS 变量 | 11 | 定义与引用一一对应 |
-| JS 函数 | 29 | 含事件回调，均有引用 |
-| HTML id | 33 | 含锚点、可访问性关联和测试引用 |
-| keyframes | 2 | fade-in / pulse 均在使用 |
+| JS 函数 | 23 | 含事件回调，均有引用 |
+| HTML id | 35 | 含锚点、可访问性关联、动态步骤和测试引用 |
+| keyframes | 1 | fade-in 在使用 |
 
 > 09-24 的早期清理移除了 6 个从未被 `var()` 引用的变量：
 > `--bg-deep`、`--border-soft`、`--brand-soft-strong`、`--accent-soft`、`--warning`、`--shadow-lg`。

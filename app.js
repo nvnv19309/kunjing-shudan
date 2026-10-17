@@ -1,17 +1,7 @@
-// === 困境书单 — 应用逻辑 ===
-
+// 困境书单：输入优先、可选阅读偏好与共享书籍目录。
 (function() {
   "use strict";
-
-  // 输入框原始提示语（未命中时会被换掉，返回时要还原）
-  var PLACEHOLDER_DEFAULT = "例如：总是拖延，明知道有 deadline 还是刷手机……";
-
-  // 当前状态
-  var state = {
-    currentTopic: null,
-    answers: {}       // { 题号字符串: { index: 选项下标, text: 选项文字 } }
-  };
-
+  var state = { currentTopic: null, preference: "all", catalogTopic: "all", origin: "input" };
   // === 本地使用日志 ===
   // 为什么只存本地：硬约束 1 是纯前端、无后端、无账号。所以埋点不上传任何服务器，
   // 数据留在用户自己的浏览器里，页脚可以导出 / 清除——这也顺便成了一个隐私卖点。
@@ -82,92 +72,6 @@
     refreshLogCount();
   }
 
-  // === 初始化 ===
-  // 所有事件监听都在这里绑一次。教训：以前把监听写在 renderQuestions() 里，
-  // 而容器 #question-list 是常驻元素（只换 innerHTML 不换元素），
-  // 结果每换一个主题就多挂一个 click 监听器（实测 1→2→3→4→5）。
-  function init() {
-    renderTopicGrid();
-    bindInputEvents();
-    bindGridEvents();
-    bindQuestionEvents();
-    bindHintEvents();
-    bindLogPanel();
-    document.querySelector("[data-home-link]").addEventListener("click", function(e) {
-      e.preventDefault();
-      window.goBack("input");
-      document.getElementById("topics").scrollIntoView();
-    });
-  }
-
-  // === 渲染主题卡片 ===
-  function renderTopicGrid() {
-    var grid = document.getElementById("topic-grid");
-    var html = "";
-    TOPIC_GROUPS.forEach(function(group) {
-      html += '<section class="topic-group" aria-labelledby="group-' + group.key + '">' +
-        '<div class="group-heading"><span>' + group.label + '</span><h3 id="group-' + group.key + '">' + group.title +
-        '</h3><p>' + group.desc + '</p></div><div class="topic-cards">';
-      TOPIC_LIST.filter(function(topic) { return BOOKS_DATA[topic.key].group === group.key; }).forEach(function(topic) {
-        html += '<button type="button" class="topic-card" data-topic="' + topic.key + '">' +
-          '<span class="topic-icon" aria-hidden="true">' + topic.icon + '</span><span>' +
-          '<span class="topic-name">' + escapeHtml(topic.title) + '</span>' +
-          '<span class="topic-description">' + escapeHtml(BOOKS_DATA[topic.key].short) + '</span></span>' +
-          '<span class="topic-arrow" aria-hidden="true">↗</span></button>';
-      });
-      html += "</div></section>";
-    });
-    grid.innerHTML = html;
-  }
-
-  // === 主题卡片点击（事件委托，只绑一次）===
-  function bindGridEvents() {
-    document.getElementById("topic-grid").addEventListener("click", function(e) {
-      var card = e.target.closest(".topic-card");
-      if (!card) return;
-      var key = card.getAttribute("data-topic");
-      if (key) {
-        clearHint();
-        logEvent({ type: "card", topic: key });
-        selectTopic(key);
-      }
-    });
-  }
-
-  // === 绑定输入搜索 ===
-  function bindInputEvents() {
-    var input = document.getElementById("user-input");
-    document.getElementById("search-form").addEventListener("submit", function(e) {
-      e.preventDefault();
-      handleSearch(input.value);
-    });
-
-    // 重新开始输入时收起候选提示，把 placeholder 还原
-    input.addEventListener("input", function() {
-      if (input.value) clearHint();
-    });
-  }
-
-  // === 处理搜索 ===
-  function handleSearch(text) {
-    text = (text || "").trim();
-    if (!text) return;
-
-    var matchedTopic = matchTopic(text);
-    logEvent({
-      type: "search",
-      q: text,
-      topic: matchedTopic || null,
-      nomatch: !matchedTopic
-    });
-
-    if (matchedTopic) {
-      clearHint();
-      selectTopic(matchedTopic);
-    } else {
-      showNoMatch(text);
-    }
-  }
 
   // === 给所有主题打分并排序 ===
   // 与 AGENTS.md §6.1 一一对应：
@@ -252,303 +156,166 @@
     }).slice(0, limit);
   }
 
-  function showNoMatch(text) {
-    var input = document.getElementById("user-input");
-    input.value = "";
-    input.placeholder = "没找到完全匹配的主题，试试换种说法，或直接选下面👇";
 
-    var candidates = similarTopics(text, 3);
-
-    var hint = document.getElementById("match-hint");
-    var html;
-    if (candidates.length) {
-      html = '<span class="hint-label">没有完全对上。你说的更接近这几个？点一下直接看</span>';
-      candidates.forEach(function(t) {
-        html += '<button type="button" class="hint-chip" data-topic="' + t.key + '">' +
-          BOOKS_DATA[t.key].icon + " " + BOOKS_DATA[t.key].title + "</button>";
-      });
-    } else {
-      html = '<span class="hint-label">没听出是哪一类困境，直接选一个吧 👇</span>';
-    }
-    hint.innerHTML = html;
-    hint.style.display = "block";
-
-    // 记下这次没命中 + 最接近的 3 个：这是"该补哪个主题的词"最直接的数据来源
-    logEvent({ type: "nomatch", q: text, top: candidates.map(function(t) { return t.key; }) });
-
-    // 高亮主题区域
-    var grid = document.getElementById("topic-grid");
-    grid.style.animation = "none";
-    setTimeout(function() {
-      grid.style.animation = "pulse 0.5s ease";
-    }, 10);
-  }
-
-  // === 候选按钮点击（只绑一次）===
-  function bindHintEvents() {
-    document.getElementById("match-hint").addEventListener("click", function(e) {
-      var chip = e.target.closest(".hint-chip");
-      if (!chip) return;
-      var key = chip.getAttribute("data-topic");
-      // 候选被点中 = 没命中的输入其实属于这个主题 —— 补词最可靠的信号
-      logEvent({ type: "chip", topic: key });
-      clearHint();
-      selectTopic(key);
-    });
-  }
-
-  // === 收起候选提示并还原 placeholder ===
-  function clearHint() {
-    var hint = document.getElementById("match-hint");
-    if (hint) {
-      hint.innerHTML = "";
-      hint.style.display = "none";
-    }
-    var input = document.getElementById("user-input");
-    if (input) input.placeholder = PLACEHOLDER_DEFAULT;
-  }
-
-  // === 选择主题 → 进入补充问题 ===
-  function selectTopic(key) {
-    state.currentTopic = key;
-    state.answers = {};
-
-    var topic = BOOKS_DATA[key];
-
-    // 如果没有补充问题，直接展示结果
-    if (!topic.questions || topic.questions.length === 0) {
-      showResult(key);
-      return;
-    }
-
-    renderQuestions(topic);
-    switchStep("question");
-  }
-
-  // === 渲染补充问题 ===
-  function renderQuestions(topic) {
-    document.getElementById("question-title").textContent = topic.title + " · 补充一下";
-
-    var list = document.getElementById("question-list");
-    var html = "";
-    topic.questions.forEach(function(q, qi) {
-      html += '<div class="question-item">';
-      html += '<div class="question-text">' + q.text + "</div>";
-      html += '<div class="option-list" role="group" aria-label="' + escapeHtml(q.text) + '">';
-      q.options.forEach(function(opt, oi) {
-        html += '<button type="button" class="option-item" aria-pressed="false" data-q="' + qi + '" data-opt="' + oi + '">' + escapeHtml(opt) + "</button>";
-      });
-      html += "</div></div>";
-    });
-    list.innerHTML = html;
-
-    // 重置按钮状态
-    var btn = document.getElementById("btn-to-result");
-    btn.disabled = true;
-    btn.onclick = null;
-  }
-
-  // === 选项点击（事件委托，只绑一次）===
-  function bindQuestionEvents() {
-    document.getElementById("question-list").addEventListener("click", function(e) {
-      var opt = e.target.closest(".option-item");
-      if (!opt) return;
-
-      var qi = opt.getAttribute("data-q");
-      var oi = parseInt(opt.getAttribute("data-opt"), 10);
-
-      // 取消同组选中
-      var sameGroup = this.querySelectorAll('.option-item[data-q="' + qi + '"]');
-      for (var i = 0; i < sameGroup.length; i++) {
-        sameGroup[i].classList.remove("selected");
-        sameGroup[i].setAttribute("aria-pressed", "false");
-      }
-      opt.classList.add("selected");
-      opt.setAttribute("aria-pressed", "true");
-
-      // 记下标与文字：下标用于查 optionHints / escalateFrom，文字用于结果页回显
-      state.answers[qi] = { index: oi, text: opt.textContent };
-
-      // 全部答完才解锁
-      var total = (BOOKS_DATA[state.currentTopic].questions || []).length;
-      var btn = document.getElementById("btn-to-result");
-      btn.disabled = Object.keys(state.answers).length < total;
-      if (!btn.disabled) {
-        btn.onclick = function() {
-          showResult(state.currentTopic);
-        };
-      }
-    });
-  }
-
-  // === 展示书单结果 ===
-  function showResult(key) {
-    var topic = BOOKS_DATA[key];
-    var questions = topic.questions || [];
-
-    document.getElementById("result-title").textContent = "关于" + topic.title + "，推荐这些书";
-    document.getElementById("result-intro").textContent = topic.intro;
-    document.getElementById("reading-guide").innerHTML = '<strong>可以这样开始读</strong><p>' +
-      escapeHtml(topic.readingTip) + '</p><p class="guide-boundary">' + escapeHtml(topic.boundary) + '</p>';
-
-    // --- ① 回显用户的选择，让补充问题不再是单向输入 ---
-    renderAnswerEcho(questions);
-
-    // --- ② 按答案决定两个书区的先后 ---
-    // optionHints 在数据里显式写死（'classic' / 'popular' / null），
-    // 不在 JS 里猜语义——猜语义等于再叠一层脆弱的关键词匹配。
-    var hint = null;
-    var firstAnswer = state.answers["0"];
-    if (firstAnswer && questions[0] && questions[0].optionHints) {
-      hint = questions[0].optionHints[firstAnswer.index] || null;
-    }
-    orderSections(hint);
-
-    // --- ③ 风险提示（含按答案升级）---
-    renderWarning(topic, questions);
-
-    // 渲染书单
-    renderBooks("classic-list", topic.classic);
-    renderBooks("popular-list", topic.popular);
-
-    logEvent({ type: "result", topic: key, answers: state.answers });
-
-    switchStep("result");
-  }
-
-  // 把用户的选择读出来放在结果页顶部
-  function renderAnswerEcho(questions) {
-    var echo = document.getElementById("answer-echo");
-    if (!questions.length) {
-      echo.style.display = "none";
-      return;
-    }
-    var html = "";
-    questions.forEach(function(q, qi) {
-      var answer = state.answers[String(qi)];
-      html += '<span class="echo-item">' + escapeHtml(q.text.replace(/[？?]\s*$/, "")) + "：" +
-        "<strong>" + escapeHtml(answer ? answer.text : "未选择") + "</strong></span>";
-    });
-    echo.innerHTML = html;
-    echo.style.display = "block";
-  }
-
-  // 两个书区的先后：hint 为 "popular" 时把「近年热门」提到前面
-  function orderSections(hint) {
-    var secClassic = document.getElementById("section-classic");
-    var secPopular = document.getElementById("section-popular");
-    if (hint === "popular") {
-      secClassic.parentNode.insertBefore(secPopular, secClassic);
-    } else {
-      secClassic.parentNode.insertBefore(secClassic, secPopular);
-    }
-  }
-
-  // 风险提示：主题本身要提示就显示；用户答案命中 escalateFrom 时再加一段更强的引导
-  function renderWarning(topic, questions) {
-    var box = document.getElementById("warning-box");
-    var extra = document.getElementById("warning-extra");
-
-    box.style.display = topic.warning ? "block" : "none";
-
-    var escalated = false;
-    questions.forEach(function(q, qi) {
-      var answer = state.answers[String(qi)];
-      if (answer && typeof q.escalateFrom === "number" && answer.index >= q.escalateFrom) {
-        escalated = true;
-      }
-    });
-    extra.style.display = escalated ? "block" : "none";
-  }
-
-  // === 渲染书籍卡片 ===
   function escapeHtml(value) {
     return String(value).replace(/[&<>"']/g, function(c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   }
-
-  function renderBooks(containerId, books) {
-    var container = document.getElementById(containerId);
-    var html = "";
-    books.forEach(function(book) {
-      var diffClass = book.difficulty === "入门" ? "badge-easy" :
-                      book.difficulty === "进阶" ? "badge-mid" : "badge-hard";
-      html += '<article class="book-card">';
-      html += '<div class="book-header">';
-      html += '<div>';
-      html += '<span class="book-format">' + escapeHtml(book.format) + '</span>';
-      html += '<h4 class="book-title">' + escapeHtml(book.title) + '</h4>';
-      html += '<div class="book-author">' + escapeHtml(book.author) + '</div>';
-      html += "</div>";
-      html += '<span class="badge ' + diffClass + '">' + book.difficulty + "</span>";
-      html += "</div>";
-      html += '<p class="book-desc">' + escapeHtml(book.desc) + '</p>';
-      html += '<div class="book-reason"><strong>为什么推荐</strong>' + escapeHtml(book.reason) + '</div>';
-      html += '<div class="book-caveat"><strong>阅读时留意</strong>' + escapeHtml(book.caveat) + '</div>';
-      html += '<details class="book-meta"><summary>书目、评分与来源</summary>';
-      html += '<p>' + escapeHtml(book.edition || "具体版本与出版年份待复核，请以所读版本版权页为准。") + '</p>';
-      if (book.source) {
-        html += '<p><a class="source-link" href="' + escapeHtml(book.source.url) + '" target="_blank" rel="noopener">' + escapeHtml(book.source.label) + ' ↗</a><br>' +
-          escapeHtml(book.source.scope) + ' · 核对于 ' + escapeHtml(book.source.checkedAt) + '</p>';
-      } else {
-        html += '<p>书目版本来源待逐项复核；下方链接用于检索，不代表已核实。</p>';
-      }
-      // 旧分数保留在数据中供复核；只有具备条目链接与日期的分数才展示。
-      html += '<p class="book-ratings">';
-      [["douban", "豆瓣"], ["goodreads", "Goodreads"]].forEach(function(platform) {
-        var proof = (book.ratingSources || {})[platform[0]];
-        var value = book[platform[0]];
-        if (proof && proof.url && proof.checkedAt && value && value !== "—") {
-          html += '<a class="rating-tag rating-' + platform[0] + '" href="' + escapeHtml(proof.url) + '" target="_blank" rel="noopener">' +
-            platform[1] + ' ' + escapeHtml(value) + '</a><span>（' + escapeHtml(proof.checkedAt) + '）</span> ';
-        } else {
-          html += '<span class="rating-tag rating-' + platform[0] + '">' + platform[1] + ' 待核实</span>';
-        }
-      });
-      html += '</p><a class="source-link" href="https://search.douban.com/book/subject_search?search_text=' + encodeURIComponent(book.title + ' ' + book.author) + '" target="_blank" rel="noopener">豆瓣检索 ↗</a>';
-      html += '<a class="source-link" href="https://www.goodreads.com/search?q=' + encodeURIComponent(book.title + ' ' + book.author) + '" target="_blank" rel="noopener">Goodreads 检索 ↗</a></details>';
-      // 微信读书链接
-      var wereadUrl = "https://weread.qq.com/#search/" + encodeURIComponent(book.title);
-      html += '<div class="book-links"><a class="weread-btn" href="' + wereadUrl + '" target="_blank" rel="noopener">在微信读书搜索 ↗</a><span>可读版本以平台为准</span></div>';
-      html += '</article>';
-    });
-    container.innerHTML = html;
+  function link(url, label, cls) {
+    return '<a class="' + (cls || 'source-link') + '" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(label) + ' ↗</a>';
   }
-
-  // === 步骤切换 ===
   function switchStep(name) {
-    var steps = document.querySelectorAll(".step");
-    steps.forEach(function(s) {
-      s.classList.remove("active");
-    });
-    document.getElementById("step-" + name).classList.add("active");
-    var heading = name === "question" ? "question-title" : name === "result" ? "result-title" : "user-input";
-    document.getElementById(heading).focus({ preventScroll: true });
-    window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    document.querySelectorAll('.step').forEach(function(s) { s.classList.remove('active'); });
+    document.getElementById('step-' + name).classList.add('active');
+    var focus = name === 'input' ? 'user-input' : name === 'catalog' ? 'catalog-title' : 'result-title';
+    document.getElementById(focus).focus({ preventScroll: true });
+    window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   }
-
-  // === 返回：顺带把状态清干净（原来返回后 answers 还留着上一次的选择）===
-  window.goBack = function(target) {
-    if (target === "input") {
-      state.currentTopic = null;
-      state.answers = {};
-      var btn = document.getElementById("btn-to-result");
-      if (btn) {
-        btn.disabled = true;
-        btn.onclick = null;
-      }
-      var echo = document.getElementById("answer-echo");
-      if (echo) echo.style.display = "none";
-      clearHint();
+  window.goBack = function(name) { switchStep(name); };
+  function handleSearch(text) {
+    text = (text || '').trim();
+    if (!text) {
+      document.getElementById('search-status').textContent = '可以先写一句困扰，也可以选择下方的“先逛书单”。';
+      document.getElementById('user-input').focus();
+      return;
     }
-    switchStep(target);
-  };
-
-  // === 启动 ===
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
+    document.getElementById('search-status').textContent = '';
+    var key = matchTopic(text);
+    logEvent({ type: 'search', q: text, topic: key, nomatch: !key });
+    if (key) showResult(key, 'input');
+    else openCatalog(text);
   }
+  function renderFilters() {
+    var html = '<button type="button" class="filter-chip" data-filter="all" aria-pressed="true">全部书籍</button>';
+    TOPIC_GROUPS.forEach(function(group) {
+      html += '<div class="filter-group"><span>' + escapeHtml(group.title) + '</span><div>';
+      TOPIC_LIST.filter(function(t) { return BOOKS_DATA[t.key].group === group.key; }).forEach(function(t) {
+        html += '<button type="button" class="filter-chip" data-filter="' + t.key + '" aria-pressed="false">' + escapeHtml(t.title) + '</button>';
+      });
+      html += '</div></div>';
+    });
+    document.getElementById('catalog-filters').innerHTML = html;
+  }
+  function openCatalog(failedQuery) {
+    state.catalogTopic = 'all';
+    var notice = document.getElementById('catalog-notice');
+    var hint = document.getElementById('match-hint');
+    hint.innerHTML = '';
+    notice.hidden = !failedQuery;
+    if (failedQuery) {
+      document.getElementById('failed-query').textContent = failedQuery;
+      var candidates = similarTopics(failedQuery, 3);
+      candidates.forEach(function(t) {
+        var button = document.createElement('button');
+        button.type = 'button'; button.className = 'hint-chip';
+        button.dataset.topic = t.key; button.textContent = BOOKS_DATA[t.key].title;
+        hint.appendChild(button);
+      });
+      logEvent({ type: 'nomatch', q: failedQuery, top: candidates.map(function(t) { return t.key; }) });
+    }
+    renderCatalog();
+    switchStep('catalog');
+    logEvent({ type: 'catalog', reason: failedQuery ? 'nomatch' : 'browse' });
+  }
+  function renderCatalog() {
+    var key = state.catalogTopic;
+    var ids = Object.keys(BOOK_CATALOG).filter(function(id) { return key === 'all' || BOOK_CATALOG[id].topics.indexOf(key) !== -1; });
+    document.querySelectorAll('[data-filter]').forEach(function(b) { b.setAttribute('aria-pressed', String(b.dataset.filter === key)); });
+    document.getElementById('catalog-count').textContent = ids.length + ' 本书' + (key === 'all' ? ' · 同书去重' : ' · ' + BOOKS_DATA[key].title);
+    var warning = document.getElementById('catalog-warning');
+    warning.hidden = !(key !== 'all' && BOOKS_DATA[key].warning);
+    renderBooks('catalog-list', ids.map(function(id) { return { bookId: id }; }), key === 'all' ? null : key);
+  }
+  function showResult(key, origin) {
+    state.currentTopic = key; state.preference = 'all'; state.origin = origin || 'catalog';
+    var topic = BOOKS_DATA[key];
+    document.getElementById('result-title').textContent = '关于' + topic.title + '，可以从这些书开始';
+    document.getElementById('result-intro').textContent = topic.intro;
+    document.getElementById('query-echo').textContent = state.origin === 'input' ? '你写下的困扰：' + document.getElementById('user-input').value.trim() : '你选择的主题：' + topic.title;
+    document.getElementById('reading-guide').innerHTML = '<strong>可以这样开始读</strong><p>' + escapeHtml(topic.readingTip) + '</p><p class="guide-boundary">' + escapeHtml(topic.boundary) + '</p>';
+    document.getElementById('warning-box').hidden = !topic.warning;
+    renderResultBooks();
+    logEvent({ type: 'result', topic: key, preference: 'all' });
+    switchStep('result');
+  }
+  function renderResultBooks() {
+    var topic = BOOKS_DATA[state.currentTopic];
+    var books = topic.classic.concat(topic.popular).map(function(b, order) { return { bookId: b.bookId, reason: b.reason, order: order }; });
+    // Explicit editorial tags prioritize individual books; the topic matcher stays unchanged.
+    if (state.preference !== 'all') books.sort(function(a, b) {
+      return Number(BOOK_CATALOG[b.bookId].goals.indexOf(state.preference) !== -1) - Number(BOOK_CATALOG[a.bookId].goals.indexOf(state.preference) !== -1) || a.order - b.order;
+    });
+    document.querySelectorAll('[data-preference]').forEach(function(b) { b.setAttribute('aria-pressed', String(b.dataset.preference === state.preference)); });
+    var matches = books.filter(function(b) { return BOOK_CATALOG[b.bookId].goals.indexOf(state.preference) !== -1; }).length;
+    document.getElementById('preference-status').textContent = state.preference === 'all' ? '按主题编选顺序展示；你可以直接选书。' : matches ? '已将符合阅读偏好的 ' + matches + ' 本书排在前面，其他推荐仍然保留。' : '这个主题暂没有符合该偏好的书，保留全部推荐。';
+    renderBooks('result-list', books, state.currentTopic);
+  }
+  function ratingHtml(platform, rating) {
+    var label = platform === 'douban' ? '豆瓣' : 'Goodreads';
+    var scale = platform === 'douban' ? '10' : '5';
+    var content;
+    if (rating.status === 'verified') {
+      content = link(rating.url, label + ' ' + rating.value + ' / ' + scale, 'rating-value');
+      content += '<span class="rating-note">' + rating.count.toLocaleString('zh-CN') + ' 人评价 · 核对于 ' + rating.checkedAt + '</span>';
+      if (platform === 'goodreads') content += '<span class="rating-note">对应作品页面，可能汇总多个版本</span>';
+    } else {
+      var status = rating.status === 'unavailable' ? '暂无评分' : rating.status === 'not_found' ? '未找到对应条目' : '尚未核实';
+      content = '<span class="rating-value">' + label + ' · ' + status + '</span>';
+      if (rating.url) content += link(rating.url, '查看平台条目');
+    }
+    return '<div class="rating-block rating-' + platform + '">' + content + '</div>';
+  }
+  function renderBooks(containerId, references, topicKey) {
+    var html = '';
+    references.forEach(function(ref) {
+      var b = BOOK_CATALOG[ref.bookId];
+      var edition = b.edition;
+      var reason = ref.reason || b.reason;
+      if (topicKey && !ref.reason) {
+        var placement = BOOKS_DATA[topicKey].classic.concat(BOOKS_DATA[topicKey].popular).find(function(p) { return p.bookId === ref.bookId; });
+        if (placement) reason = placement.reason;
+      }
+      html += '<article class="book-card" data-book-id="' + ref.bookId + '"><div class="book-header">';
+      html += '<div class="cover-frame">' + (b.cover ? '<img class="book-cover" src="' + escapeHtml(b.cover.src) + '" alt="《' + escapeHtml(edition.title) + '》所选版本封面" width="150" height="210" loading="lazy" decoding="async">' : '') + '<span class="cover-fallback"' + (b.cover ? ' hidden' : '') + '>封面暂缺</span></div>';
+      html += '<div class="book-heading"><span class="book-format">' + escapeHtml(b.format) + '</span><h3 class="book-title">' + escapeHtml(b.title) + '</h3><p class="book-author">' + escapeHtml(b.author) + '</p><span class="badge">' + escapeHtml(b.difficulty) + '</span><p class="book-edition">' + escapeHtml([edition.publisher, edition.publishedAt].filter(Boolean).join(' · ')) + '</p></div></div>';
+      html += '<div class="book-ratings">' + ratingHtml('douban', b.ratings.douban) + ratingHtml('goodreads', b.ratings.goodreads) + '</div>';
+      html += '<div class="book-desc"><strong>原书简介节选</strong><p>' + (b.synopsis.text ? '“' + escapeHtml(b.synopsis.text) + '”' : '暂未取得可核对的简介原文。') + '</p>' + link(b.synopsis.url, '阅读完整简介') + '</div>';
+      html += '<div class="book-reason"><strong>为什么推荐</strong>' + escapeHtml(reason) + '</div><div class="book-caveat"><strong>阅读局限</strong>' + escapeHtml(b.caveat);
+      (b.caveatSources || []).forEach(function(s) { html += link(s.url, s.label); });
+      html += '</div><p class="book-topics">适合的处境：' + b.topics.map(function(k) { return '<button type="button" class="topic-link" data-topic="' + k + '">' + escapeHtml(BOOKS_DATA[k].title) + '</button>'; }).join('、') + '</p>';
+      html += '<div class="book-provenance"><p>' + escapeHtml(edition.selectionNote) + ' · 核对于 ' + edition.checkedAt + '</p><p>ISBN ' + escapeHtml(edition.isbn || '待核实') + '</p>' + link(edition.url, '版本与封面来源') + '</div>';
+      html += '<div class="book-links">' + link('https://weread.qq.com/#search/' + encodeURIComponent(b.title), '在微信读书搜索', 'weread-btn') + '<span>可读版本以平台为准</span></div></article>';
+    });
+    var container = document.getElementById(containerId);
+    container.innerHTML = html;
+    container.querySelectorAll('img.book-cover').forEach(function(img) {
+      img.addEventListener('error', function() { img.hidden = true; img.nextElementSibling.hidden = false; });
+    });
+  }
+  function init() {
+    renderFilters(); bindLogPanel();
+    document.getElementById('search-form').addEventListener('submit', function(e) { e.preventDefault(); handleSearch(document.getElementById('user-input').value); });
+    document.getElementById('user-input').addEventListener('input', function() { document.getElementById('search-status').textContent = ''; });
+    document.querySelectorAll('[data-catalog-link]').forEach(function(b) { b.addEventListener('click', function(e) { e.preventDefault(); openCatalog(); }); });
+    document.getElementById('result-back').addEventListener('click', function() { switchStep(state.origin); });
+    document.getElementById('catalog-filters').addEventListener('click', function(e) {
+      var b = e.target.closest('[data-filter]');
+      if (!b) return;
+      state.catalogTopic = b.dataset.filter; renderCatalog();
+      logEvent({ type: 'filter', topic: state.catalogTopic });
+    });
+    document.getElementById('reading-preferences').addEventListener('click', function(e) {
+      var b = e.target.closest('[data-preference]');
+      if (!b) return;
+      state.preference = b.dataset.preference; renderResultBooks();
+      logEvent({ type: 'preference', topic: state.currentTopic, preference: state.preference });
+    });
+    document.getElementById('main').addEventListener('click', function(e) {
+      var b = e.target.closest('[data-topic]');
+      if (b) { logEvent({ type: 'card', topic: b.dataset.topic }); showResult(b.dataset.topic, document.getElementById('step-catalog').classList.contains('active') ? 'catalog' : state.origin); }
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 })();
