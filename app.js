@@ -1,7 +1,7 @@
 // 困境书单：输入优先、可选阅读偏好与共享书籍目录。
 (function() {
   "use strict";
-  var state = { currentTopic: null, preference: "all", catalogTopic: "all", origin: "input" };
+  var state = { currentTopic: null, preference: "all", catalogTopic: "all", catalogAudience: "general", referenceAudience: "general", catalogReturn: "input", failedQuery: "", origin: "input" };
   // === 本地使用日志 ===
   // 为什么只存本地：硬约束 1 是纯前端、无后端、无账号。所以埋点不上传任何服务器，
   // 数据留在用户自己的浏览器里，页脚可以导出 / 清除——这也顺便成了一个隐私卖点。
@@ -199,6 +199,8 @@
   }
   function openCatalog(failedQuery) {
     state.catalogTopic = 'all';
+    state.catalogAudience = 'general'; state.catalogReturn = 'input';
+    state.failedQuery = failedQuery || '';
     var notice = document.getElementById('catalog-notice');
     var hint = document.getElementById('match-hint');
     hint.innerHTML = '';
@@ -220,28 +222,49 @@
   }
   function renderCatalog() {
     var key = state.catalogTopic;
-    var ids = Object.keys(BOOK_CATALOG).filter(function(id) { return key === 'all' || BOOK_CATALOG[id].topics.indexOf(key) !== -1; });
+    var professional = state.catalogAudience === 'professional';
+    document.getElementById('catalog-notice').hidden = professional || !state.failedQuery;
+    var ids = Object.keys(BOOK_CATALOG).filter(function(id) {
+      var b = BOOK_CATALOG[id];
+      return b.audience === state.catalogAudience && (professional || key === 'all' || b.topics.indexOf(key) !== -1);
+    });
+    document.querySelectorAll('[data-audience]').forEach(function(b) { b.setAttribute('aria-pressed', String(b.dataset.audience === state.catalogAudience)); });
+    document.getElementById('catalog-filters').hidden = professional;
+    document.getElementById('professional-intro').hidden = !professional;
+    document.getElementById('catalog-back').textContent = state.catalogReturn === 'result' ? '← 返回刚才的推荐' : '← 回到困境输入';
     document.querySelectorAll('[data-filter]').forEach(function(b) { b.setAttribute('aria-pressed', String(b.dataset.filter === key)); });
-    document.getElementById('catalog-count').textContent = ids.length + ' 本书' + (key === 'all' ? ' · 同书去重' : ' · ' + BOOKS_DATA[key].title);
+    document.getElementById('catalog-count').textContent = ids.length + ' 本书' + (professional ? ' · 专业参考' : key === 'all' ? ' · 日常阅读 · 同书去重' : ' · ' + BOOKS_DATA[key].title);
     var warning = document.getElementById('catalog-warning');
-    warning.hidden = !(key !== 'all' && BOOKS_DATA[key].warning);
-    renderBooks('catalog-list', ids.map(function(id) { return { bookId: id }; }), key === 'all' ? null : key);
+    warning.hidden = !(professional || key !== 'all' && BOOKS_DATA[key].warning);
+    var refs = ids.map(function(id) { return { bookId: id }; });
+    renderClinicalNotice('catalog-clinical', refs);
+    renderBooks('catalog-list', refs, professional || key === 'all' ? null : key);
+  }
+  function renderClinicalNotice(containerId, references) {
+    var notice = document.getElementById(containerId);
+    notice.hidden = !references.some(function(r) { return BOOK_CATALOG[r.bookId].clinicalContext; });
+    if (!notice.hidden) notice.innerHTML = '<strong>阅读中的共鸣，不等于诊断。</strong><p>人格障碍等诊断需要由具备相应诊断资质的专业人员综合评估，请不要凭书中描述、关键词或自测给自己或他人下结论。诊断也不能定义一个人的全部。</p>' + link('https://www.nimh.nih.gov/health/publications/borderline-personality-disorder', 'NIMH：诊断需要专业评估');
   }
   function showResult(key, origin) {
     state.currentTopic = key; state.preference = 'all'; state.origin = origin || 'catalog';
+    state.catalogReturn = 'input';
     var topic = BOOKS_DATA[key];
     document.getElementById('result-title').textContent = '关于' + topic.title + '，可以从这些书开始';
     document.getElementById('result-intro').textContent = topic.intro;
     document.getElementById('query-echo').textContent = state.origin === 'input' ? '你写下的困扰：' + document.getElementById('user-input').value.trim() : '你选择的主题：' + topic.title;
     document.getElementById('reading-guide').innerHTML = '<strong>可以这样开始读</strong><p>' + escapeHtml(topic.readingTip) + '</p><p class="guide-boundary">' + escapeHtml(topic.boundary) + '</p>';
     document.getElementById('warning-box').hidden = !topic.warning;
+    var professionalCount = Object.keys(BOOK_CATALOG).filter(function(id) { return BOOK_CATALOG[id].audience === 'professional' && BOOK_CATALOG[id].topics.indexOf(key) !== -1; }).length;
+    var professionalLink = document.getElementById('result-professional-link');
+    professionalLink.hidden = !professionalCount;
+    professionalLink.textContent = '专业学习参考（' + professionalCount + ' 本）→';
     renderResultBooks();
     logEvent({ type: 'result', topic: key, preference: 'all' });
     switchStep('result');
   }
   function renderResultBooks() {
     var topic = BOOKS_DATA[state.currentTopic];
-    var books = topic.classic.concat(topic.popular).map(function(b, order) { return { bookId: b.bookId, reason: b.reason, order: order }; });
+    var books = topic.classic.concat(topic.popular).filter(function(b) { return BOOK_CATALOG[b.bookId].audience === 'general'; }).map(function(b, order) { return { bookId: b.bookId, reason: b.reason, order: order }; });
     // Explicit editorial tags prioritize individual books; the topic matcher stays unchanged.
     if (state.preference !== 'all') books.sort(function(a, b) {
       return Number(BOOK_CATALOG[b.bookId].goals.indexOf(state.preference) !== -1) - Number(BOOK_CATALOG[a.bookId].goals.indexOf(state.preference) !== -1) || a.order - b.order;
@@ -249,6 +272,7 @@
     document.querySelectorAll('[data-preference]').forEach(function(b) { b.setAttribute('aria-pressed', String(b.dataset.preference === state.preference)); });
     var matches = books.filter(function(b) { return BOOK_CATALOG[b.bookId].goals.indexOf(state.preference) !== -1; }).length;
     document.getElementById('preference-status').textContent = state.preference === 'all' ? '按主题编选顺序展示；你可以直接选书。' : matches ? '已将符合阅读偏好的 ' + matches + ' 本书排在前面，其他推荐仍然保留。' : '这个主题暂没有符合该偏好的书，保留全部推荐。';
+    renderClinicalNotice('result-clinical', books);
     renderBooks('result-list', books, state.currentTopic);
   }
   function ratingHtml(platform, rating) {
@@ -257,7 +281,7 @@
     var content;
     if (rating.status === 'verified') {
       content = link(rating.url, label + ' ' + rating.value + ' / ' + scale, 'rating-value');
-      content += '<span class="rating-note">' + rating.count.toLocaleString('zh-CN') + ' 人评价 · 核对于 ' + rating.checkedAt + '</span>';
+      content += '<span class="rating-note">' + rating.count.toLocaleString('zh-CN') + ' 人评价</span>';
       if (platform === 'goodreads') content += '<span class="rating-note">对应作品页面，可能汇总多个版本</span>';
     } else {
       var status = rating.status === 'unavailable' ? '暂无评分' : rating.status === 'not_found' ? '未找到对应条目' : '尚未核实';
@@ -278,13 +302,15 @@
       }
       html += '<article class="book-card" data-book-id="' + ref.bookId + '"><div class="book-header">';
       html += '<div class="cover-frame">' + (b.cover ? '<img class="book-cover" src="' + escapeHtml(b.cover.src) + '" alt="《' + escapeHtml(edition.title) + '》所选版本封面" width="150" height="210" loading="lazy" decoding="async">' : '') + '<span class="cover-fallback"' + (b.cover ? ' hidden' : '') + '>封面暂缺</span></div>';
-      html += '<div class="book-heading"><span class="book-format">' + escapeHtml(b.format) + '</span><h3 class="book-title">' + escapeHtml(b.title) + '</h3><p class="book-author">' + escapeHtml(b.author) + '</p><span class="badge">' + escapeHtml(b.difficulty) + '</span><p class="book-edition">' + escapeHtml([edition.publisher, edition.publishedAt].filter(Boolean).join(' · ')) + '</p></div></div>';
+      html += '<div class="book-heading"><span class="book-format">' + escapeHtml(b.format) + '</span><h3 class="book-title">' + escapeHtml(b.title) + '</h3>';
+      if (b.clinicalContext) html += '<p class="clinical-label">涉及诊断概念 · 不用于自我诊断</p>';
+      html += '<p class="book-author">' + escapeHtml(b.author) + '</p><span class="badge">' + escapeHtml(b.difficulty) + '</span><p class="book-edition">' + escapeHtml([edition.publisher, edition.publishedAt].filter(Boolean).join(' · ')) + '</p></div></div>';
       html += '<div class="book-ratings">' + ratingHtml('douban', b.ratings.douban) + ratingHtml('goodreads', b.ratings.goodreads) + '</div>';
       html += '<div class="book-desc"><strong>原书简介节选</strong><p>' + (b.synopsis.text ? '“' + escapeHtml(b.synopsis.text) + '”' : '暂未取得可核对的简介原文。') + '</p>' + link(b.synopsis.url, '阅读完整简介') + '</div>';
       html += '<div class="book-reason"><strong>为什么推荐</strong>' + escapeHtml(reason) + '</div><div class="book-caveat"><strong>阅读局限</strong>' + escapeHtml(b.caveat);
       (b.caveatSources || []).forEach(function(s) { html += link(s.url, s.label); });
       html += '</div><p class="book-topics">适合的处境：' + b.topics.map(function(k) { return '<button type="button" class="topic-link" data-topic="' + k + '">' + escapeHtml(BOOKS_DATA[k].title) + '</button>'; }).join('、') + '</p>';
-      html += '<div class="book-provenance"><p>' + escapeHtml(edition.selectionNote) + ' · 核对于 ' + edition.checkedAt + '</p><p>ISBN ' + escapeHtml(edition.isbn || '待核实') + '</p>' + link(edition.url, '版本与封面来源') + '</div>';
+      html += '<div class="book-provenance"><p>' + escapeHtml(edition.selectionNote) + '</p><p>ISBN ' + escapeHtml(edition.isbn || '待核实') + '</p>' + link(edition.url, '版本与封面来源') + '</div>';
       html += '<div class="book-links">' + link('https://weread.qq.com/#search/' + encodeURIComponent(b.title), '在微信读书搜索', 'weread-btn') + '<span>可读版本以平台为准</span></div></article>';
     });
     var container = document.getElementById(containerId);
@@ -299,6 +325,25 @@
     document.getElementById('user-input').addEventListener('input', function() { document.getElementById('search-status').textContent = ''; });
     document.querySelectorAll('[data-catalog-link]').forEach(function(b) { b.addEventListener('click', function(e) { e.preventDefault(); openCatalog(); }); });
     document.getElementById('result-back').addEventListener('click', function() { switchStep(state.origin); });
+    document.getElementById('catalog-back').addEventListener('click', function() {
+      var target = state.catalogReturn;
+      if (target === 'result') {
+        state.catalogAudience = state.referenceAudience; state.catalogReturn = 'input'; renderCatalog();
+      }
+      switchStep(target);
+    });
+    document.getElementById('catalog-audiences').addEventListener('click', function(e) {
+      var b = e.target.closest('[data-audience]');
+      if (!b) return;
+      state.catalogAudience = b.dataset.audience; renderCatalog();
+      logEvent({ type: 'audience', audience: state.catalogAudience });
+    });
+    document.getElementById('result-professional-link').addEventListener('click', function() {
+      state.referenceAudience = state.catalogAudience;
+      state.catalogAudience = 'professional'; state.catalogReturn = 'result';
+      renderCatalog(); switchStep('catalog');
+      logEvent({ type: 'catalog', reason: 'professional' });
+    });
     document.getElementById('catalog-filters').addEventListener('click', function(e) {
       var b = e.target.closest('[data-filter]');
       if (!b) return;

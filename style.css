@@ -89,9 +89,10 @@ h1 { font: 500 clamp(42px, 4.6vw, 62px)/1.48 var(--serif); color: var(--ink); le
 .badge-mid { background: #f2eddf; color: #786642; border-color: #dfd6bf; }
 .badge-hard { background: #ede9e5; color: #6c5b53; border-color: #d9d0c8; }
 .book-desc { font-size: 14px; line-height: 1.9; margin-bottom: 22px; }
-.book-reason { font-size: 14px; line-height: 1.95; border-left: 2px solid #c7d1bb; padding-left: 14px; margin-bottom: 22px; color: var(--ink); }
+.book-reason { font-size: 14px; line-height: 1.95; border: 1px solid #c7d1bb; border-left: 3px solid var(--green); background: #eef2e8; padding: 16px 18px; margin-bottom: 14px; color: var(--ink); }
 .book-desc strong, .book-reason strong, .book-caveat strong { display: block; font-size: 12px; color: var(--ink); margin-bottom: 6px; font-weight: 600; }
-.book-caveat { color: var(--muted); font-size: 13px; line-height: 1.9; margin-bottom: 20px; }
+.book-caveat { color: #594b3d; font-size: 14px; line-height: 1.95; border: 1px solid #dfcfb9; border-left: 3px solid #9c7750; background: #f5eee2; padding: 16px 18px; margin-bottom: 20px; }
+.book-reason strong, .book-caveat strong { font-size: 14px; letter-spacing: .5px; margin-bottom: 9px; }
 summary::-webkit-details-marker { display: none; }
 .source-link { display: inline-block; margin: 2px 12px 3px 0; }
 .book-links { margin-top: 15px; display: flex; align-items: center; justify-content: space-between; gap: 15px; font-size: 11px; }
@@ -198,6 +199,14 @@ summary::-webkit-details-marker { display: none; }
 
 
 [hidden] { display: none !important; }
+.audience-options { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+.professional-intro { font-size: 14px; line-height: 1.9; color: var(--body); margin: 0 0 24px; max-width: 800px; }
+.clinical-notice { padding: 21px 24px; margin-bottom: 25px; border: 1px solid #b3bfb2; border-left: 4px solid var(--green); background: #e9eee7; color: var(--ink); }
+.clinical-notice strong { font-size: 17px; }
+.clinical-notice p { font-size: 14px; line-height: 1.95; margin: 9px 0; }
+.clinical-notice .source-link { font-size: 12px; }
+.clinical-label { font-size: 12px; line-height: 1.8; color: #405846; margin: 0 0 12px; padding-left: 9px; border-left: 2px solid #a6b4a3; }
+.rating-context { font-size: 12px; line-height: 1.9; color: var(--muted); margin-bottom: 22px; }
 .browse-link { border: 0; border-bottom: 1px solid var(--line); color: var(--green); background: transparent; padding: 10px 0; margin-top: 12px; text-align: left; }
 #step-catalog { padding-top: 32px; }
 #catalog-filters { margin: 28px 0; padding-block: 20px; border-block: 1px solid var(--line); }

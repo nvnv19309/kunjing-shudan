@@ -71,10 +71,6 @@ const BOOKS_DATA = {
       {
         "bookId": "b01",
         "reason": "如果你想理解自己在担心什么，可以借它整理焦虑背后的价值与不确定性。"
-      },
-      {
-        "bookId": "b02",
-        "reason": "如果你反复预想最坏结果，可以尝试观察想法如何影响感受，再挑一个练习。"
       }
     ],
     "popular": [
@@ -85,6 +81,10 @@ const BOOKS_DATA = {
       {
         "bookId": "b04",
         "reason": "如果现在读不进心理学术语，可以通过人物的经历给自己的感受留一点空间。"
+      },
+      {
+        "bookId": "b60",
+        "reason": "如果担忧总在脑中打转，可以记录一个具体情境，练习区分事实、想法和感受。"
       }
     ]
   },
@@ -137,8 +137,8 @@ const BOOKS_DATA = {
         "reason": "如果你知道要做什么却很难开始，可以试着减少一个动作的阻力，而不是只靠意志力。"
       },
       {
-        "bookId": "b08",
-        "reason": "如果一想到完整任务就退缩，可以试一个很小的开始，再观察它是否有帮助。"
+        "bookId": "b62",
+        "reason": "如果你因担心做不好而迟迟不开始，可以从一个允许不够完美的小实验开始。"
       }
     ]
   },
@@ -174,17 +174,9 @@ const BOOKS_DATA = {
       {
         "bookId": "b09",
         "reason": "如果你不知道如何比较工作方向，可以先选一组练习梳理自己在意的条件。"
-      },
-      {
-        "bookId": "b10",
-        "reason": "如果你想把眼前的工作放进更长的时间里看，可以借它比较短期收入与长期积累。"
       }
     ],
     "popular": [
-      {
-        "bookId": "b11",
-        "reason": "如果你的经历比较曲折，可以用它反思已有积累如何连接到下一种可能。"
-      },
       {
         "bookId": "b12",
         "reason": "如果你一直等待唯一正确的方向，可以先设计两个低成本的小试验。"
@@ -367,12 +359,16 @@ const BOOKS_DATA = {
         "reason": "如果你对咨询有好奇或顾虑，可以借故事了解其中可能出现的谈话与关系。"
       },
       {
-        "bookId": "b25",
-        "reason": "如果你想检视睡前习惯，可以选一个与环境或日程有关的小调整。"
-      },
-      {
         "bookId": "b26",
         "reason": "如果你想跳出“情绪只是失控”的理解，可以比较这套理论如何解释一个具体经历。"
+      },
+      {
+        "bookId": "b60",
+        "reason": "如果你想梳理低落时反复出现的自我评价，可以从一个工作表开始；不必等完成练习后才寻求帮助。"
+      },
+      {
+        "bookId": "b64",
+        "reason": "如果你越担心失眠越清醒，可以先记录作息与睡前思维，再与专业人员讨论适合自己的调整。"
       }
     ],
     "warning": true
@@ -419,14 +415,18 @@ const BOOKS_DATA = {
       {
         "bookId": "b15",
         "reason": "如果你常被别人的期待牵着走，可以把其中的观点当作一次重新提问的机会。"
+      },
+      {
+        "bookId": "b63",
+        "reason": "如果你经常把一次失误变成对整个人的否定，可以从识别内在批评、建立平衡评价开始。"
       }
     ]
   },
   "personality": {
     "group": "emotion",
     "short": "理解波动，不急着贴标签",
-    "intro": "情绪波动、关系反复与不真实感可能有不同来源。本组包含专业参考与大众读物，用于了解概念和求助路径，不用于确认自己或他人的诊断。",
-    "readingTip": "如果主要想了解如何求助，可以先看自助指南的专业支持部分；DSM 和解离理论著作不是初次自我探索的必读书。",
+    "intro": "情绪波动、关系反复与不真实感可能有不同来源。这里先提供理解体验、练习技巧与寻找支持的读物，不根据你的输入确认任何诊断。",
+    "readingTip": "可以先从情绪调节技巧或求助资源开始。涉及BPD的读物是了解概念与支持方式的材料，阅读后的共鸣不是诊断；临床理论和诊断手册另放在专业参考区。",
     "boundary": "不要根据关键词、伴侣行为或阅读后的共鸣诊断人格障碍或创伤。持续或明显的不真实感值得接受专业评估。",
     "title": "情绪波动与关系困扰",
     "icon": "🧩",
@@ -478,20 +478,8 @@ const BOOKS_DATA = {
     ],
     "classic": [
       {
-        "bookId": "b30",
-        "reason": "如果你已经在与专业人员讨论相关问题，可以用它补充术语与求助知识。"
-      },
-      {
-        "bookId": "b31",
-        "reason": "如果你有专业学习需求，可以查阅概念与分类，并结合训练和其他资料理解。"
-      },
-      {
         "bookId": "b32",
         "reason": "如果你正在寻求或接受帮助，可以从治疗选择与支持资源部分了解能向专业人员问什么。"
-      },
-      {
-        "bookId": "b33",
-        "reason": "如果你已有相关学习基础，可以把它作为了解特定创伤理论的参考。"
       }
     ],
     "popular": [
@@ -508,8 +496,12 @@ const BOOKS_DATA = {
         "reason": "如果你正在支持一个有明确相关需要的人，可以借它思考自己的需要和可承受的帮助。"
       },
       {
-        "bookId": "b37",
-        "reason": "如果你正面对反复贬低或控制，可以把注意力放在具体行为、边界与可获得的支持。"
+        "bookId": "b61",
+        "reason": "如果情绪强烈、冲突后很难平复，可以先了解承受痛苦和人际效能的具体技巧；需要这些技巧不等于患有BPD。"
+      },
+      {
+        "bookId": "b51",
+        "reason": "如果你反复感到被内疚或义务推着走，可以关注具体互动、需要和安全边界，不必先给对方确定某种人格标签。"
       }
     ],
     "warning": true
@@ -612,12 +604,12 @@ const BOOKS_DATA = {
     ],
     "popular": [
       {
-        "bookId": "b44",
-        "reason": "如果你对灵性写作感兴趣，可以将它作为一种观察日常体验的个人视角。"
-      },
-      {
         "bookId": "b12",
         "reason": "如果你一直等待唯一正确的方向，可以先设计两个低成本的小试验。"
+      },
+      {
+        "bookId": "b65",
+        "reason": "如果你越要求自己快乐、越感到空虚，可以借价值探索寻找愿意投入的行动，允许不舒服暂时存在。"
       }
     ]
   },
@@ -800,22 +792,26 @@ const BOOKS_DATA = {
     ],
     "classic": [
       {
-        "bookId": "b53",
-        "reason": "如果你常被刺激或他人情绪影响，可以留意哪些环境条件让自己更容易恢复。"
-      },
-      {
         "bookId": "b54",
         "reason": "如果你认为必须表现完美才能被接纳，可以借它观察自己对犯错的要求。"
       }
     ],
     "popular": [
       {
-        "bookId": "b55",
-        "reason": "如果你觉得脑中想法太多，可以把阅读当作整理体验的提示，而不是寻找身份认证。"
-      },
-      {
         "bookId": "b15",
         "reason": "如果你常被别人的期待牵着走，可以把其中的观点当作一次重新提问的机会。"
+      },
+      {
+        "bookId": "b62",
+        "reason": "如果过高的标准让你长期紧绷，可以观察这些标准带来的代价，再尝试更有弹性的要求。"
+      },
+      {
+        "bookId": "b63",
+        "reason": "如果他人的评价很容易变成自我否定，可以练习辨认内在批评和表达自己的需要。"
+      },
+      {
+        "bookId": "b03",
+        "reason": "如果你在犯错后很难善待自己，可以选一项自我关怀练习，按舒服的节奏尝试。"
       }
     ]
   },
@@ -917,12 +913,12 @@ const BOOKS_DATA = {
     ],
     "popular": [
       {
-        "bookId": "b59",
-        "reason": "如果你愿意接触这类写作，可以把肯定语当作可选择的自我表达方式。"
-      },
-      {
         "bookId": "b24",
         "reason": "如果你只想先读一个故事，可以跟着人物看看难以说出的感受如何进入对话。"
+      },
+      {
+        "bookId": "b60",
+        "reason": "如果分手后总把原因归结为自己不够好，可以借工作表检视这些自我评价，而不必强迫自己立刻释怀。"
       }
     ]
   }
@@ -983,64 +979,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
-  },
-  "b02": {
-    "title": "控制焦虑",
-    "originalTitle": "",
-    "aliases": [],
-    "author": "阿尔伯特·埃利斯",
-    "format": "自助与练习",
-    "difficulty": "入门",
-    "reason": "如果你反复预想最坏结果，可以尝试观察想法如何影响感受，再挑一个练习。",
-    "goals": [
-      "practice",
-      "understand"
-    ],
-    "caveat": "主要沿用理性情绪行为疗法的解释框架，强调信念调整；现实中的经济压力、暴力和疾病并不只是想法造成的，不应把未能缓解归咎于自己。",
-    "topics": [
-      "anxiety"
-    ],
-    "edition": {
-      "title": "控制焦虑",
-      "language": "zh",
-      "publisher": "机械工业出版社",
-      "publishedAt": "2014-1",
-      "isbn": "9787111450818",
-      "url": "https://book.douban.com/subject/25805226/",
-      "checkedAt": "2026-10-17",
-      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
     },
-    "cover": {
-      "src": "assets/covers/b02.svg",
-      "source": "https://img9.doubanio.com/view/subject/l/public/s33491944.jpg",
-      "url": "https://book.douban.com/subject/25805226/"
-    },
-    "synopsis": {
-      "text": "你害怕在公开场合发言吗？ 你恐惧与陌生人或异性讲…",
-      "url": "https://book.douban.com/subject/25805226/",
-      "label": "所选版本内容简介原文节选",
-      "checkedAt": "2026-10-17"
-    },
-    "ratings": {
-      "douban": {
-        "status": "verified",
-        "value": "7.5",
-        "count": 1226,
-        "url": "https://book.douban.com/subject/25805226/",
-        "checkedAt": "2026-10-17",
-        "method": "public-book-page"
-      },
-      "goodreads": {
-        "title": "How to Control Your Anxiety Before It Controls You",
-        "url": "https://www.goodreads.com/book/show/7322755",
-        "value": "3.79",
-        "count": 713,
-        "checkedAt": "2026-10-17",
-        "status": "verified",
-        "method": "public-page-snapshot"
-      }
-    }
+    "audience": "general",
+    "clinicalContext": false
   },
   "b03": {
     "title": "静观自我关怀:勇敢爱自己的51项练习",
@@ -1057,7 +998,8 @@ const BOOK_CATALOG = {
     ],
     "caveat": "这是练习手册，并非所有人都适合立即进行内观。唤起创伤记忆或明显不适时可以停止；完成练习也不意味着能够替代专业评估。",
     "topics": [
-      "anxiety"
+      "anxiety",
+      "sensitivity"
     ],
     "edition": {
       "title": "静观自我关怀:勇敢爱自己的51项练习",
@@ -1098,7 +1040,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b04": {
     "title": "焦虑的人",
@@ -1154,7 +1098,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b05": {
     "title": "搞定",
@@ -1212,7 +1158,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b06": {
     "title": "拖延心理学",
@@ -1269,7 +1217,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b07": {
     "title": "掌控习惯",
@@ -1325,63 +1275,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
-  },
-  "b08": {
-    "title": "微习惯",
-    "originalTitle": "Mini Habits: Smaller Habits, Bigger Results",
-    "aliases": [],
-    "author": "斯蒂芬·盖斯",
-    "format": "行动方法",
-    "difficulty": "入门",
-    "reason": "如果一想到完整任务就退缩，可以试一个很小的开始，再观察它是否有帮助。",
-    "goals": [
-      "practice"
-    ],
-    "caveat": "适合把启动门槛变小，但微小行动不自动等于有效学习或工作成果；复杂任务仍需要反馈、资源和足够的练习。",
-    "topics": [
-      "procrastination"
-    ],
-    "edition": {
-      "title": "微习惯",
-      "language": "zh",
-      "publisher": "江西人民出版社",
-      "publishedAt": "2016-11",
-      "isbn": "9787210086741",
-      "url": "https://book.douban.com/subject/26877306/",
-      "checkedAt": "2026-10-17",
-      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
     },
-    "cover": {
-      "src": "assets/covers/b08.svg",
-      "source": "https://img3.doubanio.com/view/subject/l/public/s34408860.jpg",
-      "url": "https://book.douban.com/subject/26877306/"
-    },
-    "synopsis": {
-      "text": "1天1个俯卧撑 1天1页书 1天50字 每天只做…",
-      "url": "https://book.douban.com/subject/26877306/",
-      "label": "所选版本内容简介原文节选",
-      "checkedAt": "2026-10-17"
-    },
-    "ratings": {
-      "douban": {
-        "status": "verified",
-        "value": "7.7",
-        "count": 14253,
-        "url": "https://book.douban.com/subject/26877306/",
-        "checkedAt": "2026-10-17",
-        "method": "public-book-page"
-      },
-      "goodreads": {
-        "title": "Mini Habits",
-        "url": "https://www.goodreads.com/book/show/20567918",
-        "value": "4.00",
-        "count": 8026,
-        "checkedAt": "2026-10-17",
-        "status": "verified",
-        "method": "public-page-snapshot"
-      }
-    }
+    "audience": "general",
+    "clinicalContext": false
   },
   "b09": {
     "title": "你的降落伞是什么颜色",
@@ -1438,121 +1334,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
-  },
-  "b10": {
-    "title": "远见",
-    "originalTitle": "The Long View: Career Strategies to Start Strong, Reach High, and Go Far",
-    "aliases": [],
-    "author": "布莱恩·费瑟斯通豪",
-    "format": "职业经验",
-    "difficulty": "进阶",
-    "reason": "如果你想把眼前的工作放进更长的时间里看，可以借它比较短期收入与长期积累。",
-    "goals": [
-      "understand",
-      "practice"
-    ],
-    "caveat": "职业阶段模型主要来自企业管理者经验，不是每个人都能按同样节奏发展；它对非正式就业、照护中断与结构性限制的解释有限。",
-    "topics": [
-      "career"
-    ],
-    "edition": {
-      "title": "远见",
-      "language": "zh",
-      "publisher": "北京联合出版公司",
-      "publishedAt": "2018-1",
-      "isbn": "9787559612168",
-      "url": "https://book.douban.com/subject/27609489/",
-      "checkedAt": "2026-10-17",
-      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
     },
-    "cover": {
-      "src": "assets/covers/b10.svg",
-      "source": "https://img9.doubanio.com/view/subject/l/public/s29699274.jpg",
-      "url": "https://book.douban.com/subject/27609489/"
-    },
-    "synopsis": {
-      "text": "什么是成功的职业生涯？ 成功的职业生涯不在于找到…",
-      "url": "https://book.douban.com/subject/27609489/",
-      "label": "所选版本内容简介原文节选",
-      "checkedAt": "2026-10-17"
-    },
-    "ratings": {
-      "douban": {
-        "status": "verified",
-        "value": "7.6",
-        "count": 5837,
-        "url": "https://book.douban.com/subject/27609489/",
-        "checkedAt": "2026-10-17",
-        "method": "public-book-page"
-      },
-      "goodreads": {
-        "title": "The Long View: Career Strategies to Start Strong, Reach High and Go Far by Brian Fetherstonhaugh | Goodreads",
-        "url": "https://www.goodreads.com/book/show/29403100",
-        "value": "3.75",
-        "count": 313,
-        "checkedAt": "2026-10-17",
-        "status": "verified",
-        "method": "public-page-snapshot"
-      }
-    }
-  },
-  "b11": {
-    "title": "非线性成长",
-    "originalTitle": "",
-    "aliases": [],
-    "author": "黄有璨",
-    "format": "职业经验",
-    "difficulty": "进阶",
-    "reason": "如果你的经历比较曲折，可以用它反思已有积累如何连接到下一种可能。",
-    "goals": [
-      "understand",
-      "practice"
-    ],
-    "caveat": "较多案例依托中国互联网与商业环境，经验有行业和时期边界；不能把个别人的跃迁路径当作可复制的成长公式。",
-    "topics": [
-      "career"
-    ],
-    "edition": {
-      "title": "非线性成长",
-      "language": "zh",
-      "publisher": "电子工业出版社",
-      "publishedAt": "2020-10-1",
-      "isbn": "9787121395123",
-      "url": "https://book.douban.com/subject/35218970/",
-      "checkedAt": "2026-10-17",
-      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
-    },
-    "cover": {
-      "src": "assets/covers/b11.svg",
-      "source": "https://img9.doubanio.com/view/subject/l/public/s33733115.jpg",
-      "url": "https://book.douban.com/subject/35218970/"
-    },
-    "synopsis": {
-      "text": "全书以作者总结出来的个人成长范式“非线性成长”为…",
-      "url": "https://book.douban.com/subject/35218970/",
-      "label": "所选版本内容简介原文节选",
-      "checkedAt": "2026-10-17"
-    },
-    "ratings": {
-      "douban": {
-        "status": "verified",
-        "value": "7.8",
-        "count": 1254,
-        "url": "https://book.douban.com/subject/35218970/",
-        "checkedAt": "2026-10-17",
-        "method": "public-book-page"
-      },
-      "goodreads": {
-        "title": "非线性成长(不确定时代下的职业发展和商业通关策略)(精) by Huang You Can | Goodreads",
-        "url": "https://www.goodreads.com/book/show/70714216",
-        "value": "4.50",
-        "count": 2,
-        "checkedAt": "2026-10-17",
-        "status": "verified",
-        "method": "public-page-snapshot"
-      }
-    }
+    "audience": "general",
+    "clinicalContext": false
   },
   "b12": {
     "title": "斯坦福大学人生设计课",
@@ -1611,7 +1395,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b13": {
     "title": "亲密关系（第6版）",
@@ -1671,7 +1457,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b14": {
     "title": "非暴力沟通",
@@ -1728,7 +1516,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b15": {
     "title": "被讨厌的勇气",
@@ -1786,7 +1576,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b16": {
     "title": "也许你该找个人聊聊",
@@ -1844,7 +1636,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b17": {
     "title": "如何阅读一本书",
@@ -1901,7 +1695,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b18": {
     "title": "认知天性",
@@ -1958,7 +1754,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b19": {
     "title": "学习之道",
@@ -2015,7 +1813,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b20": {
     "title": "卡片笔记写作法",
@@ -2071,7 +1871,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b21": {
     "title": "伯恩斯新情绪疗法",
@@ -2128,7 +1930,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": true
   },
   "b22": {
     "title": "我们为什么要睡觉？",
@@ -2186,7 +1990,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b23": {
     "title": "改善情绪的正念疗法",
@@ -2243,7 +2049,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": true
   },
   "b24": {
     "title": "蛤蟆先生去看心理医生",
@@ -2301,63 +2109,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
-  },
-  "b25": {
-    "title": "睡眠革命",
-    "originalTitle": "SLEEP:Redefine Your Rest,for Success in Work,Sport and Life",
-    "aliases": [],
-    "author": "尼克·利特尔黑尔斯",
-    "format": "睡眠经验",
-    "difficulty": "入门",
-    "reason": "如果你想检视睡前习惯，可以选一个与环境或日程有关的小调整。",
-    "goals": [
-      "practice"
-    ],
-    "caveat": "建议来自运动员睡眠管理经验，固定周期与日程安排未必适合所有人；睡眠障碍、轮班和用药问题需要个别评估。",
-    "topics": [
-      "mood"
-    ],
-    "edition": {
-      "title": "睡眠革命",
-      "language": "zh",
-      "publisher": "北京联合出版公司",
-      "publishedAt": "2017-6",
-      "isbn": "9787550299658",
-      "url": "https://book.douban.com/subject/27023900/",
-      "checkedAt": "2026-10-17",
-      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
     },
-    "cover": {
-      "src": "assets/covers/b25.svg",
-      "source": "https://img3.doubanio.com/view/subject/l/public/s29437927.jpg",
-      "url": "https://book.douban.com/subject/27023900/"
-    },
-    "synopsis": {
-      "text": "提出修复睡眠的七大关键指标，颠覆八小时健康睡眠的…",
-      "url": "https://book.douban.com/subject/27023900/",
-      "label": "所选版本内容简介原文节选",
-      "checkedAt": "2026-10-17"
-    },
-    "ratings": {
-      "douban": {
-        "status": "verified",
-        "value": "7.3",
-        "count": 9275,
-        "url": "https://book.douban.com/subject/27023900/",
-        "checkedAt": "2026-10-17",
-        "method": "public-book-page"
-      },
-      "goodreads": {
-        "title": "Sleep by Nick Littlehales | Goodreads",
-        "url": "https://www.goodreads.com/book/show/111780198",
-        "value": "3.82",
-        "count": 3212,
-        "checkedAt": "2026-10-17",
-        "status": "verified",
-        "method": "public-page-snapshot"
-      }
-    }
+    "audience": "general",
+    "clinicalContext": false
   },
   "b26": {
     "title": "情绪",
@@ -2413,7 +2167,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b27": {
     "title": "自卑与超越",
@@ -2469,7 +2225,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b28": {
     "title": "人格心理学",
@@ -2525,7 +2283,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": true
   },
   "b29": {
     "title": "突破天性",
@@ -2581,65 +2341,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
-  },
-  "b30": {
-    "title": "边缘型人格障碍",
-    "originalTitle": "I Hate You--Don't Leave Me",
-    "aliases": [
-      "我恨你，别离开我"
-    ],
-    "author": "杰罗尔德·克莱斯曼 / 霍尔·斯特劳斯",
-    "format": "心理教育",
-    "difficulty": "进阶",
-    "reason": "如果你已经在与专业人员讨论相关问题，可以用它补充术语与求助知识。",
-    "goals": [
-      "understand"
-    ],
-    "caveat": "早期版本对边缘型人格的称谓、案例与治疗信息具有时代局限；原作标题中的强烈关系叙事不应被当成患者的统一形象，更不能据此给伴侣贴标签。",
-    "topics": [
-      "personality"
-    ],
-    "edition": {
-      "title": "边缘型人格障碍",
-      "language": "zh",
-      "publisher": "群言出版社",
-      "publishedAt": "2012-3",
-      "isbn": "9787802562974",
-      "url": "https://book.douban.com/subject/10560212/",
-      "checkedAt": "2026-10-17",
-      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
     },
-    "cover": {
-      "src": "assets/covers/b30.svg",
-      "source": "https://img3.doubanio.com/view/subject/l/public/s9008718.jpg",
-      "url": "https://book.douban.com/subject/10560212/"
-    },
-    "synopsis": {
-      "text": "患者一般在下面几个方面有非常不稳定的表现：心情、…",
-      "url": "https://book.douban.com/subject/10560212/",
-      "label": "所选版本内容简介原文节选",
-      "checkedAt": "2026-10-17"
-    },
-    "ratings": {
-      "douban": {
-        "status": "verified",
-        "value": "8.3",
-        "count": 244,
-        "url": "https://book.douban.com/subject/10560212/",
-        "checkedAt": "2026-10-17",
-        "method": "public-book-page"
-      },
-      "goodreads": {
-        "title": "I Hate You—Don't Leave Me by Jerold J. Kreisman | Goodreads",
-        "url": "https://www.goodreads.com/book/show/22580201",
-        "value": "3.78",
-        "count": 16623,
-        "checkedAt": "2026-10-17",
-        "status": "verified",
-        "method": "public-page-snapshot"
-      }
-    }
+    "audience": "general",
+    "clinicalContext": false
   },
   "b31": {
     "title": "精神障碍诊断与统计手册(第5版)(DSM-5)",
@@ -2650,7 +2354,7 @@ const BOOK_CATALOG = {
     "author": "美国精神医学学会",
     "format": "专业参考",
     "difficulty": "较难",
-    "reason": "如果你有专业学习需求，可以查阅概念与分类，并结合训练和其他资料理解。",
+    "reason": "如果你有专业学习需求，可以查阅这个历史版本的分类，并对照现行更新资料理解变化。",
     "goals": [
       "understand"
     ],
@@ -2703,7 +2407,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "professional",
+    "clinicalContext": true
   },
   "b32": {
     "title": "边缘型人格障碍生存指南",
@@ -2760,7 +2466,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": true
   },
   "b33": {
     "title": "萦绕不安的自我",
@@ -2816,7 +2524,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "professional",
+    "clinicalContext": true
   },
   "b34": {
     "title": "身体从未忘记",
@@ -2872,7 +2582,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": true
   },
   "b35": {
     "title": "不原谅也没关系",
@@ -2929,7 +2641,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": true
   },
   "b36": {
     "title": "与内心的恐惧对话",
@@ -2988,66 +2702,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
-  },
-  "b37": {
-    "title": "不被支配",
-    "originalTitle": "Becoming the Narcissist's Nightmare: How to Devalue and Discard the Narcissist While Supplying Yourself",
-    "aliases": [
-      "不被支配：自恋人格的识别与反制"
-    ],
-    "author": "沙希达·阿拉比",
-    "format": "关系边界 / 自助",
-    "difficulty": "入门",
-    "reason": "如果你正面对反复贬低或控制，可以把注意力放在具体行为、边界与可获得的支持。",
-    "goals": [
-      "practice",
-      "understand"
-    ],
-    "caveat": "采用幸存者视角和较强的对抗性语言；“自恋者”不等于经专业诊断的NPD，书中的识别清单不能代替评估，具体脱离策略也须考虑现实安全。",
-    "topics": [
-      "personality"
-    ],
-    "edition": {
-      "title": "不被支配",
-      "language": "zh",
-      "publisher": "人民邮电出版社",
-      "publishedAt": "2024-6",
-      "isbn": "9787115645661",
-      "url": "https://book.douban.com/subject/36923814/",
-      "checkedAt": "2026-10-17",
-      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
     },
-    "cover": {
-      "src": "assets/covers/b37.svg",
-      "source": "https://img2.doubanio.com/view/subject/l/public/s34885751.jpg",
-      "url": "https://book.douban.com/subject/36923814/"
-    },
-    "synopsis": {
-      "text": "你身边是否有这样的人？小心自恋型人格！ 自恋型人…",
-      "url": "https://book.douban.com/subject/36923814/",
-      "label": "所选版本内容简介原文节选",
-      "checkedAt": "2026-10-17"
-    },
-    "ratings": {
-      "douban": {
-        "status": "verified",
-        "value": "8.3",
-        "count": 1187,
-        "url": "https://book.douban.com/subject/36923814/",
-        "checkedAt": "2026-10-17",
-        "method": "public-book-page"
-      },
-      "goodreads": {
-        "title": "Becoming the Narcissist’s Nightmare: How to Devalue and Discard the Narcissist While Supplying Yourself by Shahida Arabi | Goodreads",
-        "url": "https://www.goodreads.com/book/show/28696904",
-        "value": "4.19",
-        "count": 1518,
-        "checkedAt": "2026-10-17",
-        "status": "verified",
-        "method": "public-page-snapshot"
-      }
-    }
+    "audience": "general",
+    "clinicalContext": true
   },
   "b38": {
     "title": "富爸爸，穷爸爸",
@@ -3105,7 +2762,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b39": {
     "title": "邻家的百万富翁",
@@ -3161,7 +2820,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b40": {
     "title": "金钱心理学",
@@ -3217,7 +2878,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b41": {
     "title": "小狗钱钱",
@@ -3274,7 +2937,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b42": {
     "title": "活出生命的意义",
@@ -3331,7 +2996,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b43": {
     "title": "西西弗神话",
@@ -3387,66 +3054,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
-  },
-  "b44": {
-    "title": "当下的力量（珍藏版）",
-    "originalTitle": "The power of now",
-    "aliases": [
-      "当下的力量"
-    ],
-    "author": "埃克哈特·托利",
-    "format": "灵性随笔",
-    "difficulty": "入门",
-    "reason": "如果你对灵性写作感兴趣，可以将它作为一种观察日常体验的个人视角。",
-    "goals": [
-      "understand",
-      "practice"
-    ],
-    "caveat": "属于灵性自助著作，其“觉醒”等概念不等于经过验证的心理治疗；痛苦持续存在不代表你不够专注当下，也不应据此忽略现实问题。",
-    "topics": [
-      "meaning"
-    ],
-    "edition": {
-      "title": "当下的力量（珍藏版）",
-      "language": "zh",
-      "publisher": "中信出版社",
-      "publishedAt": "2013-7-1",
-      "isbn": "9787508640099",
-      "url": "https://book.douban.com/subject/24758481/",
-      "checkedAt": "2026-10-17",
-      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
     },
-    "cover": {
-      "src": "assets/covers/b44.svg",
-      "source": "https://img3.doubanio.com/view/subject/l/public/s26922429.jpg",
-      "url": "https://book.douban.com/subject/24758481/"
-    },
-    "synopsis": {
-      "text": "我们忘不掉过去，更担心未来。但实际上，我们只能活…",
-      "url": "https://book.douban.com/subject/24758481/",
-      "label": "所选版本内容简介原文节选",
-      "checkedAt": "2026-10-17"
-    },
-    "ratings": {
-      "douban": {
-        "status": "verified",
-        "value": "8.7",
-        "count": 13367,
-        "url": "https://book.douban.com/subject/24758481/",
-        "checkedAt": "2026-10-17",
-        "method": "public-book-page"
-      },
-      "goodreads": {
-        "title": "The Power of Now: A Guide to Spiritual Enlightenment by Eckhart Tolle | Goodreads",
-        "url": "https://www.goodreads.com/book/show/1369698",
-        "value": "4.15",
-        "count": 477123,
-        "checkedAt": "2026-10-17",
-        "status": "verified",
-        "method": "public-page-snapshot"
-      }
-    }
+    "audience": "general",
+    "clinicalContext": false
   },
   "b45": {
     "title": "最好的告别",
@@ -3503,7 +3113,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b46": {
     "title": "错把妻子当帽子",
@@ -3560,7 +3172,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b47": {
     "title": "当呼吸化为空气",
@@ -3616,7 +3230,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b48": {
     "title": "医生的修炼",
@@ -3673,7 +3289,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b49": {
     "title": "原生家庭",
@@ -3732,7 +3350,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b50": {
     "title": "为何家会伤人",
@@ -3788,7 +3408,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b51": {
     "title": "情感勒索",
@@ -3804,6 +3426,7 @@ const BOOK_CATALOG = {
     ],
     "caveat": "“情感勒索”是帮助识别互动的通俗框架，不是临床诊断；一次冲突不等于稳定的操纵模式，回应方式还要考虑权力差异和安全。",
     "topics": [
+      "personality",
       "family"
     ],
     "edition": {
@@ -3845,7 +3468,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b52": {
     "title": "为了你好",
@@ -3901,64 +3526,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
-  },
-  "b53": {
-    "title": "高敏感是种天赋",
-    "originalTitle": "Highly Sensitive People in an Insensitive World",
-    "aliases": [],
-    "author": "伊尔斯·桑德",
-    "format": "大众心理自助",
-    "difficulty": "入门",
-    "reason": "如果你常被刺激或他人情绪影响，可以留意哪些环境条件让自己更容易恢复。",
-    "goals": [
-      "understand",
-      "practice"
-    ],
-    "caveat": "“高敏感”在这里是理解自身体验的自助概念，不是诊断；把敏感称为天赋属于鼓励性表达，不代表每项困难都有同一个原因。",
-    "topics": [
-      "sensitivity"
-    ],
-    "edition": {
-      "title": "高敏感是种天赋",
-      "language": "zh",
-      "publisher": "北京联合出版公司",
-      "publishedAt": "2017-9",
-      "isbn": "9787559608710",
-      "url": "https://book.douban.com/subject/27125070/",
-      "checkedAt": "2026-10-17",
-      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
     },
-    "cover": {
-      "src": "assets/covers/b53.svg",
-      "source": "https://img9.doubanio.com/view/subject/l/public/s29543736.jpg",
-      "url": "https://book.douban.com/subject/27125070/"
-    },
-    "synopsis": {
-      "text": "为什么常觉得自己事情做不好、在人前丢脸？ 大家都…",
-      "url": "https://book.douban.com/subject/27125070/",
-      "label": "所选版本内容简介原文节选",
-      "checkedAt": "2026-10-17"
-    },
-    "ratings": {
-      "douban": {
-        "status": "verified",
-        "value": "7.4",
-        "count": 7901,
-        "url": "https://book.douban.com/subject/27125070/",
-        "checkedAt": "2026-10-17",
-        "method": "public-book-page"
-      },
-      "goodreads": {
-        "title": "Highly Sensitive People in an Insensitive World",
-        "url": "https://www.goodreads.com/book/show/29083645",
-        "value": "3.70",
-        "count": 2086,
-        "checkedAt": "2026-10-17",
-        "status": "verified",
-        "method": "public-page-snapshot"
-      }
-    }
+    "audience": "general",
+    "clinicalContext": false
   },
   "b54": {
     "title": "脆弱的力量",
@@ -4015,65 +3585,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
-  },
-  "b55": {
-    "title": "多向思考者",
-    "originalTitle": "Je pense trop：Comment canaliser ce mental envahissant",
-    "aliases": [
-      "多向思考者：高敏感人群的内心世界"
-    ],
-    "author": "克莉司德·布提可南",
-    "format": "大众心理自助",
-    "difficulty": "入门",
-    "reason": "如果你觉得脑中想法太多，可以把阅读当作整理体验的提示，而不是寻找身份认证。",
-    "goals": [
-      "understand"
-    ],
-    "caveat": "作者以咨询经验归纳“多向思考者”，带有特定分类框架；与描述产生共鸣，不能证明自己具有高智商、某种神经特征或临床状况。",
-    "topics": [
-      "sensitivity"
-    ],
-    "edition": {
-      "title": "多向思考者",
-      "language": "zh",
-      "publisher": "北京联合出版公司",
-      "publishedAt": "2018-9",
-      "isbn": "9787550266049",
-      "url": "https://book.douban.com/subject/30337311/",
-      "checkedAt": "2026-10-17",
-      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
     },
-    "cover": {
-      "src": "assets/covers/b55.svg",
-      "source": "https://img3.doubanio.com/view/subject/l/public/s35082229.jpg",
-      "url": "https://book.douban.com/subject/30337311/"
-    },
-    "synopsis": {
-      "text": "这是一本很有人文情怀的心理辅导书。法国“国民心理…",
-      "url": "https://book.douban.com/subject/30337311/",
-      "label": "所选版本内容简介原文节选",
-      "checkedAt": "2026-10-17"
-    },
-    "ratings": {
-      "douban": {
-        "status": "verified",
-        "value": "8.0",
-        "count": 1120,
-        "url": "https://book.douban.com/subject/30337311/",
-        "checkedAt": "2026-10-17",
-        "method": "public-book-page"
-      },
-      "goodreads": {
-        "title": "Je pense trop : Comment canaliser ce mental envahissant by Christel Petitcollin | Goodreads",
-        "url": "https://www.goodreads.com/book/show/32273824",
-        "value": "3.23",
-        "count": 6133,
-        "checkedAt": "2026-10-17",
-        "status": "verified",
-        "method": "public-page-snapshot"
-      }
-    }
+    "audience": "general",
+    "clinicalContext": false
   },
   "b56": {
     "title": "幸福的婚姻",
@@ -4130,7 +3644,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b57": {
     "title": "关系的重建",
@@ -4187,7 +3703,9 @@ const BOOK_CATALOG = {
         "status": "verified",
         "method": "public-page-snapshot"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
   "b58": {
     "title": "我们为什么不爱了",
@@ -4240,67 +3758,386 @@ const BOOK_CATALOG = {
         "status": "not_found",
         "checkedAt": "2026-10-17"
       }
-    }
+    },
+    "audience": "general",
+    "clinicalContext": false
   },
-  "b59": {
-    "title": "生命的重建",
-    "originalTitle": "You Can Heal Your Life",
-    "aliases": [],
-    "author": "露易丝·海",
-    "format": "灵性自助",
-    "difficulty": "入门",
-    "reason": "如果你愿意接触这类写作，可以把肯定语当作可选择的自我表达方式。",
+  "b60": {
+    "title": "理智胜过情感（第二版）",
+    "aliases": [
+      "理智胜过情感"
+    ],
+    "author": "丹尼斯·格林伯格 / 克里斯提娜·A. 帕蒂斯凯",
+    "originalTitle": "Mind Over Mood",
+    "format": "认知行为练习",
+    "difficulty": "进阶",
     "goals": [
+      "understand",
       "practice"
     ],
-    "caveat": "属于灵性励志与自我肯定读物，书中的身心因果叙述不能当作医学证据。NCI指出，没有确凿证据证明积极或消极态度决定患癌或死于癌症的风险；疾病不应被归咎于患者的想法。",
-    "caveatSources": [
-      {
-        "url": "https://www.cancer.gov/about-cancer/causes-prevention/risk/myths",
-        "label": "NCI：态度与癌症风险的误解"
-      }
-    ],
     "topics": [
+      "anxiety",
+      "mood",
       "breakup"
     ],
+    "clinicalContext": true,
+    "reason": "如果你想把反复出现的想法、情绪和行动分开梳理，可以用其中的工作表，从一个具体情境开始练习。",
+    "caveat": "工作表需要时间和反复练习，量表不用于自行确诊。书名不意味着理智应压过感受，也不能把现实困境归结为想法错误；严重或持续的痛苦需要专业评估。",
+    "caveatSources": [
+      {
+        "label": "Reading Well 心理健康阅读书目",
+        "url": "https://oxfordhealth.nhs.uk/wp-content/uploads/sites/40/2025/02/Reading-well-for-mental-health.pdf"
+      }
+    ],
+    "audience": "general",
     "edition": {
-      "title": "生命的重建",
+      "title": "理智胜过情感（第二版）",
       "language": "zh",
-      "publisher": "中国宇航出版社",
-      "publishedAt": "2008-01-01",
-      "isbn": "9787801445445",
-      "url": "https://book.douban.com/subject/1105890/",
+      "publisher": "中国轻工业出版社",
+      "publishedAt": "2018-2",
+      "isbn": "9787518416509",
+      "url": "https://book.douban.com/subject/30132647/",
       "checkedAt": "2026-10-17",
       "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
     },
     "cover": {
-      "src": "assets/covers/b59.svg",
-      "source": "https://img9.doubanio.com/view/subject/l/public/s3009346.jpg",
-      "url": "https://book.douban.com/subject/1105890/"
+      "src": "assets/covers/b60.svg",
+      "source": "https://img3.doubanio.com/view/subject/l/public/s29679650.jpg",
+      "url": "https://book.douban.com/subject/30132647/"
     },
     "synopsis": {
-      "text": "露易丝·海在书中为我们揭示了追求身心和谐的心理模…",
-      "url": "https://book.douban.com/subject/1105890/",
+      "text": "为读者们提供了一系列引导问题、提示和工作表…",
+      "url": "https://book.douban.com/subject/30132647/",
       "label": "所选版本内容简介原文节选",
       "checkedAt": "2026-10-17"
     },
     "ratings": {
       "douban": {
         "status": "verified",
-        "value": "8.0",
-        "count": 5365,
-        "url": "https://book.douban.com/subject/1105890/",
+        "value": "9.0",
+        "count": 273,
+        "url": "https://book.douban.com/subject/30132647/",
         "checkedAt": "2026-10-17",
         "method": "public-book-page"
       },
       "goodreads": {
-        "title": "You Can Heal Your Life by Louise L. Hay | Goodreads",
-        "url": "https://www.goodreads.com/book/show/907306",
-        "value": "4.15",
-        "count": 87533,
-        "checkedAt": "2026-10-17",
         "status": "verified",
-        "method": "public-page-snapshot"
+        "value": "3.96",
+        "count": 5501,
+        "url": "https://www.goodreads.com/book/show/25329836",
+        "checkedAt": "2026-10-17",
+        "method": "public-page-snapshot",
+        "title": "Mind Over Mood"
+      }
+    }
+  },
+  "b61": {
+    "title": "辩证行为疗法",
+    "aliases": [],
+    "author": "马修·麦克凯 / 杰弗里·伍德 / 杰弗里·布兰特里",
+    "originalTitle": "The Dialectical Behavior Therapy Skills Workbook",
+    "format": "情绪调节练习",
+    "difficulty": "进阶",
+    "goals": [
+      "practice"
+    ],
+    "topics": [
+      "personality"
+    ],
+    "clinicalContext": true,
+    "reason": "如果情绪来得很强、关系冲突后很难平复，可以从承受痛苦或人际效能的一项技巧开始，观察它是否适合你。",
+    "caveat": "这是技能练习书，不等同于完整的辩证行为治疗，也不用于确认BPD。所选2018年中文版早于英文第二版；遇到自伤风险、创伤反应或练习明显加重不适时，应先获得专业支持。",
+    "audience": "general",
+    "edition": {
+      "title": "辩证行为疗法",
+      "language": "zh",
+      "publisher": "重庆大学出版社",
+      "publishedAt": "2018-1",
+      "isbn": "9787568909129",
+      "url": "https://book.douban.com/subject/30312244/",
+      "checkedAt": "2026-10-17",
+      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
+    },
+    "cover": {
+      "src": "assets/covers/b61.svg",
+      "source": "https://img3.doubanio.com/view/subject/l/public/s29855890.jpg",
+      "url": "https://book.douban.com/subject/30312244/"
+    },
+    "synopsis": {
+      "text": "提前准备好应对技巧并希望其发挥作用…",
+      "url": "https://book.douban.com/subject/30312244/",
+      "label": "所选版本内容简介原文节选",
+      "checkedAt": "2026-10-17"
+    },
+    "ratings": {
+      "douban": {
+        "status": "verified",
+        "value": "8.3",
+        "count": 313,
+        "url": "https://book.douban.com/subject/30312244/",
+        "checkedAt": "2026-10-17",
+        "method": "public-book-page"
+      },
+      "goodreads": {
+        "status": "verified",
+        "value": "4.26",
+        "count": 5297,
+        "url": "https://www.goodreads.com/book/show/10044055",
+        "checkedAt": "2026-10-17",
+        "method": "public-page-snapshot",
+        "title": "The Dialectical Behavior Therapy Skills Workbook"
+      }
+    }
+  },
+  "b62": {
+    "title": "克服完美主义",
+    "aliases": [],
+    "author": "罗兹·沙夫曼 / 莎拉·伊根 / 特蕾西·韦德",
+    "originalTitle": "Overcoming Perfectionism",
+    "format": "认知行为练习",
+    "difficulty": "进阶",
+    "goals": [
+      "understand",
+      "practice"
+    ],
+    "topics": [
+      "procrastination",
+      "sensitivity"
+    ],
+    "reason": "如果你因怕做不好而迟迟不开始，可以用其中的小实验，尝试调整对自己的要求，而不必先把自己变成一个完美的练习者。",
+    "caveat": "适合处理僵硬标准带来的困扰，不是要求放弃认真或忽视真实的考核压力。所选中文版不包含其后英文修订版的全部内容；自助练习的负担和支持需求因人而异。",
+    "caveatSources": [
+      {
+        "label": "作者团队的研究与资源说明",
+        "url": "https://www.overcomingperfectionism.com/the-evidence"
+      }
+    ],
+    "audience": "general",
+    "clinicalContext": false,
+    "edition": {
+      "title": "克服完美主义",
+      "language": "zh",
+      "publisher": "上海社会科学院出版社",
+      "publishedAt": "2018-6",
+      "isbn": "9787552022087",
+      "url": "https://book.douban.com/subject/30271066/",
+      "checkedAt": "2026-10-17",
+      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
+    },
+    "cover": {
+      "src": "assets/covers/b62.svg",
+      "source": "https://img3.doubanio.com/view/subject/l/public/s29816082.jpg",
+      "url": "https://book.douban.com/subject/30271066/"
+    },
+    "synopsis": {
+      "text": "打造一个个性化的、系统性的改变计划…",
+      "url": "https://book.douban.com/subject/30271066/",
+      "label": "所选版本内容简介原文节选",
+      "checkedAt": "2026-10-17"
+    },
+    "ratings": {
+      "douban": {
+        "status": "verified",
+        "value": "7.8",
+        "count": 240,
+        "url": "https://book.douban.com/subject/30271066/",
+        "checkedAt": "2026-10-17",
+        "method": "public-book-page"
+      },
+      "goodreads": {
+        "status": "verified",
+        "value": "3.83",
+        "count": 325,
+        "url": "https://www.goodreads.com/book/show/49578411",
+        "checkedAt": "2026-10-17",
+        "method": "public-page-snapshot",
+        "title": "Overcoming Perfectionism"
+      }
+    }
+  },
+  "b63": {
+    "title": "自尊（原书第4版）",
+    "aliases": [
+      "自尊"
+    ],
+    "author": "马修·麦凯 / 帕特里克·范宁",
+    "originalTitle": "Self-Esteem: A Proven Program of Cognitive Techniques for Assessing, Improving, and Maintaining Your Self-Esteem",
+    "format": "自尊与自我评价练习",
+    "difficulty": "进阶",
+    "goals": [
+      "understand",
+      "practice"
+    ],
+    "topics": [
+      "self",
+      "sensitivity"
+    ],
+    "reason": "如果你经常用苛刻的语言评价自己，可以从识别内在批评和表达需要的练习开始，寻找更具体、平衡的自我评价。",
+    "caveat": "自尊不是给人分高低的标准，书中练习也不是诊断工具。工作条件、歧视、经济与关系中的伤害会真实影响自我感受；不能仅靠改变解释消除这些处境。",
+    "audience": "general",
+    "clinicalContext": false,
+    "edition": {
+      "title": "自尊（原书第4版）",
+      "language": "zh",
+      "publisher": "机械工业出版社",
+      "publishedAt": "2018-12",
+      "isbn": "9787111613275",
+      "url": "https://book.douban.com/subject/30408726/",
+      "checkedAt": "2026-10-17",
+      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
+    },
+    "cover": {
+      "src": "assets/covers/b63.svg",
+      "source": "https://img3.doubanio.com/view/subject/l/public/s29960259.jpg",
+      "url": "https://book.douban.com/subject/30408726/"
+    },
+    "synopsis": {
+      "text": "与批判、退缩的想法拉开距离…",
+      "url": "https://book.douban.com/subject/30408726/",
+      "label": "所选版本内容简介原文节选",
+      "checkedAt": "2026-10-17"
+    },
+    "ratings": {
+      "douban": {
+        "status": "verified",
+        "value": "8.5",
+        "count": 1130,
+        "url": "https://book.douban.com/subject/30408726/",
+        "checkedAt": "2026-10-17",
+        "method": "public-book-page"
+      },
+      "goodreads": {
+        "status": "verified",
+        "value": "4.05",
+        "count": 2074,
+        "url": "https://www.goodreads.com/book/show/180464",
+        "checkedAt": "2026-10-17",
+        "method": "public-page-snapshot",
+        "title": "Self-Esteem: A Proven Program of Cognitive Techniques for Assessing, Improving, and Maintaining Your Self-Esteem"
+      }
+    }
+  },
+  "b64": {
+    "title": "睡出好情绪",
+    "aliases": [],
+    "author": "科琳·卡尼 / 雷切尔·曼博",
+    "originalTitle": "Quiet Your Mind and Get to Sleep: Solutions to Insomnia for Those with Depression, Anxiety, or Chronic Pain",
+    "format": "失眠认知行为练习",
+    "difficulty": "进阶",
+    "goals": [
+      "understand",
+      "practice"
+    ],
+    "topics": [
+      "mood"
+    ],
+    "clinicalContext": true,
+    "reason": "如果你越担心睡不好、越难放松，可以借睡眠日记了解自己的作息和睡前思维，再与专业人员讨论适合的调整。",
+    "caveat": "中文版宣传简介将所有失眠归为情绪，属于过度概括；身体疾病、药物和其他睡眠障碍也可能参与。睡眠限制等练习需要个体评估，不应自行停药或强行减少睡眠；出现明显嗜睡或健康疑问时先就医。",
+    "caveatSources": [
+      {
+        "label": "ABCT 原作书籍资料",
+        "url": "https://www.abct.org/books/quiet-your-mind-and-get-to-sleep-solutions-to-insomnia-for-those-with-depression-anxiety-or-chronic-pain/"
+      }
+    ],
+    "audience": "general",
+    "edition": {
+      "title": "睡出好情绪",
+      "language": "zh",
+      "publisher": "成都时代出版社",
+      "publishedAt": "2020-7-1",
+      "isbn": "9787546425979",
+      "url": "https://book.douban.com/subject/35082936/",
+      "checkedAt": "2026-10-17",
+      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
+    },
+    "cover": {
+      "src": "assets/covers/b64.svg",
+      "source": "https://img3.doubanio.com/view/subject/l/public/s33654630.jpg",
+      "url": "https://book.douban.com/subject/35082936/"
+    },
+    "synopsis": {
+      "text": "建立自己的睡眠日记、优化自己的睡眠模式…",
+      "url": "https://book.douban.com/subject/35082936/",
+      "label": "所选版本内容简介原文节选",
+      "checkedAt": "2026-10-17"
+    },
+    "ratings": {
+      "douban": {
+        "status": "verified",
+        "value": "8.2",
+        "count": 95,
+        "url": "https://book.douban.com/subject/35082936/",
+        "checkedAt": "2026-10-17",
+        "method": "public-book-page"
+      },
+      "goodreads": {
+        "status": "verified",
+        "value": "3.91",
+        "count": 350,
+        "url": "https://www.goodreads.com/book/show/7177561",
+        "checkedAt": "2026-10-17",
+        "method": "public-page-snapshot",
+        "title": "Quiet Your Mind and Get to Sleep: Solutions to Insomnia for Those with Depression, Anxiety, or Chronic Pain"
+      }
+    }
+  },
+  "b65": {
+    "title": "幸福的陷阱",
+    "aliases": [],
+    "author": "路斯·哈里斯",
+    "originalTitle": "The Happiness Trap",
+    "format": "接纳与价值行动练习",
+    "difficulty": "入门",
+    "goals": [
+      "understand",
+      "practice"
+    ],
+    "topics": [
+      "meaning"
+    ],
+    "reason": "如果你因自己还不够快乐而更加难受，可以借其中的价值探索，寻找此刻愿意投入的一件小事，而不必先消除所有不舒服。",
+    "caveat": "所选2018年中文版早于英文第二版，不能代表其后全部修订。接纳感受不等于忍受暴力、不公或放弃改变现实；阅读练习也不能保证每个人都获得相同效果。",
+    "audience": "general",
+    "clinicalContext": false,
+    "edition": {
+      "title": "幸福的陷阱",
+      "language": "zh",
+      "publisher": "机械工业出版社",
+      "publishedAt": "2018-8-1",
+      "isbn": "9787111605348",
+      "url": "https://book.douban.com/subject/30310659/",
+      "checkedAt": "2026-10-17",
+      "selectionNote": "优先中文 · 本次可查同作品候选中评价人数最多"
+    },
+    "cover": {
+      "src": "assets/covers/b65.svg",
+      "source": "https://img2.doubanio.com/view/subject/l/public/s29889701.jpg",
+      "url": "https://book.douban.com/subject/30310659/"
+    },
+    "synopsis": {
+      "text": "以正念技术为基础的开创性新方法…",
+      "url": "https://book.douban.com/subject/30310659/",
+      "label": "所选版本内容简介原文节选",
+      "checkedAt": "2026-10-17"
+    },
+    "ratings": {
+      "douban": {
+        "status": "verified",
+        "value": "8.5",
+        "count": 1519,
+        "url": "https://book.douban.com/subject/30310659/",
+        "checkedAt": "2026-10-17",
+        "method": "public-book-page"
+      },
+      "goodreads": {
+        "status": "verified",
+        "value": "4.13",
+        "count": 22554,
+        "url": "https://www.goodreads.com/book/show/3444633",
+        "checkedAt": "2026-10-17",
+        "method": "public-page-snapshot",
+        "title": "The Happiness Trap"
       }
     }
   }

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>困境书单 — 先安顿此刻，再读懂自己</title>
   <meta name="description" content="从当下的困扰出发，找到理解、方法与陪伴。15个阅读主题，说明推荐理由、阅读门槛与使用边界。">
-  <link rel="stylesheet" href="style.css?v=20261017-catalog">
+  <link rel="stylesheet" href="style.css?v=20261017-curation">
   <link rel="icon" href="data:,">
 </head>
 <body>
@@ -47,11 +47,15 @@
       <div class="trust-strip" aria-label="使用方式"><span><b>01</b> 从处境出发</span><span><b>02</b> 说清推荐理由</span><span><b>03</b> 保留阅读的选择</span><span class="trust-private">无需登录 · 输入不上传</span></div>
     </section>
     <section id="step-catalog" class="step" aria-labelledby="catalog-title">
-      <div class="flow-top"><button class="btn-back" type="button" onclick="goBack('input')">← 回到困境输入</button><span class="eyebrow">THE READING SHELF</span></div>
+      <div class="flow-top"><button id="catalog-back" class="btn-back" type="button">← 回到困境输入</button><span class="eyebrow">THE READING SHELF</span></div>
       <div class="section-heading"><div><p class="eyebrow">选一本，慢慢开始</p><h2 id="catalog-title" tabindex="-1">书籍目录</h2></div><p id="catalog-count" role="status"></p></div>
       <div id="catalog-notice" class="match-hint" hidden><strong>这次没有匹配到主题，先来书架看看。</strong><p>你写下的是：<span id="failed-query"></span></p><p>可以返回修改，或确认一个可能接近的主题：</p><div id="match-hint"></div><button class="btn-back" type="button" onclick="goBack('input')">修改刚才的描述 →</button></div>
+      <div id="catalog-audiences" class="audience-options" role="group" aria-label="阅读用途分区"><button type="button" class="filter-chip" data-audience="general" aria-pressed="true">日常阅读</button><button type="button" class="filter-chip" data-audience="professional" aria-pressed="false">专业参考</button></div>
+      <p id="professional-intro" class="professional-intro" hidden>面向相关专业学习与研究，阅读门槛较高。这里的分类与理论资料不是自助诊断工具；旧版诊断手册须对照现行更新资料，单一理论也不代表全部共识。</p>
       <div id="catalog-filters" aria-label="按困境主题筛选"></div>
       <p id="catalog-warning" class="warning-box" hidden>书籍不能替代专业帮助。如果困扰持续影响生活，请联系医生或合格的心理专业人员；无法保证自身安全时，请立即联系所在地急救服务或前往急诊。</p>
+      <aside id="catalog-clinical" class="clinical-notice" role="note" hidden></aside>
+      <p class="rating-context">评分为人工核对的页面快照，可能变化；读者评分不等于内容依据或临床疗效，可点击平台条目查看。</p>
       <div id="catalog-list" class="book-list"></div>
     </section>
     <section id="step-result" class="step" aria-labelledby="result-title">
@@ -66,7 +70,10 @@
         <p id="query-echo" class="query-echo"></p>
         <aside id="reading-guide" class="reading-guide"></aside>
         <section class="preference-panel" aria-labelledby="preference-title"><h3 id="preference-title">想换一种读法？</h3><p>不必回答也能选书。选择偏好，只调整下面书籍的先后顺序。</p><div id="reading-preferences" class="preference-options" role="group" aria-label="可选的阅读偏好"><button type="button" class="filter-chip" data-preference="all" aria-pressed="true">全部</button><button type="button" class="filter-chip" data-preference="understand" aria-pressed="false">理解原因</button><button type="button" class="filter-chip" data-preference="practice" aria-pressed="false">尝试方法</button><button type="button" class="filter-chip" data-preference="story" aria-pressed="false">故事陪伴</button></div><p id="preference-status" role="status"></p></section>
+        <aside id="result-clinical" class="clinical-notice" role="note" hidden></aside>
+        <p class="rating-context">评分为人工核对的页面快照，可能变化；读者评分不等于内容依据或临床疗效，可点击平台条目查看。</p>
         <div id="result-list" class="book-list"></div>
+        <button id="result-professional-link" class="browse-link" type="button" hidden>专业学习参考 →</button>
         <div class="difficulty-legend"><strong>阅读门槛</strong><span><i class="badge badge-easy">入门</i> 通俗叙述，较少术语</span><span><i class="badge badge-mid">进阶</i> 需要耐心或配合练习</span><span><i class="badge badge-hard">较难</i> 理论或专业内容较多</span><p>这是编辑判断，不是能力评级。可以跳读，也可以换一本。</p></div>
         <div class="restart-row"><p>没有一本书适合所有人。<br>读起来不合适，也是一条有用的线索。</p><button class="btn-primary" type="button" onclick="goBack('input')">重新描述困扰 <span aria-hidden="true">↗</span></button></div>
       </div>
@@ -82,7 +89,7 @@
     </section>
   </main>
   <footer class="site-footer"><div class="footer-main"><span class="footer-brand">困境书单<span class="footer-dot">.</span></span><p>书籍不能替代专业帮助。<br>严重困扰请寻求医生或合格的心理专业人员。</p><span class="footer-note">愿阅读给你一点理解，<br>也给你一点余地。</span></div><div class="footer-bottom"><span>一份阅读指南，一种开始的可能。</span><div class="log-line"><a href="#log-panel" id="log-toggle" class="log-link" aria-expanded="false" aria-controls="log-panel">本地使用记录</a><span id="log-panel" class="log-panel" style="display:none;"><span id="log-count">0</span> 条 · 保存在本浏览器，不上传服务器<button type="button" id="log-export" class="log-btn">导出</button><button type="button" id="log-clear" class="log-btn">清除</button></span></div></div></footer>
-  <script src="books-data.js?v=20261017-catalog"></script>
-  <script src="app.js?v=20261017-catalog"></script>
+  <script src="books-data.js?v=20261017-curation"></script>
+  <script src="app.js?v=20261017-curation"></script>
 </body>
 </html>
