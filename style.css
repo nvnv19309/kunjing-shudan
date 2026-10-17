@@ -70,8 +70,9 @@ h1 { font: 500 clamp(42px, 4.6vw, 62px)/1.48 var(--serif); color: var(--ink); le
 .reading-guide .guide-boundary { color: #5c6857; }
 .book-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
 .book-card { min-width: 0; border: 1px solid var(--line); border-radius: 3px; background: var(--card); padding: 25px 27px 22px; display: flex; flex-direction: column; }
-.book-header { display: grid; grid-template-columns: minmax(70px, 120px) minmax(0, 1fr); align-items: start; gap: 22px; margin-bottom: 22px; }
-.book-format { display: block; color: var(--orange); font-size: 12px; margin-bottom: 8px; }
+.book-header { display: grid; grid-template-columns: minmax(70px, 100px) minmax(0, 1fr); align-items: start; gap: 12px 18px; margin-bottom: 16px; }
+.book-meta { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.book-format { color: var(--orange); font-size: 11px; }
 .book-title { font: 500 24px/1.5 var(--serif); color: var(--ink); margin: 0 0 10px; }
 .book-author { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
 .badge { border: 1px solid #d5ddca; background: #eef2e5; color: #506444; display: inline-block; padding: 1px 7px; border-radius: 2px; font-size: 10px; font-style: normal; white-space: nowrap; }
@@ -87,7 +88,6 @@ summary { color: var(--ink); padding: 10px 0; }
 .book-links { margin-top: 15px; display: flex; align-items: center; justify-content: space-between; gap: 15px; font-size: 11px; }
 .weread-btn { color: var(--green); font-weight: 600; text-decoration: none; }
 .weread-btn:hover { text-decoration: underline; }
-.book-links > span { color: var(--muted); font-size: 9px; }
 .difficulty-legend { margin-top: 33px; border-top: 1px solid var(--line); padding-top: 22px; display: flex; flex-wrap: wrap; gap: 10px 22px; font-size: 10px; align-items: center; }
 .difficulty-legend strong { font-size: 12px; font-weight: 500; }
 .difficulty-legend p { flex-basis: 100%; margin: 0; color: var(--muted); }
@@ -138,8 +138,6 @@ summary { color: var(--ink); padding: 10px 0; }
   .guide-body { padding-inline: 0; }
   .book-list { grid-template-columns: 1fr; gap: 15px; }
   .book-card { padding: 23px 22px; }
-  .book-desc, .book-reason { font-size: 13px; }
-  .book-caveat { font-size: 12px; }
   #user-input { font-size: 16px; }
   .restart-row { align-items: flex-start; flex-direction: column; }
   .editorial { margin-top: 24px; padding-top: 8px; }
@@ -190,7 +188,7 @@ summary { color: var(--ink); padding: 10px 0; }
 .book-cover { display: block; width: 100%; height: auto; object-fit: contain; box-shadow: 2px 3px 7px #253e3520; }
 .cover-fallback { display: block; padding: 22px 0; text-align: center; font-size: 13px; color: var(--muted); }
 .book-heading { min-width: 0; }
-.book-edition { font-size: 11px; color: var(--muted); margin: 12px 0 0; }
+.book-edition { font-size: 11px; color: var(--muted); }
 .book-ratings { display: flex; flex-wrap: wrap; gap: 10px 24px; padding-block: 12px; margin-bottom: 18px; border-block: 1px solid var(--line); }
 .rating-block { min-width: 0; }
 .rating-value { display: block; color: var(--ink); font-size: 16px; text-decoration: none; font-weight: 600; }
@@ -210,8 +208,7 @@ a.rating-value:hover { text-decoration: underline; }
   .site-header, nav, .flow-top, .section-heading, .book-links { flex-wrap: wrap; }
   .site-header { padding-block: 20px; }
   .brand { white-space: normal; }
-  .book-header { grid-template-columns: minmax(60px, 95px) minmax(0, 1fr); gap: 16px; }
-  .book-card { padding: 20px; }
+  .book-card { padding: 14px; }
   .input-area { flex-wrap: wrap; }
   #user-input { flex-basis: 100%; }
   #btn-search { width: 100%; white-space: normal; }
@@ -232,7 +229,9 @@ select { max-width: 100%; min-width: 0; padding: 9px 12px; border: 1px solid var
 .guide-body { padding: 0 0 14px; max-width: 850px; }
 .editorial > summary { font: 19px/1.8 var(--serif); }
 .editorial-body { padding-top: 18px; }
-.book-sources { border-top: 1px solid var(--line); padding-top: 10px; font-size: 11px; }
+.book-sources { display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 12px; border-top: 1px solid var(--line); padding-top: 7px; font-size: 11px; }
+.book-sources .source-link { margin: 0; }
+.book-provenance[open] { flex-basis: 100%; }
 @media (max-width: 600px) {
   .result-tools { gap: 8px; }
   .topic-control, .preference-panel { flex-basis: 100%; }
@@ -244,3 +243,28 @@ select { max-width: 100%; min-width: 0; padding: 9px 12px; border: 1px solid var
 .btn-secondary:hover { background: #dce4d2; }
 .reference-heading { grid-column: 1 / -1; margin: 12px 0 0; font: 22px/1.7 var(--serif); color: var(--ink); }
 @media (max-width: 600px) { #btn-browse { width: 100%; } }
+
+@media (max-width: 760px) {
+  .book-desc, .book-reason, .book-caveat { font-size: 13px; line-height: 1.75; }
+  .book-header { grid-template-columns: 64px minmax(0, 1fr); gap: 8px 12px; margin-bottom: 10px; }
+  .cover-frame { padding: 4px; }
+  .book-cover { max-height: 100px; }
+  .book-title { font-size: 20px; line-height: 1.45; margin-bottom: 4px; }
+  .book-author { font-size: 12px; line-height: 1.65; margin-bottom: 0; }
+  .clinical-label { font-size: 11px; margin-bottom: 4px; }
+  .book-desc { margin-bottom: 10px; }
+  .book-desc strong, .book-reason strong, .book-caveat strong { display: inline; margin: 0 7px 0 0; font-size: 13px; letter-spacing: 0; }
+  .book-desc p { display: inline; }
+  .book-reason, .book-caveat { padding: 9px 11px; margin-bottom: 10px; }
+  .book-ratings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding-block: 8px; margin-bottom: 10px; }
+  .rating-value { font-size: 13px; }
+  .rating-note { margin-top: 0; line-height: 1.6; }
+  .book-topics { margin: 0 0 8px; line-height: 1.7; }
+  .book-links { margin-top: 8px; }
+  .book-provenance summary { padding-block: 4px; }
+  .book-navigation { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; font-size: 12px; }
+  .book-navigation button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 2px; background: var(--card); font-size: 13px; }
+  #result-list { display: flex; align-items: flex-start; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; padding: 4px; }
+  #result-list > .book-card { flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always; }
+  #result-list:focus-visible { outline: 2px solid var(--orange); outline-offset: 1px; }
+}

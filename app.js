@@ -1,7 +1,8 @@
 // 困境书单：输入优先、可选阅读偏好与共享书籍目录。
 (function() {
   "use strict";
-  var state = { currentTopic: null, preference: "all", catalogTopic: "all", catalogAudience: "general", referenceAudience: "general", catalogReturn: "input", failedQuery: "", origin: "input", searchQuery: "", automaticTopic: null, searchTopics: [], retainedWarning: false };
+  var state = { currentTopic: null, preference: "all", catalogTopic: "all", catalogAudience: "general", referenceAudience: "general", catalogReturn: "input", failedQuery: "", origin: "input", searchQuery: "", automaticTopic: null, searchTopics: [], retainedWarning: false, bookIndex: 0 };
+  var carouselMedia;
   // === 本地使用日志 ===
   // 为什么只存本地：硬约束 1 是纯前端、无后端、无账号。所以埋点不上传任何服务器，
   // 数据留在用户自己的浏览器里，页脚可以导出 / 清除——这也顺便成了一个隐私卖点。
@@ -168,6 +169,7 @@
   function switchStep(name) {
     document.querySelectorAll('.step').forEach(function(s) { s.classList.remove('active'); });
     document.getElementById('step-' + name).classList.add('active');
+    if (name === 'result') moveBook(state.bookIndex, false);
     var focus = name === 'input' ? 'user-input' : name === 'catalog' ? 'catalog-title' : 'result-title';
     document.getElementById(focus).focus({ preventScroll: true });
     window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
@@ -309,6 +311,29 @@
     document.getElementById('preference-title').textContent = '调整读法' + (state.preference === 'all' ? '' : ' · ' + selected.textContent);
     renderClinicalNotice('result-clinical', books);
     renderBooks('result-list', books, state.currentTopic);
+    state.bookIndex = 0;
+    moveBook(0, false);
+  }
+  function updateBookNavigation() {
+    var list = document.getElementById('result-list');
+    var count = list.querySelectorAll('.book-card').length;
+    var mobile = carouselMedia && carouselMedia.matches;
+    document.getElementById('book-navigation').hidden = !mobile || !count;
+    if (mobile) list.setAttribute('tabindex', '0');
+    else list.removeAttribute('tabindex');
+    document.getElementById('book-previous').disabled = state.bookIndex === 0;
+    document.getElementById('book-next').disabled = state.bookIndex >= count - 1;
+    document.getElementById('book-position').textContent = '第 ' + (state.bookIndex + 1) + ' / ' + count + ' 本';
+  }
+  function moveBook(index, animate) {
+    var list = document.getElementById('result-list');
+    var cards = list.querySelectorAll('.book-card');
+    if (!cards.length) return;
+    index = Math.max(0, Math.min(cards.length - 1, index));
+    if (!animate) state.bookIndex = index;
+    updateBookNavigation();
+    if (!carouselMedia || !carouselMedia.matches) return;
+    list.scrollTo({ left: cards[index].offsetLeft - cards[0].offsetLeft, behavior: animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'smooth' : 'instant' });
   }
   function ratingHtml(platform, rating) {
     var label = platform === 'douban' ? '豆瓣' : 'Goodreads';
@@ -337,18 +362,18 @@
       }
       html += '<article class="book-card" data-book-id="' + ref.bookId + '"><div class="book-header">';
       html += '<div class="cover-frame">' + (b.cover ? '<img class="book-cover" src="' + escapeHtml(b.cover.src) + '" alt="《' + escapeHtml(edition.title) + '》所选版本封面" width="150" height="210" loading="lazy" decoding="async">' : '') + '<span class="cover-fallback"' + (b.cover ? ' hidden' : '') + '>封面暂缺</span></div>';
-      html += '<div class="book-heading"><span class="book-format">' + escapeHtml(b.format) + '</span><h3 class="book-title">' + escapeHtml(b.title) + '</h3>';
+      html += '<div class="book-heading"><h3 class="book-title">' + escapeHtml(b.title) + '</h3>';
       if (b.clinicalContext) html += '<p class="clinical-label">涉及诊断概念 · 不用于自我诊断</p>';
-      html += '<p class="book-author">' + escapeHtml(b.author) + '</p><span class="badge">' + escapeHtml(b.difficulty) + '</span><p class="book-edition">' + escapeHtml([edition.publisher, edition.publishedAt].filter(Boolean).join(' · ')) + '</p></div></div>';
+      html += '<p class="book-author">' + escapeHtml(b.author) + '</p></div><div class="book-meta"><span class="badge">' + escapeHtml(b.difficulty) + '</span><span class="book-format">' + escapeHtml(b.format) + '</span><span class="book-edition">' + escapeHtml([edition.publisher, edition.publishedAt].filter(Boolean).join(' · ')) + '</span></div></div>';
       html += '<div class="book-ratings">' + ratingHtml('douban', b.ratings.douban) + ratingHtml('goodreads', b.ratings.goodreads) + '</div>';
       html += '<div class="book-desc"><strong>一句话介绍</strong><p>' + escapeHtml(b.summary) + '</p>' + '</div>';
       html += '<div class="book-reason"><strong>为什么推荐</strong>' + escapeHtml(reason) + '</div><div class="book-caveat"><strong>阅读局限</strong>' + escapeHtml(b.caveat);
       (b.caveatSources || []).forEach(function(s) { html += link(s.url, s.label); });
       html += '</div>';
       if (containerId === 'catalog-list') html += '<p class="book-topics">' + (b.audience === 'professional' ? '相关阅读主题：' : '适合的处境：') + b.topics.map(function(k) { return '<button type="button" class="topic-link" data-topic="' + k + '">' + escapeHtml(BOOKS_DATA[k].title) + '</button>'; }).join('、') + '</p>';
-      html += '<div class="book-sources">' + link(b.synopsis.url, '内容来源') + link(edition.url, '版本与封面来源') + '</div>';
-      html += '<details class="book-provenance"><summary>版本详情</summary><p>ISBN ' + escapeHtml(edition.isbn || '待核实') + '</p><p>' + escapeHtml(edition.selectionNote) + '</p></details>';
-      html += '<div class="book-links">' + link('https://weread.qq.com/#search/' + encodeURIComponent(b.title), '在微信读书搜索', 'weread-btn') + '<span>可读版本以平台为准</span></div></article>';
+      html += '<div class="book-sources">' + link(b.synopsis.url, '内容来源') + link(edition.url, '版本/封面');
+      html += '<details class="book-provenance"><summary>版本详情</summary><p>ISBN ' + escapeHtml(edition.isbn || '待核实') + '</p><p>' + escapeHtml(edition.selectionNote) + '</p></details></div>';
+      html += '<div class="book-links">' + link('https://weread.qq.com/#search/' + encodeURIComponent(b.title), '微信读书搜索', 'weread-btn') + '</div></article>';
     });
     var container = document.getElementById(containerId);
     container.innerHTML = html;
@@ -358,6 +383,33 @@
   }
   function init() {
     renderFilters(); bindLogPanel();
+    carouselMedia = window.matchMedia('(max-width: 760px)');
+    var resultList = document.getElementById('result-list');
+    document.getElementById('book-previous').addEventListener('click', function() { moveBook(state.bookIndex - 1, true); });
+    document.getElementById('book-next').addEventListener('click', function() { moveBook(state.bookIndex + 1, true); });
+    resultList.addEventListener('scroll', function() {
+      if (!carouselMedia.matches || !document.getElementById('step-result').classList.contains('active')) return;
+      var cards = resultList.querySelectorAll('.book-card');
+      var closest = state.bookIndex, distance = Infinity;
+      cards.forEach(function(card, index) {
+        var delta = Math.abs(card.offsetLeft - cards[0].offsetLeft - resultList.scrollLeft);
+        if (delta < distance) { distance = delta; closest = index; }
+      });
+      if (closest !== state.bookIndex) { state.bookIndex = closest; updateBookNavigation(); }
+    });
+    resultList.addEventListener('keydown', function(e) {
+      if (!carouselMedia.matches || e.target !== resultList) return;
+      var index = e.key === 'ArrowLeft' ? state.bookIndex - 1 : e.key === 'ArrowRight' ? state.bookIndex + 1 : e.key === 'Home' ? 0 : e.key === 'End' ? resultList.children.length - 1 : null;
+      if (index !== null) { e.preventDefault(); moveBook(index, true); }
+    });
+    resultList.addEventListener('focusin', function(e) {
+      var card = e.target.closest('.book-card');
+      if (card && carouselMedia.matches) moveBook(Array.prototype.indexOf.call(resultList.children, card), false);
+    });
+    var lastWidth = window.innerWidth;
+    window.addEventListener('resize', function() {
+      if (window.innerWidth !== lastWidth) { lastWidth = window.innerWidth; moveBook(state.bookIndex, false); }
+    });
     document.querySelector('[data-editorial-link]').addEventListener('click', function() { document.getElementById('editorial').open = true; });
     document.getElementById('search-form').addEventListener('submit', function(e) { e.preventDefault(); handleSearch(document.getElementById('user-input').value); });
     document.getElementById('user-input').addEventListener('input', function() { document.getElementById('search-status').textContent = ''; });
