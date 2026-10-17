@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>困境书单 — 先安顿此刻，再读懂自己</title>
   <meta name="description" content="从当下的困扰出发，找到理解、方法与陪伴。15个阅读主题，说明推荐理由、阅读门槛与使用边界。">
-  <link rel="stylesheet" href="style.css?v=20261017-summaries">
+  <link rel="stylesheet" href="style.css?v=20261017-emotion">
   <link rel="icon" href="data:,">
 </head>
 <body>
@@ -68,6 +68,11 @@
         </div>
         <div class="result-heading"><p class="eyebrow">A READING PATH, NOT A PRESCRIPTION</p><h2 id="result-title" tabindex="-1">为你推荐的书</h2><p id="result-intro" class="result-intro"></p></div>
         <p id="query-echo" class="query-echo"></p>
+        <section class="direction-panel" aria-label="调整阅读方向">
+          <div id="related-directions" hidden><p>也可能更接近</p><div id="related-topic-buttons" class="preference-options"></div></div>
+          <label for="topic-select">换个阅读方向</label><select id="topic-select"></select>
+          <p>换个主题即可查看对应书单，无需重新输入。</p><p id="direction-status" role="status"></p>
+        </section>
         <aside id="reading-guide" class="reading-guide"></aside>
         <section class="preference-panel" aria-labelledby="preference-title"><h3 id="preference-title">想换一种读法？</h3><p>不必回答也能选书。选择偏好，只调整下面书籍的先后顺序。</p><div id="reading-preferences" class="preference-options" role="group" aria-label="可选的阅读偏好"><button type="button" class="filter-chip" data-preference="all" aria-pressed="true">全部</button><button type="button" class="filter-chip" data-preference="understand" aria-pressed="false">理解原因</button><button type="button" class="filter-chip" data-preference="practice" aria-pressed="false">尝试方法</button><button type="button" class="filter-chip" data-preference="story" aria-pressed="false">故事陪伴</button></div><p id="preference-status" role="status"></p></section>
         <aside id="result-clinical" class="clinical-notice" role="note" hidden></aside>
@@ -89,7 +94,7 @@
     </section>
   </main>
   <footer class="site-footer"><div class="footer-main"><span class="footer-brand">困境书单<span class="footer-dot">.</span></span><p>书籍不能替代专业帮助。<br>严重困扰请寻求医生或合格的心理专业人员。</p><span class="footer-note">愿阅读给你一点理解，<br>也给你一点余地。</span></div><div class="footer-bottom"><span>一份阅读指南，一种开始的可能。</span><div class="log-line"><a href="#log-panel" id="log-toggle" class="log-link" aria-expanded="false" aria-controls="log-panel">本地使用记录</a><span id="log-panel" class="log-panel" style="display:none;"><span id="log-count">0</span> 条 · 保存在本浏览器，不上传服务器<button type="button" id="log-export" class="log-btn">导出</button><button type="button" id="log-clear" class="log-btn">清除</button></span></div></div></footer>
-  <script src="books-data.js?v=20261017-summaries"></script>
-  <script src="app.js?v=20261017-summaries"></script>
+  <script src="books-data.js?v=20261017-emotion"></script>
+  <script src="app.js?v=20261017-emotion"></script>
 </body>
 </html>

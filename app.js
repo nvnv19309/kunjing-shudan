@@ -1,7 +1,7 @@
 // 困境书单：输入优先、可选阅读偏好与共享书籍目录。
 (function() {
   "use strict";
-  var state = { currentTopic: null, preference: "all", catalogTopic: "all", catalogAudience: "general", referenceAudience: "general", catalogReturn: "input", failedQuery: "", origin: "input" };
+  var state = { currentTopic: null, preference: "all", catalogTopic: "all", catalogAudience: "general", referenceAudience: "general", catalogReturn: "input", failedQuery: "", origin: "input", searchQuery: "", automaticTopic: null, searchTopics: [], retainedWarning: false };
   // === 本地使用日志 ===
   // 为什么只存本地：硬约束 1 是纯前端、无后端、无账号。所以埋点不上传任何服务器，
   // 数据留在用户自己的浏览器里，页脚可以导出 / 清除——这也顺便成了一个隐私卖点。
@@ -182,20 +182,28 @@
     }
     document.getElementById('search-status').textContent = '';
     var key = matchTopic(text);
+    state.searchQuery = text; state.automaticTopic = key;
+    state.searchTopics = scoreTopics(text).filter(function(t) { return t.score > 0; });
+    state.retainedWarning = false;
     logEvent({ type: 'search', q: text, topic: key, nomatch: !key });
     if (key) showResult(key, 'input');
     else openCatalog(text);
   }
   function renderFilters() {
     var html = '<button type="button" class="filter-chip" data-filter="all" aria-pressed="true">全部书籍</button>';
+    var options = '';
     TOPIC_GROUPS.forEach(function(group) {
       html += '<div class="filter-group"><span>' + escapeHtml(group.title) + '</span><div>';
+      options += '<optgroup label="' + escapeHtml(group.title) + '">';
       TOPIC_LIST.filter(function(t) { return BOOKS_DATA[t.key].group === group.key; }).forEach(function(t) {
         html += '<button type="button" class="filter-chip" data-filter="' + t.key + '" aria-pressed="false">' + escapeHtml(t.title) + '</button>';
+        options += '<option value="' + t.key + '">' + escapeHtml(t.title) + '</option>';
       });
       html += '</div></div>';
+      options += '</optgroup>';
     });
     document.getElementById('catalog-filters').innerHTML = html;
+    document.getElementById('topic-select').innerHTML = options;
   }
   function openCatalog(failedQuery) {
     state.catalogTopic = 'all';
@@ -245,22 +253,44 @@
     notice.hidden = !references.some(function(r) { return BOOK_CATALOG[r.bookId].clinicalContext; });
     if (!notice.hidden) notice.innerHTML = '<strong>阅读中的共鸣，不等于诊断。</strong><p>人格障碍等诊断需要由具备相应诊断资质的专业人员综合评估，请不要凭书中描述、关键词或自测给自己或他人下结论。诊断也不能定义一个人的全部。</p>';
   }
-  function showResult(key, origin) {
-    state.currentTopic = key; state.preference = 'all'; state.origin = origin || 'catalog';
+  function showResult(key, origin, keepContext) {
+    if (!keepContext) {
+      state.preference = 'all'; state.origin = origin || 'catalog';
+      if (state.origin !== 'input') {
+        state.searchQuery = state.failedQuery; state.automaticTopic = null; state.searchTopics = [];
+        state.retainedWarning = false;
+      }
+    }
+    state.currentTopic = key;
     state.catalogReturn = 'input';
     var topic = BOOKS_DATA[key];
     document.getElementById('result-title').textContent = '关于' + topic.title + '，可以从这些书开始';
     document.getElementById('result-intro').textContent = topic.intro;
-    document.getElementById('query-echo').textContent = state.origin === 'input' ? '你写下的困扰：' + document.getElementById('user-input').value.trim() : '你选择的主题：' + topic.title;
+    document.getElementById('query-echo').textContent = state.searchQuery ? '你写下的困扰：' + state.searchQuery : '你选择的主题：' + topic.title;
     document.getElementById('reading-guide').innerHTML = '<strong>可以这样开始读</strong><p>' + escapeHtml(topic.readingTip) + '</p><p class="guide-boundary">' + escapeHtml(topic.boundary) + '</p>';
-    document.getElementById('warning-box').hidden = !topic.warning;
+    state.retainedWarning = state.retainedWarning || !!topic.warning;
+    document.getElementById('warning-box').hidden = !state.retainedWarning;
+    document.getElementById('topic-select').value = key;
+    var alternatives = state.searchTopics.filter(function(t) { return t.key !== key; }).slice(0, 3);
+    document.getElementById('related-directions').hidden = !alternatives.length;
+    document.getElementById('related-topic-buttons').innerHTML = alternatives.map(function(t) {
+      return '<button type="button" class="hint-chip" data-result-topic="' + t.key + '">' + escapeHtml(BOOKS_DATA[t.key].title) + '</button>';
+    }).join('');
+    document.getElementById('direction-status').textContent = '';
     var professionalCount = Object.keys(BOOK_CATALOG).filter(function(id) { return BOOK_CATALOG[id].audience === 'professional' && BOOK_CATALOG[id].topics.indexOf(key) !== -1; }).length;
     var professionalLink = document.getElementById('result-professional-link');
     professionalLink.hidden = !professionalCount;
     professionalLink.textContent = '专业学习参考（' + professionalCount + ' 本）→';
     renderResultBooks();
-    logEvent({ type: 'result', topic: key, preference: 'all' });
-    switchStep('result');
+    logEvent({ type: 'result', topic: key, preference: state.preference });
+    if (!keepContext) switchStep('result');
+  }
+  function changeResultTopic(key) {
+    if (!BOOKS_DATA[key] || key === state.currentTopic) return;
+    var previous = state.currentTopic;
+    showResult(key, state.origin, true);
+    document.getElementById('direction-status').textContent = '已切换到“' + BOOKS_DATA[key].title + '”，保留你的输入与阅读偏好。';
+    logEvent({ type: 'topic_change', automaticTopic: state.automaticTopic, from: previous, topic: key });
   }
   function renderResultBooks() {
     var topic = BOOKS_DATA[state.currentTopic];
@@ -356,9 +386,18 @@
       state.preference = b.dataset.preference; renderResultBooks();
       logEvent({ type: 'preference', topic: state.currentTopic, preference: state.preference });
     });
+    document.getElementById('topic-select').addEventListener('change', function(e) { changeResultTopic(e.target.value); });
+    document.getElementById('related-topic-buttons').addEventListener('click', function(e) {
+      var b = e.target.closest('[data-result-topic]');
+      if (b) { changeResultTopic(b.dataset.resultTopic); document.getElementById('topic-select').focus(); }
+    });
     document.getElementById('main').addEventListener('click', function(e) {
       var b = e.target.closest('[data-topic]');
-      if (b) { logEvent({ type: 'card', topic: b.dataset.topic }); showResult(b.dataset.topic, document.getElementById('step-catalog').classList.contains('active') ? 'catalog' : state.origin); }
+      if (b) {
+        logEvent({ type: 'card', topic: b.dataset.topic });
+        if (document.getElementById('step-result').classList.contains('active')) { changeResultTopic(b.dataset.topic); document.getElementById('topic-select').focus(); }
+        else showResult(b.dataset.topic, 'catalog');
+      }
     });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

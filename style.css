@@ -20,7 +20,7 @@ button, a, summary { -webkit-tap-highlight-color: transparent; }
 button, summary { cursor: pointer; }
 button { color: inherit; }
 a { color: inherit; text-underline-offset: 4px; }
-button:focus-visible, a:focus-visible, input:focus-visible, summary:focus-visible { outline: 3px solid var(--orange); outline-offset: 5px; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 3px solid var(--orange); outline-offset: 5px; }
 button:disabled { cursor: not-allowed; opacity: .48; }
 h1, h2, h3, p { margin-top: 0; }
 .skip-link { position: absolute; top: -100px; left: 20px; z-index: 10; background: var(--card); padding: 12px; }
@@ -219,6 +219,12 @@ summary::-webkit-details-marker { display: none; }
 .preference-panel { margin: 28px 0; padding: 23px 0; border-block: 1px solid var(--line); }
 .preference-panel h3 { font: 22px/1.6 var(--serif); color: var(--ink); margin-bottom: 5px; }
 .preference-panel p, .query-echo { font-size: 13px; color: var(--muted); }
+.direction-panel { margin: 24px 0; padding: 20px; border: 1px solid var(--line); background: var(--paper); }
+.direction-panel label { display: block; margin-bottom: 8px; font-weight: 700; }
+.direction-panel select { display: block; width: 100%; min-width: 0; padding: 12px; border: 1px solid var(--line); border-radius: 3px; background: var(--card); color: var(--ink); font: inherit; }
+.direction-panel p { margin: 10px 0; color: var(--muted); font-size: 13px; }
+#related-directions { margin-bottom: 20px; }
+#direction-status:empty { display: none; }
 #preference-status { margin: 12px 0 0; }
 .cover-frame { padding: 8px; background: #eae9df; min-width: 0; }
 .book-cover { display: block; width: 100%; height: auto; object-fit: contain; box-shadow: 2px 3px 7px #253e3520; }
