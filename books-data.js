@@ -84,6 +84,10 @@ const BOOKS_DATA = {
       {
         "bookId": "b60",
         "reason": "如果担忧总在脑中打转，可以记录一个具体情境，练习区分事实、想法和感受。"
+      },
+      {
+        "bookId": "b69",
+        "reason": "如果你想深入理解压力怎样影响身体和行为，可以选读压力、应对与健康研究章节；它提供分析框架，不根据感受判断是否患病。"
       }
     ]
   },
@@ -138,6 +142,10 @@ const BOOKS_DATA = {
       {
         "bookId": "b62",
         "reason": "如果你因担心做不好而迟迟不开始，可以从一个允许不够完美的小实验开始。"
+      },
+      {
+        "bookId": "b74",
+        "reason": "如果你想理解拖延背后的动机过程，可以选读目标、成就与自我调节相关内容，区分生理、学习经验和认知因素；不把行动困难简单归为意志薄弱。"
       }
     ]
   },
@@ -179,6 +187,10 @@ const BOOKS_DATA = {
       {
         "bookId": "b12",
         "reason": "如果你一直等待唯一正确的方向，可以先设计两个低成本的小试验。"
+      },
+      {
+        "bookId": "b75",
+        "reason": "如果通俗的职业探索还不够，可以比较生涯发展、社会学习与决定理论，理解兴趣、环境和机会怎样影响选择；先读理论，不自行套用测评给职业下定论。"
       }
     ]
   },
@@ -371,6 +383,10 @@ const BOOKS_DATA = {
       {
         "bookId": "b64",
         "reason": "如果你越担心失眠越清醒，可以先记录作息与睡前思维，再与专业人员讨论适合自己的调整。"
+      },
+      {
+        "bookId": "b73",
+        "reason": "如果你想进一步理解情绪低落，可以先读情绪调节的概念和认知机制，再了解情绪与健康研究；这不是失眠专项教材，也不替代抑郁评估。"
       }
     ],
     "warning": true
@@ -503,6 +519,10 @@ const BOOKS_DATA = {
       {
         "bookId": "b51",
         "reason": "如果你反复感到被内疚或义务推着走，可以关注具体互动、需要和安全边界，不必先给对方确定某种人格标签。"
+      },
+      {
+        "bookId": "b73",
+        "reason": "如果你想从研究角度理解强烈情绪和人际互动，可以选读依恋、人际调节与情绪失调相关章节；接触这些概念不等于符合某种人格障碍诊断。"
       }
     ],
     "warning": true
@@ -564,6 +584,10 @@ const BOOKS_DATA = {
       {
         "bookId": "b41",
         "reason": "如果你觉得财务术语难以接近，可以借故事先认识预算与目标这些基本问题。"
+      },
+      {
+        "bookId": "b76",
+        "reason": "如果你想用更系统的框架理解金钱取舍，可以从时间价值、家庭财务规划与风险管理章节读起；模型帮助分析选择，不能消除资源限制或保证投资结果。"
       }
     ]
   },
@@ -748,6 +772,10 @@ const BOOKS_DATA = {
       {
         "bookId": "b52",
         "reason": "如果你的感受常被“为你好”否定，可以借阅读区分照顾、要求与伤害。"
+      },
+      {
+        "bookId": "b77",
+        "reason": "如果你想更系统理解成长与家庭的关系，可以选读依恋、家庭互动和情绪社会性发展章节，观察遗传、个体与环境怎样共同作用；不把相关性当作个人创伤的因果证明。"
       }
     ],
     "warning": true
@@ -816,6 +844,10 @@ const BOOKS_DATA = {
       {
         "bookId": "b03",
         "reason": "如果你在犯错后很难善待自己，可以选一项自我关怀练习，按舒服的节奏尝试。"
+      },
+      {
+        "bookId": "b28",
+        "reason": "如果你想深入理解气质、人格特质和情绪反应的差异，可以选读特质与生物学流派的研究及批判；它不是完美主义专题书，也不把“高敏感”当作诊断。"
       }
     ]
   },
@@ -982,6 +1014,10 @@ const BOOKS_DATA = {
       {
         "bookId": "b26",
         "reason": "如果你想理解情绪如何形成，可以把书中的理论与具体经历对照，不把任何一种解释当作定论。"
+      },
+      {
+        "bookId": "b73",
+        "reason": "如果技巧练习之外还想理解原理，可以选读概念、执行功能及人际情绪调节章节，比较研究发现与适用条件；临床部分需要专业背景，不供自诊。"
       }
     ]
   },
@@ -2327,7 +2363,8 @@ const BOOK_CATALOG = {
     ],
     "caveat": "这是一部有阅读门槛的教材；所选旧版未覆盖此后全部研究，人格维度与流派的介绍也不能用来给自己或他人作临床诊断。",
     "topics": [
-      "self"
+      "self",
+      "sensitivity"
     ],
     "edition": {
       "title": "人格心理学",
@@ -4408,7 +4445,8 @@ const BOOK_CATALOG = {
       "understand"
     ],
     "topics": [
-      "health"
+      "health",
+      "anxiety"
     ],
     "reason": "如果你想系统理解压力、健康行为和求医过程之间的联系，可以从研究方法、医疗服务或慢性疾病适应章节开始，而不必从头通读。",
     "caveat": "需要心理学及生物学基础；所选2016年中文版对应英文第8版，研究与医疗情境已有更新。部分案例及制度背景主要来自美国，相关不等于因果，不能把疾病归咎于患者的心态或生活方式，也不用于自行诊断或调整治疗。",
@@ -4663,6 +4701,337 @@ const BOOK_CATALOG = {
       }
     },
     "summary": "这部认知行为治疗教材以会谈示例与图表介绍个案概念化、治疗计划和会谈结构，并讨论自动思维、核心信念、行为激活及治疗中的常见困难。"
+  },
+  "b73": {
+    "title": "情绪调节手册",
+    "originalTitle": "Handbook of Emotion Regulation",
+    "aliases": [
+      "情绪调节手册"
+    ],
+    "author": "詹姆斯·J.格罗斯 主编",
+    "format": "情绪调节研究手册",
+    "difficulty": "较难",
+    "reason": "如果你想系统理解情绪调节，可以选读概念、认知机制与人际调节章节，再区分研究发现和临床应用的不同用途。",
+    "caveat": "研究手册，需心理学基础，宜按问题选读；所选2011年中文版对应原作首版，已有第3版，不能视作当前研究全貌。临床章节不供自行诊断或开展治疗，阅读不能替代专业训练。",
+    "goals": [
+      "understand"
+    ],
+    "topics": [
+      "mood",
+      "personality",
+      "emotion_management"
+    ],
+    "edition": {
+      "title": "情绪调节手册",
+      "language": "zh",
+      "publisher": "上海人民出版社",
+      "publishedAt": "2011-7",
+      "isbn": "9787208098817",
+      "url": "https://book.douban.com/subject/6529685/",
+      "checkedAt": "2026-10-18",
+      "selectionNote": "优先中文 · 本次可查且确认同作品、同覆盖范围候选中评价人数最多 · 2011年中文版，对应原作首版，非现行第3版"
+    },
+    "cover": {
+      "src": "assets/covers/b73.svg",
+      "source": "https://img2.doubanio.com/view/subject/l/public/s6826291.jpg",
+      "url": "https://book.douban.com/subject/6529685/"
+    },
+    "synopsis": {
+      "text": "情绪调节手册，ISBN：978720809881…",
+      "url": "https://book.douban.com/subject/6529685/",
+      "label": "所选版本条目信息节选",
+      "checkedAt": "2026-10-18"
+    },
+    "ratings": {
+      "douban": {
+        "status": "verified",
+        "value": "8.6",
+        "count": 22,
+        "url": "https://book.douban.com/subject/6529685/",
+        "checkedAt": "2026-10-18",
+        "method": "public-book-page"
+      },
+      "goodreads": {
+        "status": "verified",
+        "value": "4.24",
+        "count": 92,
+        "url": "https://www.goodreads.com/book/show/388237",
+        "method": "public-platform-search-snapshot",
+        "checkedAt": "2026-10-18"
+      }
+    },
+    "audience": "general",
+    "clinicalContext": true,
+    "caveatSources": [
+      {
+        "label": "Guilford：第3版与修订说明",
+        "url": "https://www.guilford.com/books/Handbook-of-Emotion-Regulation/Gross-Ford/9781462549412"
+      }
+    ],
+    "summary": "这部研究手册汇集不同领域的研究，介绍情绪调节的概念及生物、认知、发展、人格与社会基础，并讨论其在心理健康和临床领域的应用。"
+  },
+  "b74": {
+    "title": "人类动机（第5版）",
+    "originalTitle": "Human Motivation",
+    "aliases": [
+      "人类动机"
+    ],
+    "author": "罗伯特·E.弗兰肯",
+    "format": "动机心理学教材",
+    "difficulty": "较难",
+    "reason": "如果你想进一步理解行动为何启动、持续或中断，可以从动机的生理、习得与认知成分，以及成就和目标相关内容读起。",
+    "caveat": "需心理学基础；所选2005年中文版为第5版，未覆盖此后的全部研究。它讨论一般动机机制，不是拖延专项治疗手册，不能把行动困难都归因于动机，也不能忽略健康、环境与资源限制。",
+    "goals": [
+      "understand"
+    ],
+    "topics": [
+      "procrastination"
+    ],
+    "edition": {
+      "title": "人类动机",
+      "language": "zh",
+      "publisher": "陕西师范大学出版社",
+      "publishedAt": "2005-10-1",
+      "isbn": "9787561332627",
+      "url": "https://book.douban.com/subject/1712349/",
+      "checkedAt": "2026-10-18",
+      "selectionNote": "优先中文 · 本次可查且确认同作品、同覆盖范围候选中评价人数最多 · 第5版旧教材；排除休·瓦格纳的同名异书"
+    },
+    "cover": {
+      "src": "assets/covers/b74.svg",
+      "source": "https://img9.doubanio.com/view/subject/l/public/s2573894.jpg",
+      "url": "https://book.douban.com/subject/1712349/"
+    },
+    "synopsis": {
+      "text": "《人类动机》(第5版)内容简介：几个世纪以来，来…",
+      "url": "https://book.douban.com/subject/1712349/",
+      "label": "所选版本内容简介原文节选",
+      "checkedAt": "2026-10-18"
+    },
+    "ratings": {
+      "douban": {
+        "status": "verified",
+        "value": "8.2",
+        "count": 168,
+        "url": "https://book.douban.com/subject/1712349/",
+        "checkedAt": "2026-10-18",
+        "method": "public-book-page"
+      },
+      "goodreads": {
+        "status": "verified",
+        "value": "3.73",
+        "count": 60,
+        "url": "https://www.goodreads.com/book/show/107265",
+        "method": "public-platform-search-snapshot",
+        "checkedAt": "2026-10-18"
+      }
+    },
+    "audience": "general",
+    "clinicalContext": false,
+    "caveatSources": [
+      {
+        "label": "所选中文版内容与目录",
+        "url": "https://book.douban.com/subject/1712349/"
+      }
+    ],
+    "summary": "这部动机心理学教材从生理、习得与认知成分分析人类行为，结合研究讨论基本动机系统、情绪和应激，以及成就与自我调节相关问题。"
+  },
+  "b75": {
+    "title": "生涯咨询与辅导",
+    "originalTitle": "",
+    "aliases": [
+      "生涯咨询与辅导"
+    ],
+    "author": "金树人",
+    "format": "生涯发展理论与辅导教材",
+    "difficulty": "较难",
+    "reason": "如果你想系统理解职业选择，可以先比较生涯发展、社会学习与生涯决定理论，再思考它们如何解释自己的选择处境。",
+    "caveat": "面向专业学习者的教材，宜先读理论；测评和咨询技术需要相应训练，不能凭兴趣类型决定职业。所选为2007年版本，部分理论及就业情境已有变化，不能替代对当前行业与现实条件的调查。",
+    "goals": [
+      "understand"
+    ],
+    "topics": [
+      "career"
+    ],
+    "edition": {
+      "title": "生涯咨询与辅导",
+      "language": "zh",
+      "publisher": "高等教育出版社",
+      "publishedAt": "2007-6",
+      "isbn": "9787040212891",
+      "url": "https://book.douban.com/subject/2293880/",
+      "checkedAt": "2026-10-18",
+      "selectionNote": "优先中文 · 本次可查且确认同作品、同覆盖范围候选中评价人数最多 · 2007年大陆中文版；繁体同作品候选暂无评分"
+    },
+    "cover": {
+      "src": "assets/covers/b75.svg",
+      "source": "https://img9.doubanio.com/view/subject/l/public/s3011494.jpg",
+      "url": "https://book.douban.com/subject/2293880/"
+    },
+    "synopsis": {
+      "text": "《生涯咨询与辅导》系统介绍了生涯咨询与辅导的相关…",
+      "url": "https://book.douban.com/subject/2293880/",
+      "label": "所选版本内容简介原文节选",
+      "checkedAt": "2026-10-18"
+    },
+    "ratings": {
+      "douban": {
+        "status": "verified",
+        "value": "8.9",
+        "count": 371,
+        "url": "https://book.douban.com/subject/2293880/",
+        "checkedAt": "2026-10-18",
+        "method": "public-book-page"
+      },
+      "goodreads": {
+        "status": "unavailable",
+        "count": 0,
+        "url": "https://www.goodreads.com/book/show/52365280",
+        "method": "public-platform-search-snapshot",
+        "checkedAt": "2026-10-18"
+      }
+    },
+    "audience": "general",
+    "clinicalContext": false,
+    "caveatSources": [
+      {
+        "label": "高教社：内容、目录与版本",
+        "url": "https://xuanshu.hep.com.cn/front/h5Mobile/bookDetails?bookId=59cc2e85ba9eb884cf816036"
+      }
+    ],
+    "summary": "这部教材梳理生涯辅导的概念与实施，比较类型、生涯发展、社会学习、建构和决定等理论，并介绍评估工具与咨询方法。"
+  },
+  "b76": {
+    "title": "金融学",
+    "originalTitle": "Finance",
+    "aliases": [
+      "金融学"
+    ],
+    "author": "兹维·博迪 / 罗伯特·C.默顿",
+    "format": "金融学教材",
+    "difficulty": "较难",
+    "reason": "如果你想理解储蓄、借贷和未来支出之间的取舍，可以从资金的时间价值、家庭财务规划和风险管理章节建立分析基础。",
+    "caveat": "需要基础数学和金融概念；所选为2000年中文版，产品、制度与案例已过时，部分模型依赖简化假设。只用于理解跨期选择和风险，不是当前投资建议，也不能解决收入不足或替代现实中的债务与保障安排。",
+    "goals": [
+      "understand"
+    ],
+    "topics": [
+      "money"
+    ],
+    "edition": {
+      "title": "金融学",
+      "language": "zh",
+      "publisher": "中国人民大学出版社",
+      "publishedAt": "2000-10",
+      "isbn": "9787300034317",
+      "url": "https://book.douban.com/subject/1017213/",
+      "checkedAt": "2026-10-18",
+      "selectionNote": "优先中文 · 本次可查且确认同作品、同覆盖范围候选中评价人数最多 · 2000年两位作者版；不混用三位作者修订本的Goodreads条目"
+    },
+    "cover": {
+      "src": "assets/covers/b76.svg",
+      "source": "https://img9.doubanio.com/view/subject/l/public/s1011605.jpg",
+      "url": "https://book.douban.com/subject/1017213/"
+    },
+    "synopsis": {
+      "text": "金融学作为一门学科，主要研究如何在不确定的条件下…",
+      "url": "https://book.douban.com/subject/1017213/",
+      "label": "所选版本内容简介原文节选",
+      "checkedAt": "2026-10-18"
+    },
+    "ratings": {
+      "douban": {
+        "status": "verified",
+        "value": "8.5",
+        "count": 876,
+        "url": "https://book.douban.com/subject/1017213/",
+        "checkedAt": "2026-10-18",
+        "method": "public-book-page"
+      },
+      "goodreads": {
+        "status": "verified",
+        "value": "3.81",
+        "count": 32,
+        "url": "https://www.goodreads.com/book/show/1618925",
+        "method": "public-platform-author-list-snapshot",
+        "checkedAt": "2026-10-18"
+      }
+    },
+    "audience": "general",
+    "clinicalContext": false,
+    "caveatSources": [
+      {
+        "label": "所选版本内容与作者",
+        "url": "https://book.douban.com/subject/1017213/"
+      }
+    ],
+    "summary": "这部金融学教材以跨时期资源配置、资产估值与风险管理为主线，结合家庭和企业决策，介绍金融体系、财务规划、资产定价和公司财务。"
+  },
+  "b77": {
+    "title": "伯克毕生发展心理学（第7版）",
+    "originalTitle": "Development Through the Lifespan",
+    "aliases": [
+      "伯克毕生发展心理学（第7版）"
+    ],
+    "author": "劳拉·E.伯克",
+    "format": "毕生发展心理学教材",
+    "difficulty": "较难",
+    "reason": "如果你想从研究角度理解成长经历，可以选读依恋、气质、家庭和情绪社会性发展章节，比较个人、家庭与环境因素如何共同作用。",
+    "caveat": "篇幅较长，需按问题选读；所选为2021年中文版第7版全本，研究已有后续发展，部分理论和样本受文化背景限制。群体关联不能证明个人困扰由家庭单独造成，也不能代替创伤评估或用于断言父母的动机。",
+    "goals": [
+      "understand"
+    ],
+    "topics": [
+      "family"
+    ],
+    "edition": {
+      "title": "伯克毕生发展心理学（第7版）",
+      "language": "zh",
+      "publisher": "中国人民大学出版社",
+      "publishedAt": "2021-10",
+      "isbn": "9787300298443",
+      "url": "https://book.douban.com/subject/35623788/",
+      "checkedAt": "2026-10-18",
+      "selectionNote": "优先中文 · 本次可查且确认同作品、同覆盖范围候选中评价人数最多 · 第7版全本；排除第4版仅儿童/青少年及仅成年期的分册，不把不同覆盖范围当作同版候选"
+    },
+    "cover": {
+      "src": "assets/covers/b77.svg",
+      "source": "https://img3.doubanio.com/view/subject/l/public/s34021293.jpg",
+      "url": "https://book.douban.com/subject/35623788/"
+    },
+    "synopsis": {
+      "text": "《伯克毕生发展心理学》（第7版）畅销美国近三十年…",
+      "url": "https://book.douban.com/subject/35623788/",
+      "label": "所选版本内容简介原文节选",
+      "checkedAt": "2026-10-18"
+    },
+    "ratings": {
+      "douban": {
+        "status": "verified",
+        "value": "9.3",
+        "count": 302,
+        "url": "https://book.douban.com/subject/35623788/",
+        "checkedAt": "2026-10-18",
+        "method": "public-book-page"
+      },
+      "goodreads": {
+        "status": "verified",
+        "value": "3.77",
+        "count": 520,
+        "url": "https://www.goodreads.com/book/show/510318",
+        "method": "public-web-page-snapshot",
+        "checkedAt": "2026-10-18"
+      }
+    },
+    "audience": "general",
+    "clinicalContext": false,
+    "caveatSources": [
+      {
+        "label": "出版方：第7版全本内容与修订范围",
+        "url": "https://detail.youzan.com/show/goods?alias=2fv9k6rgg1bykma&from_source=gbox_seo"
+      }
+    ],
+    "summary": "这部发展心理学教材结合理论、研究与案例，沿生命历程介绍身体、认知、情绪和社会性发展，讨论遗传、家庭、文化及环境的共同影响。"
   }
 };
 
@@ -4675,7 +5044,12 @@ const PROFESSIONAL_READING = [
       "b68",
       "b69",
       "b70",
-      "b71"
+      "b71",
+      "b73",
+      "b74",
+      "b75",
+      "b76",
+      "b77"
     ]
   },
   {

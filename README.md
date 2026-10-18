@@ -8,3 +8,5 @@
 
 [公众号图文稿与使用指南](docs/articles/2026-10-18-kunjing-shudan/README.md)
 
+
+[各主题深入阅读补齐与选书记录](docs/audits/2026-10-18-deep-reading.md)
