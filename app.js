@@ -1,9 +1,11 @@
 // 困境书单：输入优先、可选阅读偏好与共享书籍目录。
 (function() {
   "use strict";
-  var state = { currentTopic: null, preference: "all", catalogTopic: "all", catalogAudience: "general", referenceAudience: "general", catalogReturn: "input", failedQuery: "", origin: "input", searchQuery: "", automaticTopic: null, searchTopics: [], retainedWarning: false, bookIndex: 0 };
+  var state = { currentTopic: null, preference: "all", catalogTopic: "all", catalogAudience: "general", catalogReturn: "input", failedQuery: "", origin: "input", searchQuery: "", automaticTopic: null, searchTopics: [], retainedWarning: false, bookIndex: 0 };
   var carouselMedia;
-  var guideReturn = null;
+  var guideBookId = null;
+  var historyPage = null, historyPages = {}, historyChanging = false, historyRestoring = false, historyTimer;
+  var renderedCatalog = null, renderedResult = null;
   // === 本地使用日志 ===
   // 为什么只存本地：硬约束 1 是纯前端、无后端、无账号。所以埋点不上传任何服务器，
   // 数据留在用户自己的浏览器里，页脚可以导出 / 清除——这也顺便成了一个隐私卖点。
@@ -167,21 +169,114 @@
   function link(url, label, cls) {
     return '<a class="' + (cls || 'source-link') + '" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(label) + ' ↗</a>';
   }
+  function elementPath(element) {
+    var parts = [];
+    while (element && element !== document.body) {
+      if (element.id) { parts.unshift('#' + element.id); break; }
+      parts.unshift(element.tagName.toLowerCase() + ':nth-child(' + (Array.prototype.indexOf.call(element.parentNode.children, element) + 1) + ')');
+      element = element.parentElement;
+    }
+    return parts.join(' > ');
+  }
+  function pageSnapshot() {
+    return { version: 1, step: document.querySelector('.step.active').id.replace('step-', ''),
+      app: JSON.parse(JSON.stringify(state)), input: document.getElementById('user-input').value,
+      book: guideBookId, scrollTop: window.scrollY, focus: elementPath(document.activeElement),
+      details: Array.from(document.querySelectorAll('details')).map(function(d) { return { path: elementPath(d), open: d.open }; }) };
+  }
+  function saveHistory() {
+    if (!historyPage || historyChanging || historyRestoring) return;
+    clearTimeout(historyTimer);
+    var page = Object.assign(pageSnapshot(), { position: historyPage.position, parents: historyPage.parents });
+    history.replaceState({ kunjing: page }, '');
+    historyPage = historyPages[page.position] = page;
+  }
+  function contentKey(name) {
+    return JSON.stringify(name === 'catalog' ? [state.catalogTopic, state.catalogAudience, state.catalogReturn, state.failedQuery] : [state.currentTopic, state.preference, state.searchQuery, state.automaticTopic, state.searchTopics, state.retainedWarning, state.origin]);
+  }
+  function recordPage() {
+    if (!historyPage || historyRestoring) return;
+    var page = pageSnapshot();
+    var route = function(p) { return p.step + (p.step === 'catalog' ? ':' + p.app.catalogAudience : p.step === 'book-guide' ? ':' + p.book : ''); };
+    if (route(page) === route(historyPage)) { saveHistory(); return; }
+    page.position = historyPage.position + 1;
+    page.parents = Object.assign({}, historyPage.parents);
+    page.parents[historyPage.step] = historyPage.position;
+    history.pushState({ kunjing: page }, '');
+    historyPage = historyPages[page.position] = page;
+  }
+  function restoreHistory(page) {
+    historyRestoring = true;
+    if (page.step === 'book-guide' && !getBookGuide(page.book)) {
+      var parent = Object.keys(page.parents).sort(function(a, b) { return page.parents[b] - page.parents[a]; })[0] || 'input';
+      page = Object.assign({}, page, { step: parent, scrollTop: 0, focus: '#' + (parent === 'result' ? 'result-title' : parent === 'catalog' ? 'catalog-title' : 'user-input') });
+    }
+    state = JSON.parse(JSON.stringify(page.app));
+    document.getElementById('user-input').value = page.input;
+    if (page.step === 'catalog' && renderedCatalog !== contentKey('catalog')) {
+      renderCatalogQuery(); renderCatalog();
+    }
+    if (page.step === 'result' && renderedResult !== contentKey('result')) {
+      showResult(state.currentTopic, state.origin, true);
+      state = JSON.parse(JSON.stringify(page.app));
+    }
+    if (page.step === 'book-guide' && (guideBookId !== page.book || !document.getElementById('guide-toc').children.length)) openBookGuide(page.book);
+    historyPage = page;
+    page.details.forEach(function(d) { var element = document.querySelector(d.path); if (element) element.open = d.open; });
+    var focus = page.focus && document.querySelector(page.focus);
+    switchStep(page.step, { trigger: focus, scrollTop: page.scrollTop });
+    historyRestoring = false;
+    saveHistory();
+  }
+  function bindHistory() {
+    history.scrollRestoration = 'manual';
+    var saved = history.state && history.state.kunjing;
+    if (saved && saved.version === 1 && ['input', 'catalog', 'result', 'book-guide'].indexOf(saved.step) !== -1) restoreHistory(saved);
+    else { historyPage = { position: 0, parents: {} }; saveHistory(); }
+    ['click', 'change', 'submit'].forEach(function(type) {
+      document.addEventListener(type, function() { saveHistory(); Promise.resolve().then(saveHistory); }, true);
+    });
+    document.addEventListener('toggle', saveHistory, true);
+    ['input', 'focusin', 'scroll'].forEach(function(type) {
+      document.addEventListener(type, function() { clearTimeout(historyTimer); historyTimer = setTimeout(saveHistory, 100); }, true);
+    });
+    window.addEventListener('pagehide', saveHistory);
+    window.addEventListener('popstate', function(e) {
+      if (!e.state || !e.state.kunjing) return;
+      clearTimeout(historyTimer);
+      historyPages[historyPage.position] = Object.assign(pageSnapshot(), { position: historyPage.position, parents: historyPage.parents });
+      restoreHistory(historyPages[e.state.kunjing.position] || e.state.kunjing);
+    });
+  }
   function switchStep(name, restore) {
+    historyChanging = true;
     document.querySelectorAll('.step').forEach(function(s) { s.classList.remove('active'); });
     document.getElementById('step-' + name).classList.add('active');
     document.body.classList.toggle('book-guide-view', name === 'book-guide');
     if (name === 'result') moveBook(state.bookIndex, false);
     if (restore) {
-      if (restore.trigger.isConnected) restore.trigger.focus({ preventScroll: true });
+      if (restore.trigger && restore.trigger.isConnected) restore.trigger.focus({ preventScroll: true });
       window.scrollTo({ top: restore.scrollTop, behavior: 'instant' });
-      return;
+    } else {
+      var focus = name === 'input' ? 'user-input' : name === 'catalog' ? 'catalog-title' : name === 'book-guide' ? 'guide-title' : 'result-title';
+      document.getElementById(focus).focus({ preventScroll: true });
+      window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     }
-    var focus = name === 'input' ? 'user-input' : name === 'catalog' ? 'catalog-title' : name === 'book-guide' ? 'guide-title' : 'result-title';
-    document.getElementById(focus).focus({ preventScroll: true });
-    window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    historyChanging = false;
+    recordPage();
   }
-  window.goBack = function(name) { switchStep(name); };
+  function traverseHistory(delta) {
+    saveHistory();
+    return new Promise(function(resolve) {
+      window.addEventListener('popstate', resolve, { once: true });
+      history.go(delta);
+    });
+  }
+  window.goBack = function(name) {
+    var position = historyPage && historyPage.parents[name];
+    if (position !== undefined && position < historyPage.position) return traverseHistory(position - historyPage.position);
+    saveHistory(); switchStep(name);
+  };
   function handleSearch(text) {
     text = (text || '').trim();
     if (!text) {
@@ -214,6 +309,14 @@
     state.catalogTopic = 'all';
     state.catalogAudience = 'general'; state.catalogReturn = 'input';
     state.failedQuery = failedQuery || '';
+    var candidates = renderCatalogQuery();
+    if (failedQuery) logEvent({ type: 'nomatch', q: failedQuery, top: candidates.map(function(t) { return t.key; }) });
+    renderCatalog();
+    switchStep('catalog');
+    logEvent({ type: 'catalog', reason: failedQuery ? 'nomatch' : 'browse' });
+  }
+  function renderCatalogQuery() {
+    var failedQuery = state.failedQuery;
     var notice = document.getElementById('catalog-notice');
     var hint = document.getElementById('match-hint');
     hint.innerHTML = '';
@@ -227,11 +330,8 @@
         button.dataset.topic = t.key; button.textContent = BOOKS_DATA[t.key].title;
         hint.appendChild(button);
       });
-      logEvent({ type: 'nomatch', q: failedQuery, top: candidates.map(function(t) { return t.key; }) });
     }
-    renderCatalog();
-    switchStep('catalog');
-    logEvent({ type: 'catalog', reason: failedQuery ? 'nomatch' : 'browse' });
+    return candidates || [];
   }
   function renderCatalog() {
     var key = state.catalogTopic;
@@ -256,6 +356,7 @@
     });
     renderClinicalNotice('catalog-clinical', refs);
     renderBooks('catalog-list', refs, professional || key === 'all' ? null : key);
+    renderedCatalog = contentKey('catalog');
   }
   function renderClinicalNotice(containerId, references) {
     var notice = document.getElementById(containerId);
@@ -293,7 +394,7 @@
     professionalLink.hidden = !professionalCount;
     professionalLink.textContent = '查看专业书架 →';
     renderResultBooks();
-    logEvent({ type: 'result', topic: key, preference: state.preference });
+    if (!historyRestoring) logEvent({ type: 'result', topic: key, preference: state.preference });
     if (!keepContext) switchStep('result');
   }
   function changeResultTopic(key) {
@@ -369,11 +470,11 @@
       return '<p class="guide-reference">' + title + '</p>';
     }).join('');
   }
-  function openBookGuide(bookId, trigger) {
+  function openBookGuide(bookId) {
     var guide = getBookGuide(bookId);
     if (!guide) return;
     var b = BOOK_CATALOG[bookId];
-    guideReturn = { step: document.querySelector('.step.active').id.replace('step-', ''), trigger: trigger, scrollTop: window.scrollY, bookIndex: state.bookIndex };
+    guideBookId = bookId;
     document.getElementById('guide-title').textContent = b.title;
     document.getElementById('guide-author').textContent = b.author;
     document.getElementById('guide-edition').textContent = guide.edition.publisher + ' · ' + guide.edition.publishedAt + '年版 · ' + guide.edition.translator + ' 译 · ISBN ' + guide.edition.isbn;
@@ -384,11 +485,7 @@
     switchStep('book-guide');
   }
   function closeBookGuide() {
-    if (!guideReturn) return;
-    var restore = guideReturn;
-    guideReturn = null;
-    state.bookIndex = restore.bookIndex;
-    switchStep(restore.step, restore);
+    return traverseHistory(-1);
   }
   function renderBooks(containerId, references, topicKey) {
     var html = '';
@@ -423,6 +520,7 @@
     container.querySelectorAll('img.book-cover').forEach(function(img) {
       img.addEventListener('error', function() { img.hidden = true; img.nextElementSibling.hidden = false; });
     });
+    if (containerId === 'result-list') renderedResult = contentKey('result');
   }
   function init() {
     renderFilters(); bindLogPanel();
@@ -459,26 +557,23 @@
     window.addEventListener('resize', function() {
       if (window.innerWidth !== lastWidth) { lastWidth = window.innerWidth; moveBook(state.bookIndex, false); }
     });
-    document.querySelector('[data-editorial-link]').addEventListener('click', function() { document.getElementById('editorial').open = true; });
+    document.querySelector('[data-editorial-link]').addEventListener('click', function(e) { e.preventDefault(); var editorial = document.getElementById('editorial'); editorial.open = true; editorial.scrollIntoView({ behavior: 'instant' }); });
+    document.querySelector('.brand').addEventListener('click', function(e) {
+      if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+      e.preventDefault(); window.goBack('input');
+    });
     document.getElementById('search-form').addEventListener('submit', function(e) { e.preventDefault(); handleSearch(document.getElementById('user-input').value); });
     document.getElementById('user-input').addEventListener('input', function() { document.getElementById('search-status').textContent = ''; });
     document.querySelectorAll('[data-catalog-link]').forEach(function(b) { b.addEventListener('click', function(e) { e.preventDefault(); openCatalog(); }); });
-    document.getElementById('result-back').addEventListener('click', function() { switchStep(state.origin); });
-    document.getElementById('catalog-back').addEventListener('click', function() {
-      var target = state.catalogReturn;
-      if (target === 'result') {
-        state.catalogAudience = state.referenceAudience; state.catalogReturn = 'input'; renderCatalog();
-      }
-      switchStep(target);
-    });
+    document.getElementById('result-back').addEventListener('click', function() { window.goBack(state.origin); });
+    document.getElementById('catalog-back').addEventListener('click', function() { window.goBack(state.catalogReturn); });
     document.getElementById('catalog-audiences').addEventListener('click', function(e) {
       var b = e.target.closest('[data-audience]');
       if (!b) return;
-      state.catalogAudience = b.dataset.audience; renderCatalog();
+      state.catalogAudience = b.dataset.audience; renderCatalog(); switchStep('catalog');
       logEvent({ type: 'audience', audience: state.catalogAudience });
     });
     document.getElementById('result-professional-link').addEventListener('click', function() {
-      state.referenceAudience = state.catalogAudience;
       state.catalogAudience = 'professional'; state.catalogReturn = 'result';
       renderCatalog(); switchStep('catalog');
       logEvent({ type: 'catalog', reason: 'professional' });
@@ -500,13 +595,14 @@
     });
     document.getElementById('main').addEventListener('click', function(e) {
       var guide = e.target.closest('[data-book-guide]');
-      if (guide) { openBookGuide(guide.dataset.bookGuide, guide); return; }
+      if (guide) { openBookGuide(guide.dataset.bookGuide); return; }
       var b = e.target.closest('[data-topic]');
       if (b) {
         logEvent({ type: 'card', topic: b.dataset.topic });
         showResult(b.dataset.topic, 'catalog');
       }
     });
+    bindHistory();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
