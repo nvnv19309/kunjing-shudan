@@ -42,12 +42,11 @@ nav a:hover, .btn-back:hover { color: var(--orange); }
 .guide-header h2 { font: 500 clamp(27px, 4vw, 38px)/1.5 var(--serif); color: var(--ink); margin: 0 0 6px; }
 .guide-eyebrow { color: var(--muted); font-size: 12px; margin-bottom: 9px; }
 #guide-author { margin: 0; }
-.guide-edition, .guide-disclosure, .guide-reading-boundary { font-size: 12px; }
+.book-guide-view #editorial, .book-guide-view [data-editorial-link], .book-guide-view .site-footer { display: none; }
+.guide-edition, .guide-disclosure { font-size: 12px; }
 .guide-edition { color: var(--muted); }
 .guide-disclosure { border-block: 1px solid var(--line); padding: 14px 0; margin-bottom: 20px; }
 .guide-disclosure strong { color: var(--ink); }
-.guide-reading-boundary { border-left: 2px solid #b3946d; padding-left: 16px; margin: 20px 0 30px; }
-.guide-reading-boundary p { margin: 6px 0 0; }
 .guide-toc-heading h3 { color: var(--ink); font: 500 25px/1.5 var(--serif); margin-bottom: 6px; }
 .guide-toc-heading p { color: var(--muted); font-size: 12px; margin-bottom: 24px; }
 .guide-reference { margin: 10px 0; font-size: 13px; color: var(--muted); }

@@ -170,6 +170,7 @@
   function switchStep(name, restore) {
     document.querySelectorAll('.step').forEach(function(s) { s.classList.remove('active'); });
     document.getElementById('step-' + name).classList.add('active');
+    document.body.classList.toggle('book-guide-view', name === 'book-guide');
     if (name === 'result') moveBook(state.bookIndex, false);
     if (restore) {
       if (restore.trigger.isConnected) restore.trigger.focus({ preventScroll: true });
@@ -379,9 +380,7 @@
     var cover = document.getElementById('guide-cover');
     cover.hidden = false; cover.nextElementSibling.hidden = true;
     cover.alt = '《' + b.title + '》所据版本封面'; cover.src = b.cover.src;
-    document.getElementById('guide-caveat').textContent = b.caveat;
     document.getElementById('guide-toc').innerHTML = guideEntries(guide.toc);
-    renderClinicalNotice('guide-clinical', [{ bookId: bookId }]);
     switchStep('book-guide');
   }
   function closeBookGuide() {
