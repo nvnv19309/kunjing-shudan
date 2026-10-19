@@ -511,7 +511,7 @@
       (b.caveatSources || []).forEach(function(s) { html += link(s.url, s.label); });
       html += '</div>';
       if (containerId === 'catalog-list') html += '<p class="book-topics">' + (b.audience === 'professional' ? '相关阅读主题：' : '适合的处境：') + b.topics.map(function(k) { return '<button type="button" class="topic-link" data-topic="' + k + '">' + escapeHtml(BOOKS_DATA[k].title) + '</button>'; }).join('、') + '</p>';
-      html += '<div class="book-sources">' + link(b.synopsis.url, '内容来源') + link(edition.url, '版本/封面');
+      html += '<div class="book-sources">' + (b.synopsis.url === edition.url ? link(edition.url, '书籍资料') : link(b.synopsis.url, '内容来源') + link(edition.url, '版本/封面'));
       html += '<details class="book-provenance"><summary>版本详情</summary><p>ISBN ' + escapeHtml(edition.isbn || '待核实') + '</p><p>' + escapeHtml(edition.selectionNote) + '</p></details></div>';
       html += '<div class="book-links">' + link('https://weread.qq.com/#search/' + encodeURIComponent(b.title), '微信读书搜索', 'weread-btn') + (guide ? '<button type="button" class="guide-link"' + guideAction + '>目录与章节导读 →</button>' : '') + '</div></article>';
     });
