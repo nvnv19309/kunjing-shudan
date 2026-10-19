@@ -10,3 +10,5 @@
 
 
 [各主题深入阅读补齐与选书记录](docs/audits/2026-10-18-deep-reading.md)
+
+[《身体从未忘记》目录与章节主旨试点](docs/audits/2026-10-19-book-guide.md)

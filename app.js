@@ -3,6 +3,7 @@
   "use strict";
   var state = { currentTopic: null, preference: "all", catalogTopic: "all", catalogAudience: "general", referenceAudience: "general", catalogReturn: "input", failedQuery: "", origin: "input", searchQuery: "", automaticTopic: null, searchTopics: [], retainedWarning: false, bookIndex: 0 };
   var carouselMedia;
+  var guideReturn = null;
   // === 本地使用日志 ===
   // 为什么只存本地：硬约束 1 是纯前端、无后端、无账号。所以埋点不上传任何服务器，
   // 数据留在用户自己的浏览器里，页脚可以导出 / 清除——这也顺便成了一个隐私卖点。
@@ -166,11 +167,16 @@
   function link(url, label, cls) {
     return '<a class="' + (cls || 'source-link') + '" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(label) + ' ↗</a>';
   }
-  function switchStep(name) {
+  function switchStep(name, restore) {
     document.querySelectorAll('.step').forEach(function(s) { s.classList.remove('active'); });
     document.getElementById('step-' + name).classList.add('active');
     if (name === 'result') moveBook(state.bookIndex, false);
-    var focus = name === 'input' ? 'user-input' : name === 'catalog' ? 'catalog-title' : 'result-title';
+    if (restore) {
+      if (restore.trigger.isConnected) restore.trigger.focus({ preventScroll: true });
+      window.scrollTo({ top: restore.scrollTop, behavior: 'instant' });
+      return;
+    }
+    var focus = name === 'input' ? 'user-input' : name === 'catalog' ? 'catalog-title' : name === 'book-guide' ? 'guide-title' : 'result-title';
     document.getElementById(focus).focus({ preventScroll: true });
     window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   }
@@ -349,20 +355,58 @@
     }
     return '<div class="rating-block rating-' + platform + '">' + content + '</div>';
   }
+  function getBookGuide(bookId) {
+    var guide = typeof BOOK_GUIDES !== 'undefined' && BOOK_GUIDES[bookId];
+    return guide && BOOK_CATALOG[bookId] && guide.edition.isbn === BOOK_CATALOG[bookId].edition.isbn && Array.isArray(guide.toc) ? guide : null;
+  }
+  function guideEntries(nodes) {
+    return nodes.map(function(node) {
+      var title = '<span data-toc-id="' + escapeHtml(node.id) + '">' + escapeHtml(node.title) + '</span>';
+      if (node.kind === 'part') return '<section class="guide-part"><h3>' + title + '</h3>' + guideEntries(node.children) + '</section>';
+      if (node.kind === 'chapter') return '<details class="guide-chapter"><summary>' + title + '</summary><div class="chapter-body"><p class="chapter-summary"><strong>本章主旨</strong>' + escapeHtml(node.summary) + '</p><h4>本章小节</h4><ul class="guide-sections">' + guideEntries(node.children) + '</ul></div></details>';
+      if (node.kind === 'section') return '<li>' + title + '</li>';
+      return '<p class="guide-reference">' + title + '</p>';
+    }).join('');
+  }
+  function openBookGuide(bookId, trigger) {
+    var guide = getBookGuide(bookId);
+    if (!guide) return;
+    var b = BOOK_CATALOG[bookId];
+    guideReturn = { step: document.querySelector('.step.active').id.replace('step-', ''), trigger: trigger, scrollTop: window.scrollY, bookIndex: state.bookIndex };
+    document.getElementById('guide-title').textContent = b.title;
+    document.getElementById('guide-author').textContent = b.author;
+    document.getElementById('guide-edition').textContent = guide.edition.publisher + ' · ' + guide.edition.publishedAt + '年版 · ' + guide.edition.translator + ' 译 · ISBN ' + guide.edition.isbn;
+    var cover = document.getElementById('guide-cover');
+    cover.hidden = false; cover.nextElementSibling.hidden = true;
+    cover.alt = '《' + b.title + '》所据版本封面'; cover.src = b.cover.src;
+    document.getElementById('guide-caveat').textContent = b.caveat;
+    document.getElementById('guide-toc').innerHTML = guideEntries(guide.toc);
+    renderClinicalNotice('guide-clinical', [{ bookId: bookId }]);
+    switchStep('book-guide');
+  }
+  function closeBookGuide() {
+    if (!guideReturn) return;
+    var restore = guideReturn;
+    guideReturn = null;
+    state.bookIndex = restore.bookIndex;
+    switchStep(restore.step, restore);
+  }
   function renderBooks(containerId, references, topicKey) {
     var html = '';
     references.forEach(function(ref) {
       var b = BOOK_CATALOG[ref.bookId];
       if (ref.groupTitle) html += '<h3 class="reference-heading">' + escapeHtml(ref.groupTitle) + '</h3>';
       var edition = b.edition;
+      var guide = getBookGuide(ref.bookId);
+      var guideAction = ' data-book-guide="' + escapeHtml(ref.bookId) + '"';
       var reason = ref.reason || b.reason;
       if (topicKey && !ref.reason) {
         var placement = BOOKS_DATA[topicKey].classic.concat(BOOKS_DATA[topicKey].popular).find(function(p) { return p.bookId === ref.bookId; });
         if (placement) reason = placement.reason;
       }
       html += '<article class="book-card" data-book-id="' + ref.bookId + '"><div class="book-header">';
-      html += '<div class="cover-frame">' + (b.cover ? '<img class="book-cover" src="' + escapeHtml(b.cover.src) + '" alt="《' + escapeHtml(edition.title) + '》所选版本封面" width="150" height="210" loading="lazy" decoding="async">' : '') + '<span class="cover-fallback"' + (b.cover ? ' hidden' : '') + '>封面暂缺</span></div>';
-      html += '<div class="book-heading"><h3 class="book-title">' + escapeHtml(b.title) + '</h3>';
+      html += (guide ? '<button type="button" class="cover-frame guide-cover-button"' + guideAction + ' aria-label="阅读《' + escapeHtml(b.title) + '》目录与章节导读">' : '<div class="cover-frame">') + (b.cover ? '<img class="book-cover" src="' + escapeHtml(b.cover.src) + '" alt="《' + escapeHtml(edition.title) + '》所选版本封面" width="150" height="210" loading="lazy" decoding="async">' : '') + '<span class="cover-fallback"' + (b.cover ? ' hidden' : '') + '>封面暂缺</span>' + (guide ? '</button>' : '</div>');
+      html += '<div class="book-heading"><h3 class="book-title">' + (guide ? '<button type="button" class="guide-title-button"' + guideAction + '>' + escapeHtml(b.title) + '</button>' : escapeHtml(b.title)) + '</h3>';
       if (b.clinicalContext) html += '<p class="clinical-label">涉及诊断概念 · 不用于自我诊断</p>';
       html += '<p class="book-author">' + escapeHtml(b.author) + '</p></div><div class="book-meta"><span class="badge">' + escapeHtml(b.difficulty) + '</span><span class="book-format">' + escapeHtml(b.format) + '</span><span class="book-edition">' + escapeHtml([edition.publisher, edition.publishedAt].filter(Boolean).join(' · ')) + '</span></div></div>';
       html += '<div class="book-ratings">' + ratingHtml('douban', b.ratings.douban) + ratingHtml('goodreads', b.ratings.goodreads) + '</div>';
@@ -373,7 +417,7 @@
       if (containerId === 'catalog-list') html += '<p class="book-topics">' + (b.audience === 'professional' ? '相关阅读主题：' : '适合的处境：') + b.topics.map(function(k) { return '<button type="button" class="topic-link" data-topic="' + k + '">' + escapeHtml(BOOKS_DATA[k].title) + '</button>'; }).join('、') + '</p>';
       html += '<div class="book-sources">' + link(b.synopsis.url, '内容来源') + link(edition.url, '版本/封面');
       html += '<details class="book-provenance"><summary>版本详情</summary><p>ISBN ' + escapeHtml(edition.isbn || '待核实') + '</p><p>' + escapeHtml(edition.selectionNote) + '</p></details></div>';
-      html += '<div class="book-links">' + link('https://weread.qq.com/#search/' + encodeURIComponent(b.title), '微信读书搜索', 'weread-btn') + '</div></article>';
+      html += '<div class="book-links">' + link('https://weread.qq.com/#search/' + encodeURIComponent(b.title), '微信读书搜索', 'weread-btn') + (guide ? '<button type="button" class="guide-link"' + guideAction + '>目录与章节导读 →</button>' : '') + '</div></article>';
     });
     var container = document.getElementById(containerId);
     container.innerHTML = html;
@@ -383,6 +427,8 @@
   }
   function init() {
     renderFilters(); bindLogPanel();
+    document.getElementById('guide-back').addEventListener('click', closeBookGuide);
+    document.getElementById('guide-cover').addEventListener('error', function() { this.hidden = true; this.nextElementSibling.hidden = false; });
     carouselMedia = window.matchMedia('(max-width: 760px)');
     var resultList = document.getElementById('result-list');
     document.getElementById('book-previous').addEventListener('click', function() { moveBook(state.bookIndex - 1, true); });
@@ -400,7 +446,7 @@
     resultList.addEventListener('keydown', function(e) {
       if (!carouselMedia.matches || e.target !== resultList || e.altKey || e.ctrlKey || e.metaKey) return;
       if (e.key === 'Tab' && !e.shiftKey) {
-        var firstLink = resultList.children[state.bookIndex].querySelector('a');
+        var firstLink = resultList.children[state.bookIndex].querySelector('button, a');
         e.preventDefault(); firstLink.focus(); return;
       }
       var index = e.key === 'ArrowLeft' ? state.bookIndex - 1 : e.key === 'ArrowRight' ? state.bookIndex + 1 : e.key === 'Home' ? 0 : e.key === 'End' ? resultList.children.length - 1 : null;
@@ -454,6 +500,8 @@
       if (b) { changeResultTopic(b.dataset.resultTopic); document.getElementById('topic-select').focus(); }
     });
     document.getElementById('main').addEventListener('click', function(e) {
+      var guide = e.target.closest('[data-book-guide]');
+      if (guide) { openBookGuide(guide.dataset.bookGuide, guide); return; }
       var b = e.target.closest('[data-topic]');
       if (b) {
         logEvent({ type: 'card', topic: b.dataset.topic });
