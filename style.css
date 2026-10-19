@@ -225,8 +225,9 @@ a.rating-value:hover { text-decoration: underline; }
 .book-caveat .source-link { font-size: 11px; }
 .book-topics { font-size: 12px; color: var(--muted); }
 .topic-link { padding: 2px 0; border: 0; background: transparent; text-decoration: underline; text-underline-offset: 3px; text-align: left; }
-.book-provenance { font-size: 11px; color: var(--muted); }
-.book-provenance p { margin-bottom: 4px; }
+.book-provenance { font-size: 11px; color: var(--muted); min-width: 0; max-width: 100%; }
+.book-provenance summary { padding: 0; color: var(--muted); }
+.book-provenance p { margin: 5px 0 0; font-size: 12px; line-height: 1.8; color: var(--body); }
 .match-hint p { margin: 8px 0; font-size: 13px; }
 @media (max-width: 850px) {
   .book-list { grid-template-columns: 1fr; }
@@ -288,7 +289,7 @@ select { max-width: 100%; min-width: 0; padding: 9px 12px; border: 1px solid var
   .rating-note { margin-top: 0; line-height: 1.6; }
   .book-topics { margin: 0 0 8px; line-height: 1.7; }
   .book-links { margin-top: 8px; }
-  .book-provenance summary { padding-block: 4px; }
+  .book-provenance summary { padding-block: 0; }
   .book-navigation { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; font-size: 12px; }
   .book-navigation button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 2px; background: var(--card); font-size: 13px; }
   #result-list { display: flex; align-items: flex-start; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; padding: 4px; }
