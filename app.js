@@ -448,7 +448,7 @@
     var scale = platform === 'douban' ? '10' : '5';
     var content;
     if (rating.status === 'verified') {
-      content = link(rating.url, label + ' ' + rating.value + ' / ' + scale, 'rating-value');
+      content = '<a class="rating-value" href="' + escapeHtml(rating.url) + '" target="_blank" rel="noopener noreferrer"><span class="rating-platform">' + label + ' ↗</span> <span><b class="rating-score">' + escapeHtml(rating.value) + '</b><span class="rating-scale"> / ' + scale + '</span></span></a>';
       content += '<span class="rating-note">' + rating.count.toLocaleString('zh-CN') + ' 人评价</span>';
     } else {
       var status = rating.status === 'unavailable' ? '暂无评分' : rating.status === 'not_found' ? '未找到对应条目' : '尚未核实';
@@ -500,16 +500,19 @@
         var placement = BOOKS_DATA[topicKey].classic.concat(BOOKS_DATA[topicKey].popular).find(function(p) { return p.bookId === ref.bookId; });
         if (placement) reason = placement.reason;
       }
+      var titleParts = b.title.split(/[:：]/);
+      var title = escapeHtml(titleParts[0]) + (titleParts.length > 1 ? '<span class="book-subtitle">' + escapeHtml(titleParts.slice(1).join('：')) + '</span>' : '');
+      var editionNote = edition.selectionNote.indexOf('优先中文 · ') === 0 ? edition.selectionNote.split(' · ').slice(2).join(' · ') : edition.selectionNote;
       html += '<article class="book-card" data-book-id="' + ref.bookId + '"><div class="book-header">';
       html += (guide ? '<button type="button" class="cover-frame guide-cover-button"' + guideAction + ' aria-label="阅读《' + escapeHtml(b.title) + '》目录与章节导读">' : '<div class="cover-frame">') + (b.cover ? '<img class="book-cover" src="' + escapeHtml(b.cover.src) + '" alt="《' + escapeHtml(edition.title) + '》所选版本封面" width="150" height="210" loading="lazy" decoding="async">' : '') + '<span class="cover-fallback"' + (b.cover ? ' hidden' : '') + '>封面暂缺</span>' + (guide ? '</button>' : '</div>');
-      html += '<div class="book-heading"><h3 class="book-title">' + (guide ? '<button type="button" class="guide-title-button"' + guideAction + '>' + escapeHtml(b.title) + '</button>' : escapeHtml(b.title)) + '</h3>';
+      html += '<div class="book-heading"><span class="badge">' + escapeHtml(b.difficulty) + '</span><h3 class="book-title">' + (guide ? '<button type="button" class="guide-title-button"' + guideAction + '>' + title + '</button>' : title) + '</h3><p class="book-author">' + escapeHtml(b.author) + '</p>';
       if (b.clinicalContext) html += '<p class="clinical-label">涉及诊断概念 · 不用于自我诊断</p>';
-      html += '<p class="book-author">' + escapeHtml(b.author) + '</p></div><div class="book-meta"><span class="badge">' + escapeHtml(b.difficulty) + '</span><span class="book-format">' + escapeHtml(b.format) + '</span><details class="book-provenance book-edition"><summary aria-label="版本详情：' + escapeHtml([edition.publisher, edition.publishedAt].filter(Boolean).join(' · ')) + '">' + escapeHtml([edition.publisher, edition.publishedAt].filter(Boolean).join(' · ')) + '</summary><p>ISBN ' + escapeHtml(edition.isbn || '待核实') + '</p><p>' + escapeHtml(edition.selectionNote) + '</p></details></div></div>';
-      html += '<div class="book-ratings">' + ratingHtml('douban', b.ratings.douban) + ratingHtml('goodreads', b.ratings.goodreads) + '</div>';
-      html += '<div class="book-desc"><strong>一句话介绍</strong><p>' + escapeHtml(b.summary) + '</p>' + '</div>';
-      html += '<div class="book-reason"><strong>为什么推荐</strong>' + escapeHtml(reason) + '</div><div class="book-caveat"><strong>阅读局限</strong>' + escapeHtml(b.caveat);
+      html += '</div></div><div class="book-ratings">' + ratingHtml('douban', b.ratings.douban) + ratingHtml('goodreads', b.ratings.goodreads) + '</div>';
+      html += '<div class="book-reason"><strong>为什么推荐</strong>' + escapeHtml(reason) + '</div>';
+      html += '<details class="book-provenance"><summary><span><span class="details-title">了解这本书</span><span class="details-subtitle">简介 · 阅读局限 · 版本</span></span><span class="details-icon" aria-hidden="true"></span></summary><div class="book-details-body">';
+      html += '<div class="book-desc"><strong>一句话介绍</strong><p>' + escapeHtml(b.summary) + '</p></div><div class="book-caveat"><strong>阅读局限</strong>' + escapeHtml(b.caveat);
       (b.caveatSources || []).forEach(function(s) { html += link(s.url, s.label); });
-      html += '</div>';
+      html += '</div><div class="book-meta book-edition"><strong>版本信息</strong><p><span class="book-format">' + escapeHtml(b.format) + '</span> · ' + escapeHtml([edition.publisher, edition.publishedAt].filter(Boolean).join(' · ')) + '</p><p>ISBN ' + escapeHtml(edition.isbn || '待核实') + '</p>' + (editionNote ? '<p class="edition-note">' + escapeHtml(editionNote) + '</p>' : '') + '</div></div></details>';
       if (containerId === 'catalog-list') html += '<p class="book-topics">' + (b.audience === 'professional' ? '相关阅读主题：' : '适合的处境：') + b.topics.map(function(k) { return '<button type="button" class="topic-link" data-topic="' + k + '">' + escapeHtml(BOOKS_DATA[k].title) + '</button>'; }).join('、') + '</p>';
       var linkedUrls = [b.ratings.douban.url, b.ratings.goodreads.url], sourceLinks = '';
       [{ url: b.synopsis.url, label: '内容来源' }, { url: edition.url, label: '版本/封面' }].forEach(function(source) {
@@ -517,7 +520,7 @@
         sourceLinks += link(source.url, source.label); linkedUrls.push(source.url);
       });
       if (sourceLinks) html += '<div class="book-sources">' + sourceLinks + '</div>';
-      html += '<div class="book-links">' + link('https://weread.qq.com/#search/' + encodeURIComponent(b.title), '微信读书搜索', 'weread-btn') + (guide ? '<button type="button" class="guide-link"' + guideAction + '>目录与章节导读 →</button>' : '') + '</div></article>';
+      html += '<div class="book-links">' + link('https://weread.qq.com/#search/' + encodeURIComponent(b.title), '微信读书', 'weread-btn') + (guide ? '<button type="button" class="guide-link"' + guideAction + '>目录与章节导读 →</button>' : '') + '</div></article>';
     });
     var container = document.getElementById(containerId);
     container.innerHTML = html;

@@ -296,3 +296,55 @@ select { max-width: 100%; min-width: 0; padding: 9px 12px; border: 1px solid var
   #result-list > .book-card { flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always; }
   #result-list:focus-visible { outline: 2px solid var(--orange); outline-offset: 1px; }
 }
+
+/* 已确认的分层书卡：默认突出书籍与推荐，辅助资料使用原生详情。 */
+.edition-policy { color: var(--muted); font-size: 12px; line-height: 1.9; border-top: 1px solid var(--line); padding-top: 16px; margin: 0 0 24px; }
+.edition-policy strong { color: var(--ink); margin-right: 10px; font-weight: 500; }
+.book-list { gap: 26px; }
+.book-card { border: 1px solid #e1e2d5; border-radius: 16px; padding: 23px 20px 10px; background: linear-gradient(155deg, #fffffc, #fffef9 55%, #fdfcf6); box-shadow: 0 1px 2px #253e350a, 0 4px 7px #253e3505, 0 12px 20px -5px #253e3517, inset 0 1px 0 #fff; }
+.book-header { grid-template-columns: min(96px, 32%) minmax(0, 1fr); gap: 16px; margin-bottom: 0; }
+.book-card .cover-frame { position: relative; padding: 0; margin: 4px 3px 5px 1px; background: transparent; isolation: isolate; transform: rotate(-2deg); }
+.book-card .cover-frame::before { content: ""; position: absolute; inset: 3px -3px -2px 4px; background: #e3dfcf; border: 1px solid #d2cebe; border-radius: 1px 4px 4px 1px; z-index: -1; }
+.book-card .book-cover { max-height: none; border-radius: 1px 3px 3px 1px; box-shadow: 1px 1px 2px #243c3026, 4px 6px 10px #243c3029; }
+.book-heading .badge { font-size: 11px; line-height: 1.8; padding: 0 6px; border-radius: 4px; margin-bottom: 6px; }
+.book-title { font: 600 22px/1.45 var(--serif); margin: 0; }
+.book-subtitle { display: block; font: 400 14px/1.65 var(--sans); margin-top: 5px; color: #52614e; }
+.book-author { font-size: 13px; line-height: 1.75; margin: 9px 0 0; }
+.clinical-label { font-size: 12px; line-height: 1.7; color: #7c5d42; margin: 10px 0 0; }
+.book-ratings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 0; margin: 22px 0 20px; border: 0; }
+.rating-value { display: flex; flex-wrap: wrap; align-items: baseline; gap: 5px; min-height: 26px; line-height: 1.6; font-size: 12px; font-weight: 400; }
+.rating-platform { font-size: 12px; color: #5f7259; }
+.rating-score { font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.rating-scale { font-size: 10px; color: #737c6e; }
+.rating-note { font-size: 12px; line-height: 1.75; color: #6c7864; margin-top: 3px; }
+.book-reason { padding: 0 1px; margin: 0 0 25px; background: transparent; border: 0; font-size: 15px; line-height: 1.85; color: #40533f; }
+.book-reason strong { display: flex; align-items: center; gap: 8px; font-size: 12px; line-height: 1.75; letter-spacing: 1px; color: #476847; margin: 0 0 9px; }
+.book-reason strong::before { content: ""; width: 14px; height: 2px; background: #97ad86; border-radius: 2px; flex-shrink: 0; }
+.book-provenance { border-top: 1px solid var(--line); font-size: 14px; }
+.book-provenance > summary { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 71px; padding: 12px 1px; list-style: none; }
+.book-provenance > summary::-webkit-details-marker { display: none; }
+.details-title { display: block; font-size: 14px; font-weight: 500; color: #4f634a; line-height: 1.6; }
+.details-subtitle { display: block; font-size: 12px; color: #707b67; margin-top: 2px; }
+.details-icon { display: grid; place-items: center; flex: 0 0 28px; height: 28px; border: 1px solid #e0e5d6; background: #f4f6ee; border-radius: 50%; color: #75886a; font-size: 18px; line-height: 1; }
+.details-icon::before { content: "+"; }
+.book-provenance[open] .details-icon::before { content: "−"; }
+.book-details-body { padding: 4px 0 16px; }
+.book-desc { font-size: 14px; line-height: 1.85; margin-bottom: 17px; }
+.book-desc strong, .book-caveat strong { display: block; font-size: 12px; margin: 0 0 6px; letter-spacing: 0; }
+.book-provenance .book-desc p { font-size: 14px; line-height: 1.85; margin: 0; display: block; }
+.book-caveat { font-size: 14px; line-height: 1.85; background: #f6efe3; border: 1px solid #ece2d1; border-radius: 9px; padding: 12px 13px; margin-bottom: 18px; color: #62513d; }
+.book-caveat strong { color: #765e41; }
+.book-meta { display: block; font-size: 12px; line-height: 1.9; color: #65705e; }
+.book-meta strong { display: block; font-size: 12px; color: #526747; margin-bottom: 6px; }
+.book-meta p { font-size: 12px; margin: 4px 0 0; }
+.book-format { font-size: inherit; color: inherit; }
+.book-topics { font-size: 12px; line-height: 1.8; margin: 0 0 8px; }
+.book-links { border-top: 1px solid var(--line); margin: 0; padding: 9px 0 2px; min-height: 57px; gap: 12px; font-size: 12px; }
+.weread-btn { display: inline-flex; align-items: center; min-height: 44px; font-size: 12px; font-weight: 400; color: #68775e; }
+.book-card .guide-link { font-size: 12px; font-weight: 500; color: #3f633e; background: #eef2e6; border: 1px solid #e0e8d4; border-radius: 7px; padding: 8px 10px; line-height: 1.6; }
+@media (max-width: 760px) {
+  #result-list { gap: 16px; padding: 10px 4px 25px; scrollbar-width: none; }
+  #result-list::-webkit-scrollbar { display: none; }
+  .book-navigation button { border: 0; background: transparent; padding-inline: 4px; color: #58704d; }
+}
+@media (max-width: 360px) { .rating-value { display: grid; gap: 1px; } }
