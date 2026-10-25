@@ -198,7 +198,8 @@
     if (state.catalogAudience === 'favorites' && document.getElementById('step-catalog').classList.contains('active')) {
       renderCatalog();
       var buttons = document.querySelectorAll('#catalog-list .favorite-button');
-      (buttons[Math.min(position, buttons.length - 1)] || document.getElementById('favorites-browse')).focus({ preventScroll: true });
+      var emptyTarget = document.getElementById('catalog-reset');
+      (buttons[Math.min(position, buttons.length - 1)] || (!emptyTarget.hidden ? emptyTarget : document.getElementById('favorites-browse'))).focus({ preventScroll: true });
     }
     saveHistory();
   }
